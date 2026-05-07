@@ -1,0 +1,42 @@
+import socket
+import threading
+from datetime import datetime
+
+# --- CONFIGURATION ---
+TARGET_IP = "192.168.1.1"  # Change this to your local target
+PORT_RANGE = (1, 1024)      # Common "Well-Known" ports
+THREADS = 100               # Number of concurrent threads
+
+def scan_port(ip, port):
+    try:
+        # Create a socket object
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(1) # Wait 1 second for response
+        
+        # Attempt to connect
+        result = s.connect_ex((ip, port))
+        
+        if result == 0:
+            try:
+                # Try to grab the "Banner" (Service Version Info)
+                banner = s.recv(1024).decode().strip()
+                print(f"[!] Port {port} is OPEN | Service Info: {banner}")
+            except:
+                print(f"[+] Port {port} is OPEN")
+        s.close()
+    except Exception as e:
+        pass
+
+def start_scan():
+    print("-" * 50)
+    print(f"Scanning Target: {TARGET_IP}")
+    print(f"Scanning Started at: {datetime.now()}")
+    print("-" * 50)
+
+    # Use threading to speed up the process
+    for port in range(PORT_RANGE[0], PORT_RANGE[1] + 1):
+        t = threading.Thread(target=scan_port, args=(TARGET_IP, port))
+        t.start()
+
+if __name__ == "__main__":
+    start_scan()
