@@ -8,69 +8,8 @@ Currently working as a Security Engineer  where I design and implement security 
 
 My experience spans **Security Operations, Threat Detection, Incident Response, Vulnerability Management, Network Security, System Administration, and Cloud Security**.
 
----
-
-## 🚀 What I Do
-
-🔹 Design and tune SIEM detection rules to improve threat visibility and reduce false positives.
-
-🔹 Develop security monitoring use cases for AWS, Kubernetes, Cloudflare, Grafana, and cloud-native environments.
-
-🔹 Investigate security incidents and perform threat hunting activities.
-
-🔹 Conduct vulnerability assessments and penetration testing using industry-standard tools.
-
-🔹 Implement security automation and integrate security controls into modern DevSecOps workflows.
-
-🔹 Secure enterprise networks through effective access control, monitoring, and hardening.
 
 ---
-
-## 🛠️ Technical Skills
-
-### Cybersecurity
-
-* Threat Hunting
-* Incident Response
-* Detection Engineering
-* Security Monitoring
-* Vulnerability Management
-* Risk Assessment
-* Penetration Testing
-* Security Operations (SOC)
-
-### Cloud & DevSecOps
-
-* AWS Security
-* Kubernetes Security
-* Cloudflare Security
-* CI/CD Security
-* Security Automation
-* Zero Trust Architecture
-
-### Security Tools
-
-* CrowdStrike Falcon
-* Microsoft Sentinel
-* Nessus
-* OpenVAS
-* Metasploit
-* Burp Suite
-* OWASP ZAP
-* Wireshark
-* Nmap
-
-### Systems & Networking
-
-* Linux Administration
-* Windows Administration
-* Network Security
-* IDS/IPS
-* VPNs
-* Firewalls
-* Active Directory
-* System Hardening
-
 
 
 ## 🎯 Current Focus
@@ -84,21 +23,7 @@ My experience spans **Security Operations, Threat Detection, Incident Response, 
 * Purple Teaming
 * DevSecOps
 
----
 
-## 📂 Featured Repositories
-
-🔹 Detection Engineering Rules
-
-🔹 Threat Hunting Playbooks
-
-🔹 Security Automation Scripts
-
-🔹 Cloud Security Projects
-
-🔹 Vulnerability Assessment Reports
-
-🔹 Network Security Labs
 
 ---
 
