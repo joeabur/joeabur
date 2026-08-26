@@ -4,7 +4,7 @@
 
 I'm a cybersecurity and IT professional based in Nairobi, Kenya, passionate about protecting digital assets, detecting threats, and building resilient enterprise environments.
 
-Currently working as a Security Engineer  where I design and implement security detection use cases across cloud platforms, Kubernetes environments, SaaS applications, and enterprise infrastructures.
+Currently working as a Security Analyst where I design and implement security detection use cases across cloud platforms, Kubernetes environments, SaaS applications, and enterprise infrastructures.
 
 My experience spans **Security Operations, Threat Detection, Incident Response, Vulnerability Management, Network Security, System Administration, and Cloud Security**.
 
