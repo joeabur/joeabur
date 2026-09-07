@@ -1,6 +1,6 @@
 # Hi there 👋, I'm Joseph Mark Ochieng
 
-## Security Engineer | Cybersecurity Analyst | IT Professional
+IT & Security Professional
 
 I'm a cybersecurity and IT professional based in Nairobi, Kenya, passionate about protecting digital assets, detecting threats, and building resilient enterprise environments.
 
