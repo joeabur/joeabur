@@ -9,24 +9,6 @@ Currently working as a Security Analyst where I design and implement security de
 My experience spans **Security Operations, Threat Detection, Incident Response, Vulnerability Management, Network Security, System Administration, and Cloud Security**.
 
 
----
-
-
-## 🎯 Current Focus
-
-* Detection Engineering
-* Threat Intelligence
-* Cloud Security
-* Security Automation
-* Kubernetes Security
-* SIEM Optimization
-* Purple Teaming
-* DevSecOps
-
-
-
----
-
 ## 📈 Professional Philosophy
 
 > Security is not about eliminating risk; it's about continuously improving visibility, detection, response, and resilience.
@@ -41,8 +23,4 @@ My experience spans **Security Operations, Threat Detection, Incident Response, 
 
 🌍 Location: Nairobi, Kenya
 
----
 
-### ⚡ Fun Fact
-
-I enjoy building security use cases, hunting threats, automating workflows, and continuously learning new technologies to stay ahead of evolving cyber threats.
