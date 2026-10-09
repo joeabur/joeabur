@@ -4,16 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Joseph Mark Ochieng’ | Cybersecurity Analyst — Threat Detection &amp; Incident Response</title>
-  <meta name="description" content="Portfolio of Joseph Mark Ochieng’, a Nairobi-based Cybersecurity Analyst focused on SOC operations, threat detection, incident response, cloud security and security automation.">
+  <meta name="description" content="Portfolio of Joseph Mark Ochieng’, a Nairobi-based Cybersecurity Analyst focused on SOC operations, SIEM detection engineering, incident response, cloud security and DevSecOps.">
   <meta name="author" content="Joseph Mark Ochieng’">
   <meta name="theme-color" content="#0b1220">
+  <link rel="canonical" href="https://joeabur.github.io/joeabur/">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joeabur.github.io/joeabur/">
   <meta property="og:title" content="Joseph Mark Ochieng’ | Cybersecurity Analyst">
-  <meta property="og:description" content="Threat detection, incident response and security automation. Nairobi, Kenya.">
+  <meta property="og:description" content="SOC operations, detection engineering, incident response and DevSecOps. Nairobi, Kenya.">
   <meta name="twitter:card" content="summary">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"Joseph Mark Ochieng’","jobTitle":"Cybersecurity Analyst","address":{"@type":"PostalAddress","addressLocality":"Nairobi","addressCountry":"KE"},"alumniOf":"KCA University","url":"https://joeabur.github.io/joeabur/","sameAs":["https://github.com/joeabur","https://www.linkedin.com/in/joseph-mark-ochieng"],"knowsAbout":["SOC operations","Threat detection","Incident response","SIEM detection engineering","Cloud security","DevSecOps","Vulnerability management"]}
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -32,6 +37,7 @@
         <ul>
           <li><a href="#about">About</a></li>
           <li><a href="#skills">Skills</a></li>
+          <li><a href="#practice">Security in practice</a></li>
           <li><a href="#experience">Experience</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#credentials">Credentials</a></li>
@@ -42,7 +48,7 @@
   </header>
 
   <main id="main">
-    <!-- HERO -->
+    <!-- ===================== HERO ===================== -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero-grid">
         <div class="hero-copy">
@@ -62,91 +68,589 @@
           </ul>
         </div>
 
-        <figure class="hero-visual">
-          <svg viewBox="0 0 360 300" role="img" aria-labelledby="flow-title flow-desc" class="flow">
-            <title id="flow-title">Security operations workflow</title>
-            <desc id="flow-desc">Log sources flow into correlation and detection, then triage and investigation, then response and reporting.</desc>
-            <defs>
-              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0 0L10 5L0 10z" fill="currentColor"/>
-              </marker>
-            </defs>
-            <g class="flow-lines" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
-              <path d="M180 62V86"/><path d="M180 132V156"/><path d="M180 202V226"/>
-            </g>
-            <g class="flow-node"><rect x="40" y="14" width="280" height="48" rx="10"/><text x="180" y="43" text-anchor="middle">Log sources · Endpoint · Cloud · Edge</text></g>
-            <g class="flow-node"><rect x="40" y="86" width="280" height="46" rx="10"/><text x="180" y="114" text-anchor="middle">Correlation &amp; detection rules</text></g>
-            <g class="flow-node"><rect x="40" y="156" width="280" height="46" rx="10"/><text x="180" y="184" text-anchor="middle">Alert triage &amp; investigation</text></g>
-            <g class="flow-node accent"><rect x="40" y="226" width="280" height="46" rx="10"/><text x="180" y="254" text-anchor="middle">Response · Review · Tuning</text></g>
-          </svg>
-          <figcaption>How I think about security operations: a continuous loop from visibility to response and back to better detection.</figcaption>
-        </figure>
+        <aside class="glance" aria-label="At a glance">
+          <h2 class="glance-title">At a glance</h2>
+          <dl>
+            <div><dt>Current role</dt><dd>SOC Analyst, Serianu Limited (assigned to Cashia, Kenya) — since August 2025</dd></div>
+            <div><dt>Day-to-day tooling</dt><dd>FortiSIEM · CrowdStrike Falcon · Cloudflare · AWS CloudTrail &amp; CloudWatch · Kubernetes · Aikido Security</dd></div>
+            <div><dt>Strongest fit</dt><dd>SOC analyst, detection engineering, incident response, cloud security and DevSecOps roles</dd></div>
+            <div><dt>Background</dt><dd>B.Sc. Information Technology (KCA University); security analyst training with Cyber Shujaa and Microsoft ADC at USIU-Africa</dd></div>
+          </dl>
+          <p class="glance-link"><a href="#practice">See how I think about security operations ↓</a></p>
+        </aside>
       </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- ===================== ABOUT ===================== -->
     <section id="about" class="section" aria-labelledby="about-title">
-      <div class="container narrow-grid">
-        <div>
-          <p class="section-kicker">About</p>
-          <h2 id="about-title">Security operations, connected to engineering</h2>
+      <div class="container">
+        <div class="narrow-grid">
+          <div>
+            <p class="section-kicker">About</p>
+            <h2 id="about-title">Security operations, connected to engineering</h2>
+            <p class="muted">Alerts only become security when someone can explain what they mean, what to do next, and how to stop the same noise tomorrow.</p>
+          </div>
+          <div class="prose">
+            <p>I’m a cybersecurity analyst with hands-on SOC experience across threat detection, alert triage, incident response, and vulnerability management in cloud and hybrid environments.</p>
+            <p>My work covers <span class="term" tabindex="0" aria-describedby="tip-siem">SIEM<span class="tip" role="tooltip" id="tip-siem">Security Information and Event Management: a platform that collects logs from many systems, correlates them and raises alerts.</span></span> detection engineering, endpoint and edge monitoring with CrowdStrike Falcon and Cloudflare, and log correlation across AWS CloudTrail, CloudWatch, Kubernetes, and container workloads. I take incidents from initial triage through to post-incident review, then feed what I learn back into detection tuning and reporting.</p>
+            <p>I have working knowledge of ISO 27001, NIST CSF, PCI DSS, and SOC 2.</p>
+          </div>
         </div>
-        <div class="prose">
-          <p>I’m a cybersecurity analyst with hands-on SOC experience across threat detection, alert triage, incident response, and vulnerability management in cloud and hybrid environments.</p>
-          <p>My day-to-day work covers SIEM detection engineering, endpoint and edge monitoring with CrowdStrike Falcon and Cloudflare, and log correlation across AWS CloudTrail, CloudWatch, Kubernetes, and container workloads. I take incidents from initial triage through to post-incident review, then feed what I learn back into detection tuning and reporting.</p>
-          <p>I care about the space between security operations and engineering: defining logging standards, supporting security checks in CI/CD, tracking remediation, and working with engineering and infrastructure teams so that findings turn into real improvements.</p>
-          <p>I have working knowledge of ISO 27001, NIST CSF, PCI DSS, and SOC 2.</p>
-          <ul class="chips" aria-label="Focus areas">
-            <li>Threat detection</li><li>Incident investigation</li><li>Vulnerability management</li><li>Cloud monitoring</li><li>Security automation</li>
-          </ul>
+
+        <div class="card-grid pillars">
+          <article class="card">
+            <h3>Detect</h3>
+            <p>Design and tune detection rules, define logging standards, and watch the log pipeline itself — ingestion gaps, outages and clock drift — because a detection is only as good as the data behind it.</p>
+          </article>
+          <article class="card">
+            <h3>Investigate</h3>
+            <p>Triage alerts from endpoint, edge, cloud and container sources, correlate events across them, and carry incidents through containment support to a post-incident review.</p>
+          </article>
+          <article class="card">
+            <h3>Improve</h3>
+            <p>Maintain playbooks, run tabletop exercises, report on detection coverage and alert quality, and work with engineering and infrastructure teams so findings become fixes.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- SKILLS -->
+    <!-- ===================== SKILLS ===================== -->
     <section id="skills" class="section alt" aria-labelledby="skills-title">
       <div class="container">
         <p class="section-kicker">Technical skills</p>
-        <h2 id="skills-title">Capabilities by domain</h2>
-        <div class="card-grid skills-grid">
-          <article class="card">
-            <h3>Security Operations</h3>
-            <ul class="tags"><li>SOC monitoring</li><li>Alert triage and investigation</li><li>SIEM monitoring and tuning</li><li>IOC analysis</li><li>Multi-source event correlation</li><li>Security incident reporting</li></ul>
-          </article>
-          <article class="card">
-            <h3>Detection Engineering</h3>
-            <ul class="tags"><li>Detection use-case design</li><li>False-positive reduction</li><li>Alert-quality optimization</li><li>Logging standards and ingestion monitoring</li></ul>
-          </article>
-          <article class="card">
-            <h3>Incident Response</h3>
-            <ul class="tags"><li>Incident triage and investigation</li><li>Containment support</li><li>Incident response playbooks</li><li>Post-incident reviews</li><li>Tabletop exercises</li></ul>
-          </article>
-          <article class="card">
-            <h3>Cloud and Endpoint Security</h3>
-            <ul class="tags"><li>AWS CloudTrail</li><li>AWS CloudWatch</li><li>CrowdStrike Falcon</li><li>Cloudflare</li><li>Kubernetes and container workloads</li></ul>
-          </article>
-          <article class="card">
-            <h3>Vulnerability Management &amp; Security Testing</h3>
-            <ul class="tags"><li>Nessus</li><li>OpenVAS</li><li>Metasploit</li><li>Burp Suite</li><li>OWASP ZAP</li><li>Vulnerability remediation tracking</li></ul>
-          </article>
-          <article class="card">
-            <h3>DevSecOps &amp; Security Automation</h3>
-            <ul class="tags"><li>Aikido Security</li><li>SAST</li><li>Software composition and dependency scanning</li><li>Secrets detection</li><li>CI/CD security gates</li><li>Secure SDLC</li></ul>
-          </article>
-          <article class="card">
-            <h3>Network &amp; Infrastructure Security</h3>
-            <ul class="tags"><li>Firewalls</li><li>IDS/IPS</li><li>VPNs</li><li>Wireshark</li><li>Nmap</li><li>Linux and network troubleshooting</li></ul>
-          </article>
-          <article class="card">
-            <h3>Governance &amp; Compliance</h3>
-            <ul class="tags"><li>ISO 27001</li><li>NIST Cybersecurity Framework</li><li>PCI DSS</li><li>SOC 2</li></ul>
-          </article>
+        <h2 id="skills-title">What I work with, and why it matters</h2>
+        <p class="section-intro">Pick a domain. Each one explains what the discipline does, why it matters in a real security environment, what I do in it (taken from my CV), and what the tools are. There are no skill percentages — they wouldn’t mean anything.</p>
+
+        <div class="tabs skills-tabs" data-tabs data-orientation="vertical">
+          <div role="tablist" aria-label="Skill domains" aria-orientation="vertical" class="tablist">
+            <button role="tab" type="button" id="sk-tab-1" aria-controls="sk-1" aria-selected="true">Security Operations</button>
+            <button role="tab" type="button" id="sk-tab-2" aria-controls="sk-2">Detection Engineering</button>
+            <button role="tab" type="button" id="sk-tab-3" aria-controls="sk-3">Incident Response</button>
+            <button role="tab" type="button" id="sk-tab-4" aria-controls="sk-4">Cloud &amp; Endpoint</button>
+            <button role="tab" type="button" id="sk-tab-5" aria-controls="sk-5">Vulnerability Management</button>
+            <button role="tab" type="button" id="sk-tab-6" aria-controls="sk-6">DevSecOps &amp; Automation</button>
+            <button role="tab" type="button" id="sk-tab-7" aria-controls="sk-7">Network &amp; Infrastructure</button>
+            <button role="tab" type="button" id="sk-tab-8" aria-controls="sk-8">Governance &amp; Compliance</button>
+          </div>
+
+          <div class="tabpanels">
+            <div role="tabpanel" id="sk-1" aria-labelledby="sk-tab-1" tabindex="0" class="skill-panel">
+              <h3>Security Operations</h3>
+              <p><strong>What it is.</strong> Continuous monitoring of alerts and events to spot possible threats, decide which are real, and escalate the ones that matter.</p>
+              <p><strong>Why it matters.</strong> The speed and accuracy of triage decides how quickly a genuine incident is found, and how much noise reaches the people who have to act on it.</p>
+              <h4><span class="badge badge-mine">In my role</span></h4>
+              <ul class="plain-list">
+                <li>Monitor and triage alerts across cloud, container and SaaS environments using CrowdStrike Falcon and Cloudflare, correlating multi-source events to identify and escalate <span class="term" tabindex="0" aria-describedby="tip-ioc">indicators of compromise<span class="tip" role="tooltip" id="tip-ioc">An indicator of compromise (IOC) is an observable artefact — an IP address, file hash, domain or behaviour — that suggests a system may have been compromised.</span></span>.</li>
+                <li>Produce weekly incident reports and executive summaries.</li>
+              </ul>
+              <h4>Practices</h4>
+              <ul class="tags"><li>SOC monitoring</li><li>Alert triage and investigation</li><li>SIEM monitoring and tuning</li><li>IOC analysis</li><li>Multi-source event correlation</li><li>Security incident reporting</li></ul>
+              <h4>Tools</h4>
+              <dl class="tool-list">
+                <div><dt>FortiSIEM</dt><dd>SIEM platform used to ingest logs, correlate events and alert on detection rules.</dd></div>
+                <div><dt>CrowdStrike Falcon</dt><dd>Cloud-delivered endpoint detection and response platform.</dd></div>
+                <div><dt>Cloudflare</dt><dd>Edge network and security platform; its traffic and security events help spot attacks against exposed services.</dd></div>
+              </dl>
+            </div>
+
+            <div role="tabpanel" id="sk-2" aria-labelledby="sk-tab-2" tabindex="0" class="skill-panel">
+              <h3>Detection Engineering</h3>
+              <p><strong>What it is.</strong> Turning raw logs into reliable alerts: designing detection use cases, writing and tuning rules, and making sure the underlying logging is complete and trustworthy.</p>
+              <p><strong>Why it matters.</strong> Rules that fire constantly cause alert fatigue and hide real incidents. Rules that never fire give false comfort. Good detection engineering balances both, and depends on healthy log pipelines.</p>
+              <h4><span class="badge badge-mine">In my role</span></h4>
+              <ul class="plain-list">
+                <li>Develop and tune FortiSIEM detection rules to reduce false positives and improve actionable alert quality across AWS CloudTrail, CloudWatch, Kubernetes and container workloads.</li>
+                <li>Define and enforce logging standards; monitor ingestion gaps, pipeline outages and <span class="term" tabindex="0" aria-describedby="tip-ntp">NTP drift<span class="tip" role="tooltip" id="tip-ntp">NTP drift means a system’s clock has wandered from the reference time source. Timestamps then disagree between systems, which breaks event correlation and incident timelines.</span></span>.</li>
+                <li>Track detection coverage, alert quality, false-positive rates and response timelines.</li>
+              </ul>
+              <h4>Practices</h4>
+              <ul class="tags"><li>Detection use-case design</li><li>False-positive reduction</li><li>Alert-quality optimization</li><li>Logging standards and ingestion monitoring</li></ul>
+              <p class="skill-link"><a href="#lab">Try the synthetic detection-tuning example →</a></p>
+            </div>
+
+            <div role="tabpanel" id="sk-3" aria-labelledby="sk-tab-3" tabindex="0" class="skill-panel">
+              <h3>Incident Response</h3>
+              <p><strong>What it is.</strong> The structured handling of a security incident: working out what happened, limiting the damage, escalating to the right people and learning from it afterwards.</p>
+              <p><strong>Why it matters.</strong> Predictable, rehearsed response reduces confusion under pressure. Playbooks and tabletop exercises are how teams find process gaps before a real incident does.</p>
+              <h4><span class="badge badge-mine">In my role</span></h4>
+              <ul class="plain-list">
+                <li>Investigate security alerts end-to-end — triage, containment and post-incident review.</li>
+                <li>Maintain incident response playbooks.</li>
+                <li>Design and lead incident response tabletop exercises to validate readiness and strengthen cross-team preparedness.</li>
+              </ul>
+              <h4>Practices</h4>
+              <ul class="tags"><li>Incident triage and investigation</li><li>Containment support</li><li>Incident response playbooks</li><li>Post-incident reviews</li><li>Tabletop exercises</li></ul>
+              <p class="skill-link"><a href="#lifecycle">Walk through the incident lifecycle →</a></p>
+            </div>
+
+            <div role="tabpanel" id="sk-4" aria-labelledby="sk-tab-4" tabindex="0" class="skill-panel">
+              <h3>Cloud &amp; Endpoint Security</h3>
+              <p><strong>What it is.</strong> Monitoring the platforms workloads actually run on — cloud accounts, containers and endpoints — using the audit trails and telemetry they produce.</p>
+              <p><strong>Why it matters.</strong> In cloud environments most attacker actions are API calls and configuration changes. If those aren’t logged and correlated with endpoint and edge signals, they are invisible.</p>
+              <h4><span class="badge badge-mine">In my role</span></h4>
+              <ul class="plain-list">
+                <li>Correlate AWS CloudTrail, CloudWatch, Kubernetes and container events alongside CrowdStrike Falcon and Cloudflare alerts.</li>
+              </ul>
+              <h4>Tools</h4>
+              <dl class="tool-list">
+                <div><dt>AWS CloudTrail</dt><dd>Records API activity in an AWS account — who did what, when and from where. Core evidence for cloud investigations.</dd></div>
+                <div><dt>AWS CloudWatch</dt><dd>Collects logs, metrics and alarms from AWS resources and applications; useful for operational and security signals.</dd></div>
+                <div><dt>CrowdStrike Falcon</dt><dd>Endpoint and workload detection and response, with investigation and containment capabilities.</dd></div>
+                <div><dt>Cloudflare</dt><dd>Edge protection and traffic visibility for internet-facing applications.</dd></div>
+                <div><dt>Kubernetes &amp; containers</dt><dd>Container orchestration. Cluster and workload logs and events show how workloads are deployed and behave.</dd></div>
+              </dl>
+              <p class="skill-link"><a href="#architecture">See the conceptual monitoring architecture →</a></p>
+            </div>
+
+            <div role="tabpanel" id="sk-5" aria-labelledby="sk-tab-5" tabindex="0" class="skill-panel">
+              <h3>Vulnerability Management &amp; Security Testing</h3>
+              <p><strong>What it is.</strong> Finding weaknesses in systems and applications, deciding which matter most, getting them fixed and confirming the fix.</p>
+              <p><strong>Why it matters.</strong> Scanners produce long lists. Value comes from prioritisation, clear ownership and tracking remediation to closure, not from the scan itself.</p>
+              <h4><span class="badge badge-mine">In my role</span></h4>
+              <ul class="plain-list">
+                <li>Support vulnerability scanning, triage and remediation tracking to maintain SLA compliance across engineering teams (Serianu).</li>
+                <li>Conducted vulnerability assessments and penetration tests with Metasploit, Burp Suite and OWASP ZAP to report weaknesses across enterprise systems and applications (Vintax, part-time).</li>
+              </ul>
+              <h4>Tools</h4>
+              <dl class="tool-list">
+                <div><dt>Nessus</dt><dd>Commercial vulnerability scanner for hosts and network services.</dd></div>
+                <div><dt>OpenVAS</dt><dd>Open-source vulnerability scanner.</dd></div>
+                <div><dt>Metasploit</dt><dd>Framework for authorised exploitation testing and validating that a vulnerability is exploitable.</dd></div>
+                <div><dt>Burp Suite</dt><dd>Intercepting proxy and toolkit for testing web applications.</dd></div>
+                <div><dt>OWASP ZAP</dt><dd>Open-source web application security scanner and proxy.</dd></div>
+              </dl>
+              <p class="skill-link"><a href="#vuln">See the vulnerability lifecycle →</a></p>
+            </div>
+
+            <div role="tabpanel" id="sk-6" aria-labelledby="sk-tab-6" tabindex="0" class="skill-panel">
+              <h3>DevSecOps &amp; Security Automation</h3>
+              <p><strong>What it is.</strong> Building security checks into how software is written and shipped, so issues are caught in the pipeline instead of in production.</p>
+              <p><strong>Why it matters.</strong> Fixing a vulnerable dependency or a leaked secret at commit time is cheaper and safer than finding it after release. Automation makes those checks consistent.</p>
+              <h4><span class="badge badge-mine">In my role</span></h4>
+              <ul class="plain-list">
+                <li>Support integration of Aikido SAST, dependency scanning and secrets detection into CI/CD workflows, helping enforce security gates in build and deployment.</li>
+                <li>Provide engineering-facing security support: secure coding standards and security documentation.</li>
+              </ul>
+              <h4>Practices</h4>
+              <ul class="tags"><li>Static Application Security Testing (SAST)</li><li>Software composition and dependency scanning</li><li>Secrets detection</li><li>CI/CD security gates</li><li>Secure SDLC</li><li>Developer enablement</li></ul>
+              <h4>Tools</h4>
+              <dl class="tool-list">
+                <div><dt>Aikido Security</dt><dd>Developer-focused security platform that combines several scan types, including SAST, dependency and secrets detection.</dd></div>
+              </dl>
+              <p class="skill-link"><a href="#pipeline">See a DevSecOps pipeline walkthrough →</a></p>
+            </div>
+
+            <div role="tabpanel" id="sk-7" aria-labelledby="sk-tab-7" tabindex="0" class="skill-panel">
+              <h3>Network &amp; Infrastructure Security</h3>
+              <p><strong>What it is.</strong> Understanding how traffic moves and where it is controlled — firewalls, intrusion detection, VPNs — and being able to inspect it when something looks wrong.</p>
+              <p><strong>Why it matters.</strong> Network evidence often settles questions logs can’t: whether a connection really happened, what it carried, and whether a control blocked it.</p>
+              <h4><span class="badge badge-mine">In my role</span></h4>
+              <ul class="plain-list">
+                <li>Troubleshot hardware, software and network issues, and delivered Tier 1 IT support (Vintax, part-time).</li>
+              </ul>
+              <h4>Practices &amp; tools</h4>
+              <ul class="tags"><li>Firewalls</li><li>IDS/IPS</li><li>VPNs</li><li>Wireshark</li><li>Nmap</li><li>Linux and network troubleshooting</li><li>iMaster and NagVis</li><li>OSINT and reconnaissance</li><li>Network infrastructure setup (Ethernet cabling, RJ45 termination)</li></ul>
+            </div>
+
+            <div role="tabpanel" id="sk-8" aria-labelledby="sk-tab-8" tabindex="0" class="skill-panel">
+              <h3>Governance &amp; Compliance</h3>
+              <p><strong>What it is.</strong> The frameworks organisations use to describe, measure and evidence their security controls.</p>
+              <p><strong>Why it matters.</strong> Frameworks give security work a shared language with auditors, leadership and customers, and make gaps easier to discuss.</p>
+              <h4><span class="badge badge-mine">In my role</span></h4>
+              <ul class="plain-list">
+                <li>Contribute to identity and access control reviews supporting Zero Trust and access-governance initiatives.</li>
+                <li>Report security metrics — detection coverage, alert quality and response timelines — to leadership.</li>
+              </ul>
+              <h4>Frameworks (working knowledge)</h4>
+              <ul class="tags"><li>ISO 27001</li><li>NIST Cybersecurity Framework</li><li>PCI DSS</li><li>SOC 2</li></ul>
+              <p class="skill-link"><a href="#frameworks">See how my work maps to NIST CSF →</a></p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
-    <section id="experience" class="section" aria-labelledby="exp-title">
+    <!-- ===================== SECURITY IN PRACTICE ===================== -->
+    <section id="practice" class="section" aria-labelledby="practice-title">
+      <div class="container">
+        <p class="section-kicker">Security in practice</p>
+        <h2 id="practice-title">How security operations actually fit together</h2>
+        <p class="section-intro">These visuals explain the workflows behind my work. They are teaching diagrams, not screenshots of any employer’s systems — each one is labelled so you can tell what is general practice, what comes from my own experience, and what is conceptual or synthetic.</p>
+
+        <ul class="legend" aria-label="Legend">
+          <li><span class="badge badge-mine">My experience</span> taken from my CV</li>
+          <li><span class="badge">General practice</span> how the discipline typically works</li>
+          <li><span class="badge badge-concept">Conceptual</span> illustrative, not a real deployment</li>
+          <li><span class="badge badge-concept">Synthetic data</span> invented for demonstration</li>
+        </ul>
+
+        <!-- ---- Incident lifecycle ---- -->
+        <article id="lifecycle" class="block">
+          <header class="block-head">
+            <h3>Security incident lifecycle</h3>
+            <p>Six stages from raw logs to lessons learned. Select a stage to see its purpose, which sources feed it, and where my own work sits.</p>
+          </header>
+
+          <div class="tabs stepper" data-tabs>
+            <div role="tablist" aria-label="Incident lifecycle stages" class="tablist steps">
+              <button role="tab" type="button" id="lc-tab-1" aria-controls="lc-1" aria-selected="true"><span class="num">1</span><span class="lbl">Log collection</span></button>
+              <button role="tab" type="button" id="lc-tab-2" aria-controls="lc-2"><span class="num">2</span><span class="lbl">Event correlation</span></button>
+              <button role="tab" type="button" id="lc-tab-3" aria-controls="lc-3"><span class="num">3</span><span class="lbl">Alert triage</span></button>
+              <button role="tab" type="button" id="lc-tab-4" aria-controls="lc-4"><span class="num">4</span><span class="lbl">Investigation</span></button>
+              <button role="tab" type="button" id="lc-tab-5" aria-controls="lc-5"><span class="num">5</span><span class="lbl">Containment &amp; escalation</span></button>
+              <button role="tab" type="button" id="lc-tab-6" aria-controls="lc-6"><span class="num">6</span><span class="lbl">Recovery &amp; review</span></button>
+            </div>
+
+            <div role="tabpanel" id="lc-1" aria-labelledby="lc-tab-1" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Gather security-relevant events from endpoints, cloud accounts, containers and edge services into one place, with consistent fields and trustworthy timestamps.</p>
+                <p><strong>Why it matters.</strong> Everything downstream depends on it. If a source stops sending logs or its clock drifts, detections silently fail and timelines can’t be trusted.</p>
+                <p><strong>Contributors.</strong> Cloud logs (CloudTrail, CloudWatch, Kubernetes) and endpoint telemetry feed the pipeline; the SIEM ingests and normalises.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Define and enforce logging standards across application, infrastructure and audit environments.</li><li>Monitor logging pipelines for ingestion gaps, outages and NTP drift.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="lc-2" aria-labelledby="lc-tab-2" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Link events from different sources into a single story — for example an unusual cloud API call, followed by an endpoint alert, from the same user.</p>
+                <p><strong>Why it matters.</strong> Single events are often ambiguous; correlated events show intent and reduce false positives.</p>
+                <p><strong>Contributors.</strong> The SIEM’s correlation rules do the heavy lifting, using cloud logs and endpoint detections as inputs.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Correlate AWS CloudTrail, CloudWatch, Kubernetes and container events.</li><li>Develop and tune FortiSIEM detection rules to reduce false positives and improve alert quality.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="lc-3" aria-labelledby="lc-tab-3" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Quickly decide for each alert: false positive, benign true positive, or something to investigate or escalate.</p>
+                <p><strong>Why it matters.</strong> Triage protects analyst time and sets incident priority. Consistent triage criteria make results comparable between analysts and over time.</p>
+                <p><strong>Contributors.</strong> SIEM alerts and <span class="term" tabindex="0" aria-describedby="tip-edr">endpoint detection (EDR)<span class="tip" role="tooltip" id="tip-edr">Endpoint Detection and Response tools such as CrowdStrike Falcon record endpoint activity, detect suspicious behaviour and let analysts investigate and contain hosts.</span></span> alerts arrive in the queue; playbooks give the triage checklist.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Monitor and triage alerts across cloud, container and SaaS environments using CrowdStrike Falcon and Cloudflare.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="lc-4" aria-labelledby="lc-tab-4" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Establish scope and cause: what was affected, how it started, what the actor did and whether it is still happening.</p>
+                <p><strong>Why it matters.</strong> Decisions about containment and communication are only as good as the evidence behind them.</p>
+                <p><strong>Contributors.</strong> Cloud audit logs show actions taken, EDR shows host behaviour, the SIEM ties them together, and playbooks keep the work consistent.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Investigate security alerts end-to-end using incident response playbooks developed and maintained for the team.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="lc-5" aria-labelledby="lc-tab-5" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Limit impact — for example isolating a host or disabling a credential — and escalate to system owners, engineering or management as the severity requires.</p>
+                <p><strong>Why it matters.</strong> Containment is a business decision as much as a technical one; clear escalation paths make it fast and accountable.</p>
+                <p><strong>Contributors.</strong> EDR containment features and playbook decision trees; the SIEM keeps the audit trail.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Containment support as part of investigating incidents from triage through post-incident review.</li><li>Collaborate with engineering and infrastructure teams to coordinate incident response.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="lc-6" aria-labelledby="lc-tab-6" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Restore normal operation, then review what happened and what should change: detections, logging, playbooks, access or architecture.</p>
+                <p><strong>Why it matters.</strong> This is where one incident turns into lasting improvement, closing the loop back to log collection and detection.</p>
+                <p><strong>Contributors.</strong> Playbooks are updated; the SIEM rules and log sources are tuned.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Post-incident reviews; weekly incident reports, executive summaries and quarterly threat-trend analyses.</li><li>Maintain playbooks; design and lead incident response tabletop exercises.</li></ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="matrix">
+              <caption><span class="badge">General practice</span> Which sources contribute to which stage <span class="muted">(● primary, ○ supporting)</span></caption>
+              <thead><tr><th scope="col">Source</th><th scope="col">1 Collect</th><th scope="col">2 Correlate</th><th scope="col">3 Triage</th><th scope="col">4 Investigate</th><th scope="col">5 Contain</th><th scope="col">6 Review</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Cloud logs</th><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">○</span><span class="sr-only">Supporting</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">○</span><span class="sr-only">Supporting</span></td><td><span aria-hidden="true">○</span><span class="sr-only">Supporting</span></td></tr>
+                <tr><th scope="row">SIEM</th><td><span aria-hidden="true">○</span><span class="sr-only">Supporting</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span class="sr-only">None</span><span aria-hidden="true">–</span></td><td><span aria-hidden="true">○</span><span class="sr-only">Supporting</span></td></tr>
+                <tr><th scope="row">Endpoint detection</th><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">○</span><span class="sr-only">Supporting</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">○</span><span class="sr-only">Supporting</span></td></tr>
+                <tr><th scope="row">IR playbooks</th><td><span class="sr-only">None</span><span aria-hidden="true">–</span></td><td><span class="sr-only">None</span><span aria-hidden="true">–</span></td><td><span aria-hidden="true">○</span><span class="sr-only">Supporting</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td><td><span aria-hidden="true">●</span><span class="sr-only">Primary</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- ---- Cloud architecture ---- -->
+        <article id="architecture" class="block">
+          <header class="block-head">
+            <h3>Cloud monitoring architecture <span class="badge badge-concept">Conceptual</span></h3>
+            <p>How cloud audit logs, endpoint and edge telemetry, a SIEM, analyst investigation and incident response relate. Select any box for details. <strong>This is a teaching diagram, not a record of any employer’s deployment</strong> — real ingestion routes differ by environment.</p>
+          </header>
+
+          <div class="arch" data-arch>
+            <div class="arch-layer">
+              <p class="arch-label">1 · Telemetry sources</p>
+              <div class="arch-nodes">
+                <button type="button" class="node" data-node="cloudtrail" aria-pressed="false"><strong>AWS CloudTrail</strong><span>API activity</span></button>
+                <button type="button" class="node" data-node="cloudwatch" aria-pressed="false"><strong>AWS CloudWatch</strong><span>Logs, metrics, alarms</span></button>
+                <button type="button" class="node" data-node="k8s" aria-pressed="false"><strong>Kubernetes &amp; containers</strong><span>Cluster &amp; workload events</span></button>
+                <button type="button" class="node" data-node="falcon" aria-pressed="false"><strong>CrowdStrike Falcon</strong><span>Endpoint &amp; workload detections</span></button>
+                <button type="button" class="node" data-node="cloudflare" aria-pressed="false"><strong>Cloudflare</strong><span>Edge traffic &amp; security events</span></button>
+              </div>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">↓</div>
+            <div class="arch-layer">
+              <p class="arch-label">2 · Collection</p>
+              <div class="arch-nodes single">
+                <button type="button" class="node wide" data-node="pipeline" aria-pressed="false"><strong>Log forwarding &amp; time synchronisation</strong><span>Ingestion health: gaps, outages, clock drift</span></button>
+              </div>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">↓</div>
+            <div class="arch-layer">
+              <p class="arch-label">3 · Correlation &amp; detection</p>
+              <div class="arch-nodes single">
+                <button type="button" class="node wide accent" data-node="siem" aria-pressed="false"><strong>FortiSIEM</strong><span>Parsing, correlation rules, alerting</span></button>
+              </div>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">↓</div>
+            <div class="arch-layer">
+              <p class="arch-label">4 · Analysis</p>
+              <div class="arch-nodes single">
+                <button type="button" class="node wide" data-node="triage" aria-pressed="false"><strong>Alert triage &amp; investigation</strong><span>Analyst decides: dismiss, tune, or escalate</span></button>
+              </div>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">↓</div>
+            <div class="arch-layer">
+              <p class="arch-label">5 · Response &amp; feedback</p>
+              <div class="arch-nodes single">
+                <button type="button" class="node wide accent" data-node="ir" aria-pressed="false"><strong>Incident response &amp; post-incident review</strong><span>Playbooks · containment support · reports · back to rules and logging standards</span></button>
+              </div>
+            </div>
+            <p class="arch-loop"><span aria-hidden="true">↺</span> Feedback loop: review findings improve detection rules (3), logging standards (2) and playbooks (5).</p>
+          </div>
+
+          <div class="detail-panel" id="arch-detail" aria-live="polite" tabindex="-1">
+            <p class="muted">Select a box above to see what it does and why it matters here.</p>
+          </div>
+        </article>
+
+        <!-- ---- DevSecOps pipeline ---- -->
+        <article id="pipeline" class="block">
+          <header class="block-head">
+            <h3>DevSecOps pipeline <span class="badge badge-concept">Conceptual</span></h3>
+            <p>Where automated security checks can sit between a code commit and a deployment. The stages are general practice; the highlighted note on each stage shows where my own work touches it.</p>
+          </header>
+
+          <div class="tabs stepper" data-tabs>
+            <div role="tablist" aria-label="Pipeline stages" class="tablist steps">
+              <button role="tab" type="button" id="pl-tab-1" aria-controls="pl-1" aria-selected="true"><span class="num">1</span><span class="lbl">Code commit</span></button>
+              <button role="tab" type="button" id="pl-tab-2" aria-controls="pl-2"><span class="num">2</span><span class="lbl">SAST</span></button>
+              <button role="tab" type="button" id="pl-tab-3" aria-controls="pl-3"><span class="num">3</span><span class="lbl">Dependency scanning</span></button>
+              <button role="tab" type="button" id="pl-tab-4" aria-controls="pl-4"><span class="num">4</span><span class="lbl">Secrets detection</span></button>
+              <button role="tab" type="button" id="pl-tab-5" aria-controls="pl-5"><span class="num">5</span><span class="lbl">Security gates</span></button>
+              <button role="tab" type="button" id="pl-tab-6" aria-controls="pl-6"><span class="num">6</span><span class="lbl">Build &amp; deploy</span></button>
+            </div>
+
+            <div role="tabpanel" id="pl-1" aria-labelledby="pl-tab-1" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>What happens.</strong> A developer pushes code or opens a pull request. This event triggers the pipeline.</p>
+                <p><strong>Why it matters.</strong> The commit is the cheapest place to catch a problem: the author still has full context, and nothing has shipped.</p>
+              </div>
+            </div>
+            <div role="tabpanel" id="pl-2" aria-labelledby="pl-tab-2" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>What happens.</strong> <span class="term" tabindex="0" aria-describedby="tip-sast">Static Application Security Testing (SAST)<span class="tip" role="tooltip" id="tip-sast">SAST analyses source code without running it, looking for insecure patterns such as injection flaws or unsafe use of cryptography.</span></span> analyses source code for insecure patterns without running it.</p>
+                <p><strong>Why it matters.</strong> It finds classes of coding flaws early. It also produces false positives, so findings need triage, not blind trust.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Support integration of Aikido SAST into CI/CD workflows.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="pl-3" aria-labelledby="pl-tab-3" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>What happens.</strong> Software composition / dependency scanning compares third-party libraries against known vulnerability databases.</p>
+                <p><strong>Why it matters.</strong> Most of an application’s code is other people’s code. A vulnerable dependency is a vulnerability in your product.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Support integration of dependency scanning into CI/CD workflows.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="pl-4" aria-labelledby="pl-tab-4" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>What happens.</strong> Scanners look for credentials, tokens and keys accidentally committed to a repository.</p>
+                <p><strong>Why it matters.</strong> A leaked secret is usable immediately and lives on in git history. Remediation means revoking and rotating it, not just deleting the line.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Support integration of secrets detection into CI/CD workflows.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="pl-5" aria-labelledby="pl-tab-5" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>What happens.</strong> Policy decides whether a build may proceed — for example blocking on confirmed critical findings, while lower-severity issues create tracked tickets.</p>
+                <p><strong>Why it matters.</strong> Gates turn scan output into enforceable policy. Set too strict they get bypassed; too loose they protect nothing.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Support enforcement of security gates in build and deployment workflows.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="pl-6" aria-labelledby="pl-tab-6" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>What happens.</strong> Artifacts that pass the gates are built and deployed. Runtime monitoring then takes over — which is where the SOC’s cloud and container telemetry comes in.</p>
+                <p><strong>Why it matters.</strong> Pre-deployment checks reduce risk but never remove it; detection and response remain necessary.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="triage-flow">
+            <h4><span class="badge">General practice</span> Triage and remediation of a finding</h4>
+            <ol class="flow-list">
+              <li><strong>Validate</strong><span>Is it real, reachable and exploitable here?</span></li>
+              <li><strong>Prioritise</strong><span>Severity, exposure and asset importance.</span></li>
+              <li><strong>Assign</strong><span>Route to the owning team with clear context.</span></li>
+              <li><strong>Fix</strong><span>Patch, upgrade, rotate or mitigate.</span></li>
+              <li><strong>Verify</strong><span>Re-scan in the pipeline to confirm closure.</span></li>
+            </ol>
+          </div>
+        </article>
+
+        <!-- ---- Vulnerability lifecycle ---- -->
+        <article id="vuln" class="block">
+          <header class="block-head">
+            <h3>Vulnerability management lifecycle</h3>
+            <p>A repeating loop, not a one-off scan.</p>
+          </header>
+          <div class="tabs stepper" data-tabs>
+            <div role="tablist" aria-label="Vulnerability lifecycle stages" class="tablist steps">
+              <button role="tab" type="button" id="vm-tab-1" aria-controls="vm-1" aria-selected="true"><span class="num">1</span><span class="lbl">Discover</span></button>
+              <button role="tab" type="button" id="vm-tab-2" aria-controls="vm-2"><span class="num">2</span><span class="lbl">Prioritise</span></button>
+              <button role="tab" type="button" id="vm-tab-3" aria-controls="vm-3"><span class="num">3</span><span class="lbl">Remediate</span></button>
+              <button role="tab" type="button" id="vm-tab-4" aria-controls="vm-4"><span class="num">4</span><span class="lbl">Verify</span></button>
+              <button role="tab" type="button" id="vm-tab-5" aria-controls="vm-5"><span class="num">5</span><span class="lbl">Track &amp; report</span></button>
+            </div>
+            <div role="tabpanel" id="vm-1" aria-labelledby="vm-tab-1" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Find weaknesses using authenticated and unauthenticated scans, application testing and manual assessment.</p>
+                <p><strong>Tools.</strong> Nessus and OpenVAS for infrastructure scanning; Burp Suite and OWASP ZAP for web applications; Metasploit to confirm exploitability in authorised testing.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Vulnerability assessments and penetration tests with Metasploit, Burp Suite and OWASP ZAP (Vintax, part-time).</li><li>Vulnerability scanning and triage with Nessus and OpenVAS, per my CV.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="vm-2" aria-labelledby="vm-tab-2" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Rank findings by what actually matters: severity, whether the system is exposed, whether exploitation is practical, and how critical the asset is.</p>
+                <p><strong>Why it matters.</strong> Severity scores alone mislead; context turns a long list into a short, defensible queue.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Support vulnerability triage across engineering teams.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="vm-3" aria-labelledby="vm-tab-3" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Fix, mitigate or formally accept each risk, with a named owner and a target date.</p>
+                <p><strong>Why it matters.</strong> Security finds the problem, engineering usually fixes it — so clear tickets and good working relationships decide how quickly risk falls.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Collaborate with engineering and infrastructure teams on security improvements.</li></ul>
+              </div>
+            </div>
+            <div role="tabpanel" id="vm-4" aria-labelledby="vm-tab-4" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Re-scan or re-test to prove the fix worked and didn’t break something else.</p>
+                <p><strong>Why it matters.</strong> “Marked as fixed” and “actually fixed” are different states.</p>
+              </div>
+            </div>
+            <div role="tabpanel" id="vm-5" aria-labelledby="vm-tab-5" tabindex="0" class="step-panel">
+              <div class="general"><span class="badge">General practice</span>
+                <p><strong>Purpose.</strong> Track open items against SLAs and report trends to leadership.</p>
+                <p><strong>Why it matters.</strong> Trends show whether the programme is improving or just treading water, and feed back into discovery.</p>
+              </div>
+              <div class="mine"><span class="badge badge-mine">My experience</span>
+                <ul class="plain-list"><li>Support vulnerability remediation tracking to maintain SLA compliance.</li></ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---- Detection lab ---- -->
+        <article id="lab" class="block">
+          <header class="block-head">
+            <h3>Detection tuning example <span class="badge badge-concept">Synthetic data</span></h3>
+            <p>Reducing false positives is a trade-off, not a switch. This small simulation uses invented events (documentation IP ranges, made-up users) and illustrative pseudo-logic — <strong>not FortiSIEM syntax and not a rule from any employer</strong>. Move the threshold and see what changes.</p>
+          </header>
+
+          <div class="lab" data-lab>
+            <pre class="rule" tabindex="0" aria-label="Illustrative detection logic"><code>RULE   console-login-failures   (illustrative pseudo-logic)
+WHEN   eventName = ConsoleLogin            # AWS CloudTrail field
+GROUP  BY sourceIPAddress, userName   WITHIN 10 minutes
+IF     count(ConsoleLogin = "Failure") &gt;= N
+AND    (optional) a "Success" follows the failures
+THEN   raise alert   # severity higher when a success follows</code></pre>
+
+            <div class="lab-controls">
+              <label for="lab-thr">Failure threshold (N): <output id="lab-thr-out" for="lab-thr">3</output></label>
+              <input id="lab-thr" type="range" min="1" max="10" value="3">
+              <label class="check"><input id="lab-succ" type="checkbox"> Only alert when a success follows the failures</label>
+            </div>
+
+            <div class="table-wrap">
+              <table class="lab-table">
+                <caption class="sr-only">Synthetic login sequences and detection result</caption>
+                <thead><tr><th scope="col">Source (synthetic)</th><th scope="col">Sequence in window</th><th scope="col">Scenario</th><th scope="col">Alert?</th><th scope="col">Result</th></tr></thead>
+                <tbody>
+                  <tr data-seq="FFS" data-truth="benign"><th scope="row">198.51.100.23 · user “alice”</th><td class="seq"></td><td>Mistyped password twice, then logged in</td><td class="alert-cell"></td><td class="result-cell"></td></tr>
+                  <tr data-seq="FFFS" data-truth="benign"><th scope="row">198.51.100.88 · user “carol”</th><td class="seq"></td><td>Forgot password, three tries, then success</td><td class="alert-cell"></td><td class="result-cell"></td></tr>
+                  <tr data-seq="FFFFFFFFS" data-truth="suspicious"><th scope="row">203.0.113.45 · user “admin-demo”</th><td class="seq"></td><td>Repeated guessing, then a success</td><td class="alert-cell"></td><td class="result-cell"></td></tr>
+                  <tr data-seq="FFFF" data-truth="suspicious"><th scope="row">192.0.2.77 · user “bob”</th><td class="seq"></td><td>Failed guessing attempt, no success</td><td class="alert-cell"></td><td class="result-cell"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="lab-summary" id="lab-summary" aria-live="polite"></p>
+            <p class="muted small">F = failed login, S = successful login. “Scenario” labels are the example’s own ground truth. Lower thresholds catch more guessing but alert on ordinary typos; higher thresholds are quieter but can miss real attempts. Requiring a success reduces noise but ignores unsuccessful attacks, which may still deserve a low-priority look. Real tuning also uses allow-lists, user and asset context and business hours.</p>
+          </div>
+        </article>
+
+        <!-- ---- Frameworks ---- -->
+        <article id="frameworks" class="block">
+          <header class="block-head">
+            <h3>Mapping my work to NIST CSF 2.0</h3>
+            <p><span class="badge badge-concept">Indicative mapping</span> My own reading of how my duties line up with CSF functions — not an audit, assessment or certification. Where my work doesn’t really sit, I say so.</p>
+          </header>
+          <div class="card-grid csf-grid">
+            <article class="card csf">
+              <h4>Govern</h4>
+              <p class="muted small">GV</p>
+              <p>Reporting security metrics and executive summaries to leadership supports oversight (GV.OV). Policy ownership is not a part of my role.</p>
+            </article>
+            <article class="card csf">
+              <h4>Identify</h4>
+              <p class="muted small">ID.RA · ID.IM</p>
+              <p>Vulnerability scanning, triage and remediation tracking (risk assessment); post-incident reviews and quarterly threat-trend analyses (improvement).</p>
+            </article>
+            <article class="card csf">
+              <h4>Protect</h4>
+              <p class="muted small">PR.AA · PR.AT · PR.PS</p>
+              <p>Identity and access control reviews; cybersecurity awareness training (Vintax); supporting CI/CD security gates and secure coding standards.</p>
+            </article>
+            <article class="card csf strong">
+              <h4>Detect</h4>
+              <p class="muted small">DE.CM · DE.AE</p>
+              <p>Continuous monitoring across cloud, container and SaaS sources; alert triage and correlation; detection-rule tuning; log-pipeline health. This is the centre of my current role.</p>
+            </article>
+            <article class="card csf strong">
+              <h4>Respond</h4>
+              <p class="muted small">RS.MA · RS.AN · RS.CO</p>
+              <p>Incident handling from triage through containment support; investigation; playbooks; incident reporting; tabletop exercises.</p>
+            </article>
+            <article class="card csf">
+              <h4>Recover</h4>
+              <p class="muted small">RC</p>
+              <p>Not a primary responsibility on my CV. Post-incident review feeds improvement rather than restoration work.</p>
+            </article>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== EXPERIENCE ===================== -->
+    <section id="experience" class="section alt" aria-labelledby="exp-title">
       <div class="container">
         <p class="section-kicker">Professional experience</p>
         <h2 id="exp-title">Where I’ve worked</h2>
@@ -155,143 +659,253 @@
             <div class="job-head">
               <h3>SOC Analyst</h3>
               <p class="org">Serianu Limited <span class="muted">— assigned to Cashia, Kenya</span></p>
-              <p class="date"><time datetime="2025-08">August 2025</time> – Present</p>
+              <p class="date"><time datetime="2025-08">August 2025</time> – Present <span class="badge">Full-time</span></p>
+              <p class="job-summary">Security operations for cloud, container and SaaS environments: monitoring and triage, detection engineering, incident response, and reporting. Responsibilities below are grouped by theme.</p>
             </div>
-            <ul class="job-list">
-              <li>Monitor and investigate security alerts across cloud, container, and SaaS environments using CrowdStrike Falcon and Cloudflare.</li>
-              <li>Develop and tune FortiSIEM detection rules to reduce false positives and improve alert quality.</li>
-              <li>Correlate AWS CloudTrail, CloudWatch, Kubernetes, and container events.</li>
-              <li>Investigate incidents from triage through containment and post-incident review.</li>
-              <li>Maintain incident response playbooks.</li>
-              <li>Define logging standards and monitor ingestion gaps, pipeline outages, and NTP drift.</li>
-              <li>Support integration of Aikido SAST, dependency scanning, and secrets detection into CI/CD workflows.</li>
-              <li>Track detection coverage, alert quality, false-positive rates, and response timelines.</li>
-              <li>Produce weekly incident reports, executive summaries, and quarterly threat-trend analyses.</li>
-              <li>Design and lead incident response tabletop exercises.</li>
-              <li>Support vulnerability remediation tracking and identity and access reviews.</li>
-              <li>Collaborate with engineering and infrastructure teams on security improvements.</li>
-            </ul>
+            <div class="job-groups">
+              <section>
+                <h4>Monitoring &amp; triage</h4>
+                <p class="why">Why it matters: finds real threats quickly and keeps noise away from the team.</p>
+                <ul class="job-list">
+                  <li>Monitor and investigate security alerts across cloud, container, and SaaS environments using CrowdStrike Falcon and Cloudflare.</li>
+                  <li>Correlate AWS CloudTrail, CloudWatch, Kubernetes, and container events.</li>
+                </ul>
+              </section>
+              <section>
+                <h4>Detection engineering &amp; logging</h4>
+                <p class="why">Why it matters: detections depend on complete, correctly timed logs and well-tuned rules.</p>
+                <ul class="job-list">
+                  <li>Develop and tune FortiSIEM detection rules to reduce false positives and improve alert quality.</li>
+                  <li>Define logging standards and monitor ingestion gaps, pipeline outages, and NTP drift.</li>
+                  <li>Track detection coverage, alert quality, false-positive rates, and response timelines.</li>
+                </ul>
+              </section>
+              <section>
+                <h4>Incident response</h4>
+                <p class="why">Why it matters: makes response consistent and rehearsed.</p>
+                <ul class="job-list">
+                  <li>Investigate incidents from triage through containment and post-incident review.</li>
+                  <li>Maintain incident response playbooks.</li>
+                  <li>Design and lead incident response tabletop exercises.</li>
+                </ul>
+              </section>
+              <section>
+                <h4>DevSecOps, vulnerability &amp; access</h4>
+                <p class="why">Why it matters: reduces risk before and after software ships.</p>
+                <ul class="job-list">
+                  <li>Support integration of Aikido SAST, dependency scanning, and secrets detection into CI/CD workflows.</li>
+                  <li>Support vulnerability remediation tracking and identity and access reviews.</li>
+                </ul>
+              </section>
+              <section>
+                <h4>Reporting &amp; collaboration</h4>
+                <p class="why">Why it matters: lets leadership and engineers act on security information.</p>
+                <ul class="job-list">
+                  <li>Produce weekly incident reports, executive summaries, and quarterly threat-trend analyses.</li>
+                  <li>Collaborate with engineering and infrastructure teams on security improvements.</li>
+                </ul>
+              </section>
+            </div>
           </li>
           <li class="job">
             <div class="job-head">
               <h3>Cyber Security Analyst &amp; IT Support</h3>
               <p class="org">Vintax Consultants <span class="muted">— Kenya</span></p>
               <p class="date"><time datetime="2020-01">January 2020</time> – <time datetime="2025-07">July 2025</time> <span class="badge">Part-time</span></p>
+              <p class="job-summary">A part-time role combining security assessment work with general IT support, which gave me a broad base in how systems and users actually behave.</p>
             </div>
-            <ul class="job-list">
-              <li>Conducted vulnerability assessments and penetration testing using Metasploit, Burp Suite, and OWASP ZAP.</li>
-              <li>Troubleshot hardware, software, and network issues.</li>
-              <li>Supported backup and recovery processes.</li>
-              <li>Delivered cybersecurity awareness training and technical guidance.</li>
-              <li>Provisioned system access and onboarded users.</li>
-              <li>Delivered Tier 1 IT support.</li>
-            </ul>
+            <div class="job-groups">
+              <section>
+                <h4>Security assessment</h4>
+                <ul class="job-list">
+                  <li>Conducted vulnerability assessments and penetration testing using Metasploit, Burp Suite, and OWASP ZAP.</li>
+                  <li>Delivered cybersecurity awareness training and technical guidance.</li>
+                </ul>
+              </section>
+              <section>
+                <h4>IT support &amp; operations</h4>
+                <ul class="job-list">
+                  <li>Troubleshot hardware, software, and network issues.</li>
+                  <li>Supported backup and recovery processes.</li>
+                  <li>Provisioned system access and onboarded users.</li>
+                  <li>Delivered Tier 1 IT support.</li>
+                </ul>
+              </section>
+            </div>
           </li>
         </ol>
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="section alt" aria-labelledby="proj-title">
+    <!-- ===================== PROJECTS ===================== -->
+    <section id="projects" class="section" aria-labelledby="proj-title">
       <div class="container">
         <p class="section-kicker">Featured projects</p>
         <h2 id="proj-title">Personal projects &amp; case studies</h2>
-        <p class="section-intro">These are personal projects built outside of employment. No employer data, logs, credentials, or sensitive configurations are published here. Browse everything on <a href="https://github.com/joeabur" target="_blank" rel="noopener noreferrer">my GitHub profile<span class="sr-only"> (opens in a new tab)</span></a>.</p>
+        <p class="section-intro">These are personal projects built outside of employment. No employer data, logs, credentials, or sensitive configurations are published here. Each card links only to a repository that exists; the case-study panels show what is verified and mark clearly what is still to be written. Browse everything on <a href="https://github.com/joeabur" target="_blank" rel="noopener noreferrer">my GitHub profile<span class="sr-only"> (opens in a new tab)</span></a>.</p>
+
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="chip" data-filter="python" aria-pressed="false">Python</button>
+          <button type="button" class="chip" data-filter="ir" aria-pressed="false">Incident response</button>
+          <button type="button" class="chip" data-filter="cloud" aria-pressed="false">Cloud &amp; IaC</button>
+          <button type="button" class="chip" data-filter="devsecops" aria-pressed="false">DevSecOps</button>
+          <button type="button" class="chip" data-filter="k8s" aria-pressed="false">Kubernetes</button>
+        </div>
+        <p class="sr-only" id="filter-status" aria-live="polite"></p>
 
         <div class="card-grid project-grid">
-          <article class="card project featured">
-            <p class="project-label"><span class="badge badge-accent">Featured</span> <span class="badge">Personal project</span> <span class="badge">Private repository</span></p>
+          <article class="card project featured" data-tags="python">
+            <p class="project-label"><span class="badge badge-accent">Featured</span> <span class="badge">Personal project</span> <span class="badge">Private repository</span> </p>
             <h3>Security Testing Platform</h3>
             <dl>
-              <dt>Purpose</dt>
-              <dd>A personal security-testing project, built in Python, exploring how security testing can be organized on a single platform.</dd>
-              <dt>Status</dt>
-              <dd>The repository is currently private, so no public link is provided. Screenshots and documentation can be added here; see the README.</dd>
-              <dt>Technologies</dt>
-              <dd><ul class="tags small"><li>Python</li></ul></dd>
+              <dt>Purpose</dt><dd>A personal security-testing project written in Python.</dd>
+              <dt>Technologies</dt><dd><ul class="tags small"><li>Python</li></ul></dd>
             </dl>
-            <div class="media-slot" data-note="Screenshot placeholder — add assets/images/security-testing-platform.png"><span>Screenshot coming soon</span></div>
+            <div class="media-slot"><span>Screenshot placeholder — add an image to assets/images/</span></div>
+            <details class="case">
+              <summary>Case study</summary>
+              <dl class="case-dl">
+                <dt>Problem statement</dt><dd><span class="ph">To add: the specific gap this project addresses and who it is for</span></dd><dt>Objectives</dt><dd><span class="ph">To add: 2–4 concrete goals</span></dd><dt>Architecture / workflow</dt><dd><span class="ph">To add: a simple diagram or numbered flow of how the pieces fit</span></dd><dt>Implementation approach</dt><dd><span class="ph">To add: key design decisions and how the code is organised</span></dd><dt>Security considerations</dt><dd><span class="ph">To add: secrets handling, permissions, safe-by-default behaviour, data exposure</span></dd><dt>Results &amp; limitations</dt><dd><span class="ph">To add: what it demonstrably does today and what it does not do yet</span></dd><dt>Future improvements</dt><dd><span class="ph">To add: honest next steps</span></dd>
+                <dt>Evidence &amp; links</dt><dd>Private repository, so there is no public link. Redacted screenshots and documentation can be added here.</dd>
+              </dl>
+              <p class="muted small">Verified so far: purpose and technologies come from the repository’s public description and language. Everything marked “To add” has not been written yet.</p>
+            </details>
           </article>
-
-          <article class="card project">
-            <p class="project-label"><span class="badge">Personal project</span></p>
+          <article class="card project" data-tags="python ir">
+            <p class="project-label"><span class="badge">Personal project</span> </p>
             <h3>Automated IR Playbooks</h3>
             <dl>
-              <dt>Purpose</dt>
-              <dd>Python incident response automation playbooks for Wazuh, Shuffle SOAR, containment, ticketing, and SOC notifications.</dd>
-              <dt>Technologies</dt>
-              <dd><ul class="tags small"><li>Python</li><li>Wazuh</li><li>Shuffle SOAR</li></ul></dd>
+              <dt>Purpose</dt><dd>Python incident response automation playbooks for Wazuh, Shuffle SOAR, containment, ticketing, and SOC notifications.</dd>
+              <dt>Technologies</dt><dd><ul class="tags small"><li>Python</li><li>Wazuh</li><li>Shuffle SOAR</li></ul></dd>
             </dl>
-            <p class="links"><a href="https://github.com/joeabur/automated-ir-playbooks" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for Automated IR Playbooks (opens in a new tab)</span> →</a></p>
+            
+            <details class="case">
+              <summary>Case study</summary>
+              <dl class="case-dl">
+                <dt>Problem statement</dt><dd><span class="ph">To add: the specific gap this project addresses and who it is for</span></dd><dt>Objectives</dt><dd><span class="ph">To add: 2–4 concrete goals</span></dd><dt>Architecture / workflow</dt><dd><span class="ph">To add: a simple diagram or numbered flow of how the pieces fit</span></dd><dt>Implementation approach</dt><dd><span class="ph">To add: key design decisions and how the code is organised</span></dd><dt>Security considerations</dt><dd><span class="ph">To add: secrets handling, permissions, safe-by-default behaviour, data exposure</span></dd><dt>Results &amp; limitations</dt><dd><span class="ph">To add: what it demonstrably does today and what it does not do yet</span></dd><dt>Future improvements</dt><dd><span class="ph">To add: honest next steps</span></dd>
+                <dt>Evidence &amp; links</dt><dd>Source: <a href="https://github.com/joeabur/automated-ir-playbooks" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for Automated IR Playbooks (opens in a new tab)</span> →</a>. Screenshots and documentation: <span class="ph">To add: add images to assets/images/</span></dd>
+              </dl>
+              <p class="muted small">Verified so far: purpose and technologies come from the repository’s public description and language. Everything marked “To add” has not been written yet.</p>
+            </details>
           </article>
-
-          <article class="card project">
-            <p class="project-label"><span class="badge">Personal project</span></p>
+          <article class="card project" data-tags="cloud devsecops">
+            <p class="project-label"><span class="badge">Personal project</span> </p>
             <h3>Secure Terraform on AWS</h3>
             <dl>
-              <dt>Purpose</dt>
-              <dd>Secure AWS infrastructure as code with Terraform, DevSecOps practices, and policy-as-code.</dd>
-              <dt>Technologies</dt>
-              <dd><ul class="tags small"><li>Terraform</li><li>AWS</li></ul></dd>
+              <dt>Purpose</dt><dd>Secure AWS infrastructure as code with Terraform, DevSecOps, and policy-as-code.</dd>
+              <dt>Technologies</dt><dd><ul class="tags small"><li>Terraform</li><li>AWS</li></ul></dd>
             </dl>
-            <p class="links"><a href="https://github.com/joeabur/secure-terraform-aws" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for Secure Terraform on AWS (opens in a new tab)</span> →</a></p>
+            
+            <details class="case">
+              <summary>Case study</summary>
+              <dl class="case-dl">
+                <dt>Problem statement</dt><dd><span class="ph">To add: the specific gap this project addresses and who it is for</span></dd><dt>Objectives</dt><dd><span class="ph">To add: 2–4 concrete goals</span></dd><dt>Architecture / workflow</dt><dd><span class="ph">To add: a simple diagram or numbered flow of how the pieces fit</span></dd><dt>Implementation approach</dt><dd><span class="ph">To add: key design decisions and how the code is organised</span></dd><dt>Security considerations</dt><dd><span class="ph">To add: secrets handling, permissions, safe-by-default behaviour, data exposure</span></dd><dt>Results &amp; limitations</dt><dd><span class="ph">To add: what it demonstrably does today and what it does not do yet</span></dd><dt>Future improvements</dt><dd><span class="ph">To add: honest next steps</span></dd>
+                <dt>Evidence &amp; links</dt><dd>Source: <a href="https://github.com/joeabur/secure-terraform-aws" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for Secure Terraform on AWS (opens in a new tab)</span> →</a>. Screenshots and documentation: <span class="ph">To add: add images to assets/images/</span></dd>
+              </dl>
+              <p class="muted small">Verified so far: purpose and technologies come from the repository’s public description and language. Everything marked “To add” has not been written yet.</p>
+            </details>
           </article>
-
-          <article class="card project">
-            <p class="project-label"><span class="badge">Personal project</span></p>
+          <article class="card project" data-tags="python devsecops">
+            <p class="project-label"><span class="badge">Personal project</span> </p>
             <h3>DevSecOps Security Pipeline</h3>
             <dl>
-              <dt>Purpose</dt>
-              <dd>A personal DevSecOps pipeline project exploring automated security checks in a build workflow.</dd>
-              <dt>Technologies</dt>
-              <dd><ul class="tags small"><li>Python</li></ul></dd>
+              <dt>Purpose</dt><dd>A personal DevSecOps pipeline project (Python).</dd>
+              <dt>Technologies</dt><dd><ul class="tags small"><li>Python</li></ul></dd>
             </dl>
-            <p class="links"><a href="https://github.com/joeabur/devsecops-security-pipeline" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for DevSecOps Security Pipeline (opens in a new tab)</span> →</a></p>
+            
+            <details class="case">
+              <summary>Case study</summary>
+              <dl class="case-dl">
+                <dt>Problem statement</dt><dd><span class="ph">To add: the specific gap this project addresses and who it is for</span></dd><dt>Objectives</dt><dd><span class="ph">To add: 2–4 concrete goals</span></dd><dt>Architecture / workflow</dt><dd><span class="ph">To add: a simple diagram or numbered flow of how the pieces fit</span></dd><dt>Implementation approach</dt><dd><span class="ph">To add: key design decisions and how the code is organised</span></dd><dt>Security considerations</dt><dd><span class="ph">To add: secrets handling, permissions, safe-by-default behaviour, data exposure</span></dd><dt>Results &amp; limitations</dt><dd><span class="ph">To add: what it demonstrably does today and what it does not do yet</span></dd><dt>Future improvements</dt><dd><span class="ph">To add: honest next steps</span></dd>
+                <dt>Evidence &amp; links</dt><dd>Source: <a href="https://github.com/joeabur/devsecops-security-pipeline" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for DevSecOps Security Pipeline (opens in a new tab)</span> →</a>. Screenshots and documentation: <span class="ph">To add: add images to assets/images/</span></dd>
+              </dl>
+              <p class="muted small">Verified so far: purpose and technologies come from the repository’s public description and language. Everything marked “To add” has not been written yet.</p>
+            </details>
           </article>
-
-          <article class="card project">
-            <p class="project-label"><span class="badge">Personal project</span></p>
+          <article class="card project" data-tags="python cloud">
+            <p class="project-label"><span class="badge">Personal project</span> </p>
             <h3>Infrastructure Security Scanner</h3>
             <dl>
-              <dt>Purpose</dt>
-              <dd>A read-only infrastructure security auditing toolkit.</dd>
-              <dt>Technologies</dt>
-              <dd><ul class="tags small"><li>Python</li></ul></dd>
+              <dt>Purpose</dt><dd>A read-only infrastructure security auditing toolkit.</dd>
+              <dt>Technologies</dt><dd><ul class="tags small"><li>Python</li></ul></dd>
             </dl>
-            <p class="links"><a href="https://github.com/joeabur/infrastructure-security-scanner" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for Infrastructure Security Scanner (opens in a new tab)</span> →</a></p>
+            
+            <details class="case">
+              <summary>Case study</summary>
+              <dl class="case-dl">
+                <dt>Problem statement</dt><dd><span class="ph">To add: the specific gap this project addresses and who it is for</span></dd><dt>Objectives</dt><dd><span class="ph">To add: 2–4 concrete goals</span></dd><dt>Architecture / workflow</dt><dd><span class="ph">To add: a simple diagram or numbered flow of how the pieces fit</span></dd><dt>Implementation approach</dt><dd><span class="ph">To add: key design decisions and how the code is organised</span></dd><dt>Security considerations</dt><dd><span class="ph">To add: secrets handling, permissions, safe-by-default behaviour, data exposure</span></dd><dt>Results &amp; limitations</dt><dd><span class="ph">To add: what it demonstrably does today and what it does not do yet</span></dd><dt>Future improvements</dt><dd><span class="ph">To add: honest next steps</span></dd>
+                <dt>Evidence &amp; links</dt><dd>Source: <a href="https://github.com/joeabur/infrastructure-security-scanner" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for Infrastructure Security Scanner (opens in a new tab)</span> →</a>. Screenshots and documentation: <span class="ph">To add: add images to assets/images/</span></dd>
+              </dl>
+              <p class="muted small">Verified so far: purpose and technologies come from the repository’s public description and language. Everything marked “To add” has not been written yet.</p>
+            </details>
           </article>
-
-          <article class="card project">
-            <p class="project-label"><span class="badge">Personal project</span></p>
+          <article class="card project" data-tags="python k8s devsecops">
+            <p class="project-label"><span class="badge">Personal project</span> </p>
             <h3>Kubernetes Security Pipeline</h3>
             <dl>
-              <dt>Purpose</dt>
-              <dd>A personal project on security checks for Kubernetes workloads.</dd>
-              <dt>Technologies</dt>
-              <dd><ul class="tags small"><li>Python</li><li>Kubernetes</li></ul></dd>
+              <dt>Purpose</dt><dd>A personal project on security checks for Kubernetes workloads (Python).</dd>
+              <dt>Technologies</dt><dd><ul class="tags small"><li>Python</li><li>Kubernetes</li></ul></dd>
             </dl>
-            <p class="links"><a href="https://github.com/joeabur/kubernetes-security-pipeline" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for Kubernetes Security Pipeline (opens in a new tab)</span> →</a></p>
+            
+            <details class="case">
+              <summary>Case study</summary>
+              <dl class="case-dl">
+                <dt>Problem statement</dt><dd><span class="ph">To add: the specific gap this project addresses and who it is for</span></dd><dt>Objectives</dt><dd><span class="ph">To add: 2–4 concrete goals</span></dd><dt>Architecture / workflow</dt><dd><span class="ph">To add: a simple diagram or numbered flow of how the pieces fit</span></dd><dt>Implementation approach</dt><dd><span class="ph">To add: key design decisions and how the code is organised</span></dd><dt>Security considerations</dt><dd><span class="ph">To add: secrets handling, permissions, safe-by-default behaviour, data exposure</span></dd><dt>Results &amp; limitations</dt><dd><span class="ph">To add: what it demonstrably does today and what it does not do yet</span></dd><dt>Future improvements</dt><dd><span class="ph">To add: honest next steps</span></dd>
+                <dt>Evidence &amp; links</dt><dd>Source: <a href="https://github.com/joeabur/kubernetes-security-pipeline" target="_blank" rel="noopener noreferrer">View repository<span class="sr-only"> for Kubernetes Security Pipeline (opens in a new tab)</span> →</a>. Screenshots and documentation: <span class="ph">To add: add images to assets/images/</span></dd>
+              </dl>
+              <p class="muted small">Verified so far: purpose and technologies come from the repository’s public description and language. Everything marked “To add” has not been written yet.</p>
+            </details>
           </article>
         </div>
 
         <aside class="note" aria-label="About these projects">
-          <strong>Honesty note.</strong> Project cards describe personal repositories only. Workplace SOC work is described in the Experience section, with no confidential details. Case studies on SIEM detection engineering, AWS monitoring, or incident-response reporting will be added only when there is real supporting work to show.
+          <strong>Honesty note.</strong> Placeholders are labelled “To add”. I’d rather show a short, accurate case study than an impressive invented one. Workplace SOC work is described in the Experience section without confidential details.
         </aside>
       </div>
     </section>
 
-    <!-- CREDENTIALS + EDUCATION -->
-    <section id="credentials" class="section" aria-labelledby="cred-title">
+    <!-- ===================== CREDENTIALS ===================== -->
+    <section id="credentials" class="section alt" aria-labelledby="cred-title">
       <div class="container">
         <p class="section-kicker">Certifications &amp; training</p>
-        <h2 id="cred-title">Credentials and education</h2>
+        <h2 id="cred-title">Learning and work, side by side</h2>
+        <p class="section-intro">Formal education, training programmes and roles on one timeline — security training and professional work have overlapped throughout.</p>
+
+        <figure class="gantt" aria-labelledby="gantt-cap">
+          <figcaption id="gantt-cap" class="sr-only">Timeline from September 2019 to the present showing education, training and work.</figcaption>
+          <div class="gantt-axis" aria-hidden="true"><span style="left:4.65%">2020</span><span style="left:18.60%">2021</span><span style="left:32.56%">2022</span><span style="left:46.51%">2023</span><span style="left:60.47%">2024</span><span style="left:74.42%">2025</span><span style="left:88.37%">2026</span></div>
+          <div class="gantt-row">
+            <p class="gantt-label"><span class="badge">Education</span> B.Sc. Information Technology · KCA University <span class="muted">· Sep 2019 – Nov 2023</span></p>
+            <div class="gantt-track" aria-hidden="true"><span class="gantt-bar edu" style="left:0.00%;width:59.30%"></span></div>
+          </div>
+          <div class="gantt-row">
+            <p class="gantt-label"><span class="badge">Work</span> Cyber Security Analyst &amp; IT Support · Vintax Consultants (part-time) <span class="muted">· Jan 2020 – Jul 2025</span></p>
+            <div class="gantt-track" aria-hidden="true"><span class="gantt-bar work" style="left:4.65%;width:77.91%"></span></div>
+          </div>
+          <div class="gantt-row">
+            <p class="gantt-label"><span class="badge">Training</span> Security Analyst · Cyber Shujaa, USIU-Africa <span class="muted">· May – Aug 2023</span></p>
+            <div class="gantt-track" aria-hidden="true"><span class="gantt-bar train" style="left:51.16%;width:4.65%"></span></div>
+          </div>
+          <div class="gantt-row">
+            <p class="gantt-label"><span class="badge">Training</span> Microsoft ADC Security Operations Analyst · USIU-Africa <span class="muted">· May – Aug 2024</span></p>
+            <div class="gantt-track" aria-hidden="true"><span class="gantt-bar train" style="left:65.12%;width:4.65%"></span></div>
+          </div>
+          <div class="gantt-row">
+            <p class="gantt-label"><span class="badge">Work</span> SOC Analyst · Serianu Limited <span class="muted">· Aug 2025 – Present</span></p>
+            <div class="gantt-track" aria-hidden="true"><span class="gantt-bar work" style="left:82.56%;width:17.44%"></span></div>
+          </div>
+        </figure>
+
         <div class="card-grid cred-grid">
           <article class="card cred">
+            <p class="project-label"><span class="badge">Training</span></p>
             <h3>Security Analyst</h3>
             <p class="org">Cyber Shujaa, USIU-Africa</p>
             <p class="date">May – August 2023</p>
           </article>
           <article class="card cred">
+            <p class="project-label"><span class="badge">Training</span></p>
             <h3>Microsoft ADC Cybersecurity Skilling Program</h3>
             <p class="org">Security Operations Analyst · USIU-Africa</p>
             <p class="date">May – August 2024</p>
@@ -306,13 +920,14 @@
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="section alt" aria-labelledby="contact-title">
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="section" aria-labelledby="contact-title">
       <div class="container narrow-grid">
         <div>
           <p class="section-kicker">Contact</p>
           <h2 id="contact-title">Let’s talk security</h2>
-          <p class="muted">Open to Cybersecurity Analyst, SOC Analyst, Security Engineer, Threat Detection, Incident Response, and DevSecOps conversations.</p>
+          <p class="muted">Open to conversations about Cybersecurity Analyst, SOC Analyst, Security Engineer, Threat Detection, Incident Response, and DevSecOps roles.</p>
+          <p class="muted">The quickest route is email. A CV is available above, and my GitHub has the public project code.</p>
         </div>
         <div>
           <ul class="contact-list">
@@ -351,5 +966,7 @@
       <p class="copyright muted">© <span id="year">2026</span> Joseph Mark Ochieng’. All rights reserved.</p>
     </div>
   </footer>
+
+  <a class="to-top" href="#top" aria-label="Back to top" hidden>↑</a>
 </body>
 </html>
