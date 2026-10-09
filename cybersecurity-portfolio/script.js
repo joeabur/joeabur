@@ -94,13 +94,13 @@
   var ARCH = {
     cloudtrail: ['AWS CloudTrail', 'Records API activity in an AWS account: which identity called which API, when, and from where.', 'It is the primary evidence for “who changed what” in a cloud investigation, so gaps or delays here weaken every later stage.'],
     cloudwatch: ['AWS CloudWatch', 'Collects logs, metrics and alarms from AWS resources and applications.', 'Adds operational and application context to audit events, and is a common place where log delivery problems show up.'],
-    k8s: ['Kubernetes &amp; containers', 'Cluster and workload logs and events describe how workloads are scheduled, configured and behave.', 'Containers are short-lived; if their logs are not shipped somewhere durable, the evidence disappears with the container.'],
+    k8s: ['Kubernetes & containers', 'Cluster and workload logs and events describe how workloads are scheduled, configured and behave.', 'Containers are short-lived; if their logs are not shipped somewhere durable, the evidence disappears with the container.'],
     falcon: ['CrowdStrike Falcon', 'Endpoint and workload detection and response: behavioural detections, host investigation and containment actions.', 'Gives the process-level view that cloud audit logs cannot, and a way to contain a host during an incident.'],
     cloudflare: ['Cloudflare', 'Sits at the network edge in front of web applications, providing protection and visibility of inbound traffic.', 'Shows attacks and abnormal traffic before they reach the application and adds context to application-layer alerts.'],
-    pipeline: ['Log forwarding &amp; time synchronisation', 'The transport layer that moves events from sources into the SIEM, with accurate timestamps.', 'If a source goes silent or a clock drifts, detections quietly fail and timelines can’t be trusted. Monitoring ingestion gaps, pipeline outages and NTP drift is part of my current role.'],
+    pipeline: ['Log forwarding & time synchronisation', 'The transport layer that moves events from sources into the SIEM, with accurate timestamps.', 'If a source goes silent or a clock drifts, detections quietly fail and timelines can’t be trusted. Monitoring ingestion gaps, pipeline outages and NTP drift is part of my current role.'],
     siem: ['FortiSIEM', 'Parses incoming events, correlates them across sources using rules, and raises alerts.', 'This is where signals from different tools become one story. I develop and tune detection rules here to cut false positives and improve alert quality.'],
-    triage: ['Alert triage &amp; investigation', 'An analyst reviews each alert, gathers context from the sources above and decides whether to dismiss, tune the rule, or escalate.', 'Human judgement is what turns alerts into incidents — and the reasons for dismissals are the raw material for better rules.'],
-    ir: ['Incident response &amp; post-incident review', 'Playbook-guided containment support and escalation, followed by a review and reporting.', 'The review closes the loop: findings change detection rules, logging standards and playbooks. I maintain playbooks, write incident reports and run tabletop exercises.']
+    triage: ['Alert triage & investigation', 'An analyst reviews each alert, gathers context from the sources above and decides whether to dismiss, tune the rule, or escalate.', 'Human judgement is what turns alerts into incidents — and the reasons for dismissals are the raw material for better rules.'],
+    ir: ['Incident response & post-incident review', 'Playbook-guided containment support and escalation, followed by a review and reporting.', 'The review closes the loop: findings change detection rules, logging standards and playbooks. I maintain playbooks, write incident reports and run tabletop exercises.']
   };
   var archRoot = document.querySelector('[data-arch]');
   if (archRoot && archDetail) {
@@ -110,7 +110,22 @@
       var d = ARCH[node.getAttribute('data-node')];
       if (!d) return;
       archRoot.querySelectorAll('.node').forEach(function (n) { n.setAttribute('aria-pressed', String(n === node)); });
-      archDetail.innerHTML = '<h4>' + d[0] + '</h4><p><strong>What it does.</strong> ' + d[1] + '</p><p><strong>Why it matters here.</strong> ' + d[2] + '</p><p class="muted small">Conceptual diagram — not a record of any specific deployment.</p>';
+      archDetail.textContent = '';
+      var h = document.createElement('h4');
+      h.textContent = d[0];
+      archDetail.appendChild(h);
+      [['What it does. ', d[1]], ['Why it matters here. ', d[2]]].forEach(function (pair) {
+        var p = document.createElement('p');
+        var strong = document.createElement('strong');
+        strong.textContent = pair[0];
+        p.appendChild(strong);
+        p.appendChild(document.createTextNode(pair[1]));
+        archDetail.appendChild(p);
+      });
+      var note = document.createElement('p');
+      note.className = 'muted small';
+      note.textContent = 'Conceptual diagram — not a record of any specific deployment.';
+      archDetail.appendChild(note);
     });
   }
 
@@ -153,9 +168,16 @@
         var successFollows = firstS !== -1 && seq.indexOf('F') < firstS;
         var alert = fails >= n && (!succ.checked || successFollows);
 
-        row.querySelector('.seq').innerHTML = seq.split('').map(function (c) {
-          return '<span class="pill ' + c + '" title="' + (c === 'F' ? 'Failed login' : 'Successful login') + '">' + c + '</span>';
-        }).join('');
+        var seqCell = row.querySelector('.seq');
+        seqCell.textContent = '';
+        seq.split('').forEach(function (c) {
+          if (c !== 'F' && c !== 'S') return;
+          var pill = document.createElement('span');
+          pill.className = 'pill ' + c;
+          pill.title = c === 'F' ? 'Failed login' : 'Successful login';
+          pill.textContent = c;
+          seqCell.appendChild(pill);
+        });
         row.querySelector('.alert-cell').textContent = alert ? 'Yes' : 'No';
 
         var key, text;
@@ -164,7 +186,12 @@
         else if (truth === 'suspicious') { key = 'miss'; text = 'Missed'; }
         else { key = 'quiet'; text = 'Correctly quiet'; }
         counts[key]++;
-        row.querySelector('.result-cell').innerHTML = '<span class="res ' + key + '">' + text + '</span>';
+        var resCell = row.querySelector('.result-cell');
+        resCell.textContent = '';
+        var res = document.createElement('span');
+        res.className = 'res ' + key;
+        res.textContent = text;
+        resCell.appendChild(res);
       });
       summary.textContent = 'With N = ' + n + (succ.checked ? ' and a required success' : '') + ': ' +
         counts.tp + ' true positive' + (counts.tp === 1 ? '' : 's') + ', ' +
