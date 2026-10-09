@@ -129,6 +129,44 @@
     });
   }
 
+  /* ---------- Project screenshots (appear only when the image file exists) ---------- */
+  var lightbox = document.getElementById('lightbox');
+  document.querySelectorAll('[data-shot]').forEach(function (slot) {
+    var src = slot.getAttribute('data-shot');
+    var title = slot.getAttribute('data-title') || 'Project';
+    var probe = new Image();
+    probe.onload = function () {
+      var fig = document.createElement('figure');
+      fig.className = 'shot';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'shot-btn';
+      btn.setAttribute('aria-label', 'Enlarge screenshot: ' + title);
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = 'Screenshot of ' + title;
+      img.loading = 'lazy';
+      btn.appendChild(img);
+      var cap = document.createElement('figcaption');
+      cap.textContent = 'Screenshot: ' + title + ' (click to enlarge)';
+      fig.appendChild(btn);
+      fig.appendChild(cap);
+      slot.replaceWith(fig);
+      if (lightbox && typeof lightbox.showModal === 'function') {
+        btn.addEventListener('click', function () {
+          lightbox.querySelector('img').src = src;
+          lightbox.querySelector('img').alt = img.alt;
+          lightbox.querySelector('.lb-cap').textContent = title;
+          lightbox.showModal();
+        });
+      }
+    };
+    probe.src = src;
+  });
+  if (lightbox) {
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) lightbox.close(); });
+  }
+
   /* ---------- Project filters ---------- */
   var chips = document.querySelectorAll('.filters .chip');
   var cards = document.querySelectorAll('.project[data-tags]');

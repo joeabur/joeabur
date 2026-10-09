@@ -445,3 +445,19 @@ td { color: var(--emerald); font-size: 1.05rem; }
 .case-dl code, .plain-list code { font: .85em var(--mono); background: var(--bg-alt); padding: .05rem .3rem; border-radius: 4px; }
 .case-dl .tags { margin: .3rem 0; }
 .case[open] { padding-bottom: .25rem; }
+
+/* Screenshots */
+.media-slot code { font: .8em var(--mono); background: var(--bg); padding: .05rem .3rem; border-radius: 4px; }
+.media-slot { text-align: center; padding: 1rem; }
+.shot { margin: 1.25rem 0 0; }
+.shot-btn { display: block; width: 100%; padding: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg-alt); cursor: zoom-in; }
+.shot-btn img { width: 100%; height: auto; display: block; }
+.shot-btn:hover { border-color: var(--cyan); }
+.shot figcaption { color: var(--muted); font-size: .82rem; margin-top: .4rem; }
+.lightbox { max-width: min(1100px, 94vw); max-height: 92vh; padding: 1rem; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); }
+.lightbox::backdrop { background: rgba(3, 7, 15, .85); }
+.lightbox img { max-width: 100%; max-height: 78vh; display: block; margin: 0 auto; border-radius: 8px; }
+.lightbox form { text-align: right; margin: 0 0 .5rem; }
+.lb-close { font-size: 1.4rem; line-height: 1; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); cursor: pointer; }
+.lb-close:hover { border-color: var(--emerald); }
+.lb-cap { text-align: center; color: var(--muted); margin: .6rem 0 0; font-size: .9rem; }
