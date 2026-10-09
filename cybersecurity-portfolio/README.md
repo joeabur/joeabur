@@ -62,6 +62,14 @@ This repo includes `.github/workflows/pages.yml`, which deploys the `cybersecuri
 
 (Alternative: copy the folder's contents to a repo named `joeabur.github.io` for `https://joeabur.github.io/`.)
 
+## Getting found on Google
+A new GitHub Pages URL is not indexed automatically. Do these once:
+1. Open [Google Search Console](https://search.google.com/search-console), add a **URL-prefix** property for `https://joeabur.github.io/joeabur/`, and verify it (HTML tag method: paste the `<meta name="google-site-verification" ...>` tag into the `<head>` of `index.html`).
+2. In Search Console, submit the sitemap `https://joeabur.github.io/joeabur/sitemap.xml`, then use **URL Inspection → Request indexing** on the home page.
+3. Add the portfolio link everywhere you already have a presence: LinkedIn (Contact info → Website), the GitHub profile README (done) and the GitHub repo "Website" field, plus any CV or email signature. Links from established pages are what get a new site discovered and ranked.
+4. Optionally repeat step 1–2 in Bing Webmaster Tools.
+Indexing usually takes days to a few weeks. "Joseph Ochieng" is a common name, so search for `Joseph Mark Ochieng cybersecurity analyst` or `joeabur portfolio` when testing.
+
 ## Verification checklist
 | Check | Result |
 |---|---|

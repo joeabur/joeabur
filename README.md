@@ -2,6 +2,8 @@
 
 IT & Security Professional
 
+🌐 **Portfolio:** [joeabur.github.io/joeabur](https://joeabur.github.io/joeabur/) — projects, case studies and CV
+
 I'm a cybersecurity and IT professional based in Nairobi, Kenya, passionate about protecting digital assets, detecting threats, and building resilient enterprise environments.
 
 Currently working as a Security Analyst where I design and implement security detection use cases across cloud platforms, Kubernetes environments, SaaS applications, and enterprise infrastructures.
@@ -16,6 +18,8 @@ My experience spans **Security Operations, Threat Detection, Incident Response, 
 ---
 
 ## 🤝 Let's Connect
+
+🌐 Portfolio: [joeabur.github.io/joeabur](https://joeabur.github.io/joeabur/)
 
 📧 Email: [markjoejay1960@gmail.com](mailto:markjoejay1960@gmail.com)
 
