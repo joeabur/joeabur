@@ -144,11 +144,12 @@
       btn.setAttribute('aria-label', 'Enlarge screenshot: ' + title);
       var img = document.createElement('img');
       img.src = src;
-      img.alt = 'Screenshot of ' + title;
+      img.alt = slot.getAttribute('data-alt') || ('Screenshot of ' + title);
       img.loading = 'lazy';
       btn.appendChild(img);
       var cap = document.createElement('figcaption');
-      cap.textContent = 'Screenshot: ' + title + ' (click to enlarge)';
+      var capText = slot.getAttribute('data-caption') || ('Screenshot: ' + title);
+      cap.textContent = capText + ' (click to enlarge)';
       fig.appendChild(btn);
       fig.appendChild(cap);
       slot.replaceWith(fig);
@@ -156,7 +157,7 @@
         btn.addEventListener('click', function () {
           lightbox.querySelector('img').src = src;
           lightbox.querySelector('img').alt = img.alt;
-          lightbox.querySelector('.lb-cap').textContent = title;
+          lightbox.querySelector('.lb-cap').textContent = capText;
           lightbox.showModal();
         });
       }
