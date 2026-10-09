@@ -28,8 +28,8 @@ Double-click `index.html`. That's it.
 - **General practice** — how the discipline typically works.
 - **Conceptual / Synthetic data** — illustrative; never a real deployment or real data.
 
-### Completing project case studies
-Each project card has a `Case study` panel. Fields marked **To add** (`<span class="ph">`) are placeholders. Replace each one with real, verifiable content (problem, objectives, workflow, security considerations, results and limitations). Only the purpose, technologies and repository link are filled in, taken from each repo's public description and language. Do not describe features you have not built.
+### Project case studies
+Each project card has a `Read the case study` panel. The five public repositories' case studies were written from each repo's own README and file layout (reviewed October 2026) and say what the repo states, including its limitations. Re-check them if the repositories change. Fields marked **To add** (`<span class="ph">`) are placeholders (mostly screenshots). The private Security Testing Platform card still needs your own content; nothing about its internals was read or published. Do not describe features you have not built.
 
 ## Replace the CV
 `documents/Joseph_Ochieng_Cybersecurity_Analyst_Resume.pdf` is your real CV. To update it, replace the file using the **same filename** and the *Download My CV* button keeps working. Note: the CV includes a phone number and is publicly downloadable once the site is published.

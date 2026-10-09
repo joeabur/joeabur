@@ -439,3 +439,9 @@ td { color: var(--emerald); font-size: 1.05rem; }
 .skills-tabs > *, .block > * { min-width: 0; }
 @media (max-width: 900px) { .skills-tabs { grid-template-columns: minmax(0, 1fr); } }
 .table-wrap { position: relative; }
+.project-purpose { color: #cdd8e6; font-size: .98rem; margin-bottom: .9rem; }
+.num-list { counter-reset: n; }
+.num-list li::before { counter-increment: n; content: counter(n) "."; font: 700 .8rem var(--mono); top: .15rem; }
+.case-dl code, .plain-list code { font: .85em var(--mono); background: var(--bg-alt); padding: .05rem .3rem; border-radius: 4px; }
+.case-dl .tags { margin: .3rem 0; }
+.case[open] { padding-bottom: .25rem; }
