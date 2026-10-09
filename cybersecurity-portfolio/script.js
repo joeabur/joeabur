@@ -129,6 +129,36 @@
     });
   }
 
+  /* ---------- Project screenshots ----------
+     Each card holds a placeholder and a hidden <figure> whose <img> path is written
+     in the HTML. The figure is revealed only if the image file actually loads. */
+  var lightbox = document.getElementById('lightbox');
+  document.querySelectorAll('figure.shot').forEach(function (fig) {
+    var img = fig.querySelector('img');
+    var slot = fig.previousElementSibling;
+    function reveal() {
+      fig.hidden = false;
+      if (slot && slot.classList.contains('media-slot')) slot.hidden = true;
+    }
+    if (img.complete && img.naturalWidth > 0) reveal();
+    else img.addEventListener('load', reveal);
+
+    var btn = fig.querySelector('.shot-btn');
+    if (btn && lightbox && typeof lightbox.showModal === 'function') {
+      btn.addEventListener('click', function () {
+        var holder = lightbox.querySelector('.lb-fig');
+        holder.textContent = '';
+        holder.appendChild(img.cloneNode(false));
+        lightbox.querySelector('.lb-cap').textContent =
+          fig.querySelector('figcaption').textContent.replace(' (click to enlarge)', '');
+        lightbox.showModal();
+      });
+    }
+  });
+  if (lightbox) {
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) lightbox.close(); });
+  }
+
   /* ---------- Project filters ---------- */
   var chips = document.querySelectorAll('.filters .chip');
   var cards = document.querySelectorAll('.project[data-tags]');
