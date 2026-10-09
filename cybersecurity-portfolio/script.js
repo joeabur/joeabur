@@ -129,40 +129,31 @@
     });
   }
 
-  /* ---------- Project screenshots (appear only when the image file exists) ---------- */
+  /* ---------- Project screenshots ----------
+     Each card holds a placeholder and a hidden <figure> whose <img> path is written
+     in the HTML. The figure is revealed only if the image file actually loads. */
   var lightbox = document.getElementById('lightbox');
-  document.querySelectorAll('[data-shot]').forEach(function (slot) {
-    var src = slot.getAttribute('data-shot');
-    var title = slot.getAttribute('data-title') || 'Project';
-    var probe = new Image();
-    probe.onload = function () {
-      var fig = document.createElement('figure');
-      fig.className = 'shot';
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'shot-btn';
-      btn.setAttribute('aria-label', 'Enlarge screenshot: ' + title);
-      var img = document.createElement('img');
-      img.src = src;
-      img.alt = slot.getAttribute('data-alt') || ('Screenshot of ' + title);
-      img.loading = 'lazy';
-      btn.appendChild(img);
-      var cap = document.createElement('figcaption');
-      var capText = slot.getAttribute('data-caption') || ('Screenshot: ' + title);
-      cap.textContent = capText + ' (click to enlarge)';
-      fig.appendChild(btn);
-      fig.appendChild(cap);
-      slot.replaceWith(fig);
-      if (lightbox && typeof lightbox.showModal === 'function') {
-        btn.addEventListener('click', function () {
-          lightbox.querySelector('img').src = src;
-          lightbox.querySelector('img').alt = img.alt;
-          lightbox.querySelector('.lb-cap').textContent = capText;
-          lightbox.showModal();
-        });
-      }
-    };
-    probe.src = src;
+  document.querySelectorAll('figure.shot').forEach(function (fig) {
+    var img = fig.querySelector('img');
+    var slot = fig.previousElementSibling;
+    function reveal() {
+      fig.hidden = false;
+      if (slot && slot.classList.contains('media-slot')) slot.hidden = true;
+    }
+    if (img.complete && img.naturalWidth > 0) reveal();
+    else img.addEventListener('load', reveal);
+
+    var btn = fig.querySelector('.shot-btn');
+    if (btn && lightbox && typeof lightbox.showModal === 'function') {
+      btn.addEventListener('click', function () {
+        var holder = lightbox.querySelector('.lb-fig');
+        holder.textContent = '';
+        holder.appendChild(img.cloneNode(false));
+        lightbox.querySelector('.lb-cap').textContent =
+          fig.querySelector('figcaption').textContent.replace(' (click to enlarge)', '');
+        lightbox.showModal();
+      });
+    }
   });
   if (lightbox) {
     lightbox.addEventListener('click', function (e) { if (e.target === lightbox) lightbox.close(); });

@@ -461,3 +461,4 @@ td { color: var(--emerald); font-size: 1.05rem; }
 .lb-close { font-size: 1.4rem; line-height: 1; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); cursor: pointer; }
 .lb-close:hover { border-color: var(--emerald); }
 .lb-cap { text-align: center; color: var(--muted); margin: .6rem 0 0; font-size: .9rem; }
+.media-slot[hidden], .shot[hidden] { display: none; }
