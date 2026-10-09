@@ -21,7 +21,7 @@ Double-click `index.html`. That's it.
 - **Contact form:** it is client-side only; it builds a `mailto:` link that opens the visitor's email app.
 
 ## Replace the CV
-`documents/Joseph_Ochieng_Cybersecurity_Analyst_Resume.pdf` is a **placeholder generated from the portfolio's own content** (no phone number included). Replace it with your real CV using the **same filename** and the *Download My CV* button keeps working.
+`documents/Joseph_Ochieng_Cybersecurity_Analyst_Resume.pdf` is your real CV. To update it, replace the file using the **same filename** and the *Download My CV* button keeps working. Note: the CV includes a phone number and is publicly downloadable once the site is published.
 
 ## Add project screenshots and links
 1. Save images in `assets/images/` (e.g. `security-testing-platform.png`).
