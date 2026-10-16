@@ -1,0 +1,6 @@
+# Smallest valid configuration (paths are examples).
+[baseline]
+dir = "/var/lib/fim/baselines"
+
+[scan]
+roots = ["/etc"]

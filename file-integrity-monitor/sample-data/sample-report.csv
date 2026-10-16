@@ -1,0 +1,5 @@
+timestamp,scan_id,severity,event_type,path,rule,baseline_version,changed_fields,old_sha256,new_sha256,old_size,new_size,old_mode,new_mode,old_uid,new_uid,old_gid,new_gid,risk_flags
+2026-10-16T23:36:30+00:00,c94a2ec7ab9d,high,permission_changed,/tmp/fim-demo/target/bin/run.sh,default:permission_changed,1,mode,49428567842c09f4fa1d028390f09d7730fe276ef47e4edba04f14f972a44f2a,49428567842c09f4fa1d028390f09d7730fe276ef47e4edba04f14f972a44f2a,37,37,0755,0777,0,0,0,0,world_writable
+2026-10-16T23:36:30+00:00,c94a2ec7ab9d,high,modified,/tmp/fim-demo/target/conf/app.conf,default:modified,1,size;sha256,8d22e56a1ca1b00332a8db03d3a176aeb7ab115c6c5c75ba28c6417f924e7793,c684f5ea13f5a2e7b9a19282564d94269b6c53de8b4ced89cee4ec5cac5732b0,32,33,0644,0644,0,0,0,0,
+2026-10-16T23:36:30+00:00,c94a2ec7ab9d,high,deleted,/tmp/fim-demo/target/conf/users.yaml,default:deleted,1,,f98157dc2766efa239029523388b21ca4682370976700717e16155970a8b802b,,25,,0644,,0,,0,,
+2026-10-16T23:36:30+00:00,c94a2ec7ab9d,medium,added,/tmp/fim-demo/target/bin/.hidden.sh,default:added,1,,,e76ad3e76a4564b9253816cd12ef740893a7dae9ddcc042ad69f192ce5341249,,9,,0644,,0,,0,

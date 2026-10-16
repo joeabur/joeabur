@@ -1,0 +1,130 @@
+# CI for file-integrity-monitor/. GitHub only reads workflows from the repository-root
+# .github/workflows, so this lives here and scopes itself to the project directory.
+name: fim-ci
+
+on:
+  push:
+    branches: [main]
+    paths: ["file-integrity-monitor/**", ".github/workflows/fim-ci.yml"]
+  pull_request:
+    paths: ["file-integrity-monitor/**", ".github/workflows/fim-ci.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fim-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: file-integrity-monitor
+
+jobs:
+  lint-and-types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked --all-extras
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv sync --locked --all-extras
+      - name: Install shell test tooling
+        run: sudo apt-get update && sudo apt-get install -y bats shellcheck
+      - name: Unit, integration and documentation tests
+        run: uv run pytest --cov=fim --cov-report=term-missing
+      - name: Shell tests (ShellCheck + bats)
+        run: |
+          source .venv/bin/activate
+          shellcheck -x -P SCRIPTDIR scripts/*.sh scripts/lib/*.sh
+          bats tests/shell
+
+  reproducibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv lock --check
+      - name: requirements.lock matches uv.lock
+        run: |
+          uv export --format requirements-txt --no-dev --all-extras --no-emit-project --hashes -o /tmp/req.lock
+          diff <(grep -v '^#' /tmp/req.lock) <(grep -v '^#' requirements.lock)
+      - name: JSON schema is current
+        run: uv run --all-extras python scripts/generate_schema.py --check
+      - name: Systemd units verify
+        run: systemd-analyze verify systemd/*.service systemd/*.timer 2>&1 | grep -v 'not executable' || true
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: pip-audit against the hash-pinned runtime set
+        run: uvx pip-audit --requirement requirements.lock --require-hashes --disable-pip
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  install-smoke-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install into temporary prefix and run the demo
+        run: |
+          T="$(mktemp -d)"
+          scripts/install.sh --prefix "$T/venv" --bin-dir "$T/bin" --etc-dir "$T/etc" --state-dir "$T/state"
+          FIM_BIN="$T/bin/fim" scripts/demo.sh
+          scripts/uninstall.sh --prefix "$T/venv" --bin-dir "$T/bin"
+
+  install-smoke-rhel:
+    runs-on: ubuntu-latest
+    container: rockylinux:9
+    defaults:
+      run:
+        working-directory: file-integrity-monitor
+    steps:
+      - name: Prerequisites (RHEL-compatible)
+        run: dnf install -y python3.11 python3.11-pip git findutils which
+        working-directory: /
+      - uses: actions/checkout@v4
+      - name: Install and run the demo
+        run: |
+          T="$(mktemp -d)"
+          FIM_PYTHON=python3.11 scripts/install.sh --prefix "$T/venv" --bin-dir "$T/bin" --etc-dir "$T/etc" --state-dir "$T/state"
+          FIM_BIN="$T/bin/fim" scripts/demo.sh

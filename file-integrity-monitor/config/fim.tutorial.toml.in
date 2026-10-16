@@ -1,0 +1,11 @@
+# Template used by the walkthrough. @WORK@ is replaced by the tutorial workspace path
+# (see docs/walkthrough.md). Everything lives under that temporary directory.
+[baseline]
+dir = "@WORK@/state/baselines"
+
+[scan]
+roots = ["@WORK@/target"]
+exclude = []
+
+[policy]
+alert_threshold = "medium"

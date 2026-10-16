@@ -1,0 +1,161 @@
+{
+  "format": "fim-report",
+  "schema_version": 1,
+  "summary": {
+    "scan_id": "c94a2ec7ab9d",
+    "started_at": "2026-10-16T23:36:30+00:00",
+    "finished_at": "2026-10-16T23:36:30+00:00",
+    "hostname": "vm",
+    "tool_version": "0.1.0",
+    "baseline_version": 1,
+    "baseline_sha256": "348195baabe0a5c7470e3fce1391c50ac8a5fb2eaa6478d379e714d8499c6eea",
+    "roots": [
+      "/tmp/fim-demo/target"
+    ],
+    "mode": "full",
+    "complete": true,
+    "entries_scanned": 6,
+    "bytes_hashed": 79,
+    "event_count": 4,
+    "max_severity": "high",
+    "alert": true,
+    "counts_by_type": {
+      "added": 1,
+      "deleted": 1,
+      "modified": 1,
+      "permission_changed": 1
+    },
+    "counts_by_severity": {
+      "high": 3,
+      "medium": 1
+    }
+  },
+  "events": [
+    {
+      "timestamp": "2026-10-16T23:36:30+00:00",
+      "scan_id": "c94a2ec7ab9d",
+      "event_type": "permission_changed",
+      "path": "/tmp/fim-demo/target/bin/run.sh",
+      "severity": "high",
+      "rule": "default:permission_changed",
+      "baseline_version": 1,
+      "changes": [
+        {
+          "field": "mode",
+          "old": "0755",
+          "new": "0777"
+        }
+      ],
+      "before": {
+        "type": "file",
+        "size": 37,
+        "mode": "0755",
+        "uid": 0,
+        "gid": 0,
+        "mtime_ns": 1792193789680271686,
+        "sha256": "49428567842c09f4fa1d028390f09d7730fe276ef47e4edba04f14f972a44f2a",
+        "link_target": null
+      },
+      "after": {
+        "type": "file",
+        "size": 37,
+        "mode": "0777",
+        "uid": 0,
+        "gid": 0,
+        "mtime_ns": 1792193789680271686,
+        "sha256": "49428567842c09f4fa1d028390f09d7730fe276ef47e4edba04f14f972a44f2a",
+        "link_target": null
+      },
+      "risk_flags": [
+        "world_writable"
+      ]
+    },
+    {
+      "timestamp": "2026-10-16T23:36:30+00:00",
+      "scan_id": "c94a2ec7ab9d",
+      "event_type": "modified",
+      "path": "/tmp/fim-demo/target/conf/app.conf",
+      "severity": "high",
+      "rule": "default:modified",
+      "baseline_version": 1,
+      "changes": [
+        {
+          "field": "size",
+          "old": 32,
+          "new": 33
+        },
+        {
+          "field": "sha256",
+          "old": "8d22e56a1ca1b00332a8db03d3a176aeb7ab115c6c5c75ba28c6417f924e7793",
+          "new": "c684f5ea13f5a2e7b9a19282564d94269b6c53de8b4ced89cee4ec5cac5732b0"
+        }
+      ],
+      "before": {
+        "type": "file",
+        "size": 32,
+        "mode": "0644",
+        "uid": 0,
+        "gid": 0,
+        "mtime_ns": 1792193789680271686,
+        "sha256": "8d22e56a1ca1b00332a8db03d3a176aeb7ab115c6c5c75ba28c6417f924e7793",
+        "link_target": null
+      },
+      "after": {
+        "type": "file",
+        "size": 33,
+        "mode": "0644",
+        "uid": 0,
+        "gid": 0,
+        "mtime_ns": 1792193790412271670,
+        "sha256": "c684f5ea13f5a2e7b9a19282564d94269b6c53de8b4ced89cee4ec5cac5732b0",
+        "link_target": null
+      },
+      "risk_flags": []
+    },
+    {
+      "timestamp": "2026-10-16T23:36:30+00:00",
+      "scan_id": "c94a2ec7ab9d",
+      "event_type": "deleted",
+      "path": "/tmp/fim-demo/target/conf/users.yaml",
+      "severity": "high",
+      "rule": "default:deleted",
+      "baseline_version": 1,
+      "changes": [],
+      "before": {
+        "type": "file",
+        "size": 25,
+        "mode": "0644",
+        "uid": 0,
+        "gid": 0,
+        "mtime_ns": 1792193789680271686,
+        "sha256": "f98157dc2766efa239029523388b21ca4682370976700717e16155970a8b802b",
+        "link_target": null
+      },
+      "after": null,
+      "risk_flags": []
+    },
+    {
+      "timestamp": "2026-10-16T23:36:30+00:00",
+      "scan_id": "c94a2ec7ab9d",
+      "event_type": "added",
+      "path": "/tmp/fim-demo/target/bin/.hidden.sh",
+      "severity": "medium",
+      "rule": "default:added",
+      "baseline_version": 1,
+      "changes": [],
+      "before": null,
+      "after": {
+        "type": "file",
+        "size": 9,
+        "mode": "0644",
+        "uid": 0,
+        "gid": 0,
+        "mtime_ns": 1792193790412271670,
+        "sha256": "e76ad3e76a4564b9253816cd12ef740893a7dae9ddcc042ad69f192ce5341249",
+        "link_target": null
+      },
+      "risk_flags": []
+    }
+  ],
+  "issues": []
+}

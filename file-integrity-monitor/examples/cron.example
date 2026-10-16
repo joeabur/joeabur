@@ -1,0 +1,5 @@
+# /etc/cron.d/fim-scan : alternative to the systemd timer.
+# Run as root at 03:17 daily; exit codes are propagated to cron's mail (non-zero => mail).
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+17 3 * * * root FIM_BIN=/usr/local/bin/fim /opt/fim/bin/fim-run-scan

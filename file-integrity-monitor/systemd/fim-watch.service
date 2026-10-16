@@ -1,0 +1,38 @@
+[Unit]
+Description=File Integrity Monitor real-time watcher (needs the "watch" extra)
+Documentation=https://github.com/joeabur/joeabur/tree/main/file-integrity-monitor/docs
+ConditionPathExists=/etc/fim/fim.toml
+ConditionPathExists=/var/lib/fim/baselines/CURRENT
+After=local-fs.target
+
+[Service]
+Type=simple
+# Events are emitted as JSON Lines on stdout (-> journal). Add --syslog once [export.syslog]
+# is configured. The periodic full scan inside the watcher is the authoritative check; inotify
+# alone can miss events (see docs/security-and-limitations.md).
+ExecStart=/usr/local/bin/fim --config /etc/fim/fim.toml watch
+Restart=on-failure
+RestartSec=30
+User=root
+UMask=0077
+Nice=10
+IOSchedulingClass=idle
+MemoryMax=1G
+
+NoNewPrivileges=yes
+CapabilityBoundingSet=CAP_DAC_READ_SEARCH CAP_FOWNER
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+
+[Install]
+WantedBy=multi-user.target

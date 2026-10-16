@@ -1,0 +1,12 @@
+[Unit]
+Description=Daily File Integrity Monitor scan
+Documentation=https://github.com/joeabur/joeabur/tree/main/file-integrity-monitor/docs
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=30min
+Persistent=true
+Unit=fim-scan.service
+
+[Install]
+WantedBy=timers.target

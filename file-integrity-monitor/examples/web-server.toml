@@ -1,0 +1,23 @@
+# Web server: application code and TLS material must not change outside deployments.
+[baseline]
+dir = "/var/lib/fim/baselines"
+public_key = "/etc/fim/baseline-signing.pub"
+
+[scan]
+roots = ["/etc/nginx", "/etc/ssl", "/srv/www/app"]
+exclude = ["/srv/www/app/storage/**", "/srv/www/app/**/*.log", "/srv/www/app/.cache/**"]
+symlinks = "record"
+
+[policy]
+alert_threshold = "medium"
+
+[[policy.rules]]
+name = "tls-material"
+paths = ["/etc/ssl/**"]
+severity = "critical"
+
+[[policy.rules]]
+name = "app-code"
+paths = ["/srv/www/app/**/*.php", "/srv/www/app/**/*.py", "/srv/www/app/**/*.js"]
+events = ["added", "modified"]
+severity = "high"

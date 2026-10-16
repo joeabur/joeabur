@@ -1,0 +1,76 @@
+# File Integrity Monitor: production-style example configuration.
+# Copy to /etc/fim/fim.toml (root:root, mode 0640) and adapt. Every key is validated;
+# unknown keys are rejected. All paths must be absolute and must not contain "..".
+
+[baseline]
+# Baselines live OUTSIDE every monitored root, in a directory owned by the user that runs fim,
+# mode 0700 (created automatically on first use).
+dir = "/var/lib/fim/baselines"
+keep_versions = 10                      # old versions kept for forensics (min 2)
+max_baseline_bytes = 536870912          # refuse to load absurdly large baseline files
+# Uncomment to REQUIRE a valid detached Ed25519 signature on every load. The public key may
+# live on this host; the PRIVATE key must not (see docs/security-and-limitations.md).
+# public_key = "/etc/fim/baseline-signing.pub"
+
+[scan]
+roots = ["/etc", "/usr/local/bin", "/usr/local/sbin", "/boot"]
+symlinks = "record"                     # record (default) | skip | follow
+follow_outside_roots = false            # only meaningful with symlinks = "follow"
+one_file_system = true                  # do not cross mount points (avoids /proc-style trees)
+max_files = 2000000                     # abort (and report INCOMPLETE) beyond this
+max_file_bytes = 1073741824             # larger files are reported as too_large, not skipped silently; 0 = unlimited
+max_depth = 64
+timeout_seconds = 3600                  # 0 = unlimited
+chunk_size = 1048576                    # streaming hash read size
+
+# Volatile / high-churn paths. Globs are absolute: * and ? stay within one path segment,
+# ** crosses directories.
+exclude = [
+  "/etc/mtab",
+  "/etc/resolv.conf",
+  "/etc/.pwd.lock",
+  "/etc/cups/subscriptions.conf*",
+  "/etc/**/*.dpkg-*",
+  "/etc/**/*.rpmnew",
+  "/etc/**/*.rpmsave",
+  "/etc/ld.so.cache",
+]
+
+[policy]
+alert_threshold = "medium"              # events at or above this severity make `fim scan` exit 1
+
+# Override the default severity of an event type (defaults: added=medium, modified=high,
+# deleted=high, permission_changed=high, owner_changed=high, type_changed=high,
+# symlink_changed=high, metadata_changed=info).
+[policy.severities]
+metadata_changed = "info"
+
+# First matching rule wins. setuid/setgid or newly world-writable files are escalated
+# automatically on top of whatever a rule says.
+[[policy.rules]]
+name = "auth-and-privilege"
+paths = ["/etc/passwd", "/etc/shadow", "/etc/group", "/etc/sudoers", "/etc/sudoers.d/**", "/etc/ssh/**", "/etc/pam.d/**"]
+severity = "critical"
+
+[[policy.rules]]
+name = "boot-chain"
+paths = ["/boot/**"]
+events = ["modified", "deleted", "added"]
+severity = "critical"
+
+[[policy.rules]]
+name = "cron-and-systemd"
+paths = ["/etc/cron*/**", "/etc/crontab", "/etc/systemd/**"]
+severity = "high"
+
+# Optional SIEM/syslog export, used by `fim scan --syslog` and `fim watch --syslog`.
+# [export.syslog]
+# address = "udp://siem.example.internal:514"   # /dev/log | /abs/socket | udp://host:port | tcp://host:port
+# format = "rfc5424"                            # rfc5424 | cef
+# facility = 13                                 # 13 = log audit
+# app_name = "fim"
+# min_severity = "low"
+
+[watch]
+debounce_seconds = 1.0
+full_scan_interval_seconds = 3600       # authoritative periodic scan while watching; 0 = never

@@ -1,0 +1,423 @@
+{
+  "$defs": {
+    "Event": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FileRecord"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "baseline_version": {
+          "title": "Baseline Version",
+          "type": "integer"
+        },
+        "before": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FileRecord"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/FieldChange"
+          },
+          "title": "Changes",
+          "type": "array"
+        },
+        "event_type": {
+          "$ref": "#/$defs/EventType"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "risk_flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Risk Flags",
+          "type": "array"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "scan_id": {
+          "title": "Scan Id",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "timestamp": {
+          "title": "Timestamp",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp",
+        "scan_id",
+        "event_type",
+        "path",
+        "severity",
+        "rule",
+        "baseline_version"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "EventType": {
+      "enum": [
+        "added",
+        "modified",
+        "deleted",
+        "permission_changed",
+        "owner_changed",
+        "type_changed",
+        "symlink_changed",
+        "metadata_changed"
+      ],
+      "title": "EventType",
+      "type": "string"
+    },
+    "FieldChange": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "new": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "New"
+        },
+        "old": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Old"
+        }
+      },
+      "required": [
+        "field",
+        "old",
+        "new"
+      ],
+      "title": "FieldChange",
+      "type": "object"
+    },
+    "FileRecord": {
+      "additionalProperties": false,
+      "description": "What we know about one path at one moment.",
+      "properties": {
+        "gid": {
+          "minimum": 0,
+          "title": "Gid",
+          "type": "integer"
+        },
+        "link_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Link Target"
+        },
+        "mode": {
+          "description": "Octal permission bits, e.g. 0644",
+          "pattern": "^[0-7]{4,6}$",
+          "title": "Mode",
+          "type": "string"
+        },
+        "mtime_ns": {
+          "title": "Mtime Ns",
+          "type": "integer"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "size": {
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "type": {
+          "$ref": "#/$defs/FileType"
+        },
+        "uid": {
+          "minimum": 0,
+          "title": "Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "size",
+        "mode",
+        "uid",
+        "gid",
+        "mtime_ns"
+      ],
+      "title": "FileRecord",
+      "type": "object"
+    },
+    "FileType": {
+      "enum": [
+        "file",
+        "dir",
+        "symlink",
+        "special"
+      ],
+      "title": "FileType",
+      "type": "string"
+    },
+    "IssueKind": {
+      "description": "Reasons a scan could not fully verify something. Any issue => incomplete scan.",
+      "enum": [
+        "root_missing",
+        "unreadable",
+        "vanished",
+        "changed_during_hash",
+        "replaced_during_scan",
+        "too_large",
+        "walk_error",
+        "symlink_outside_root",
+        "symlink_loop",
+        "max_depth",
+        "limit_reached",
+        "timeout",
+        "not_hashed"
+      ],
+      "title": "IssueKind",
+      "type": "string"
+    },
+    "ScanIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "detail": {
+          "default": "",
+          "title": "Detail",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/IssueKind"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "path"
+      ],
+      "title": "ScanIssue",
+      "type": "object"
+    },
+    "ScanSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "alert": {
+          "title": "Alert",
+          "type": "boolean"
+        },
+        "baseline_sha256": {
+          "title": "Baseline Sha256",
+          "type": "string"
+        },
+        "baseline_version": {
+          "title": "Baseline Version",
+          "type": "integer"
+        },
+        "bytes_hashed": {
+          "title": "Bytes Hashed",
+          "type": "integer"
+        },
+        "complete": {
+          "title": "Complete",
+          "type": "boolean"
+        },
+        "counts_by_severity": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Counts By Severity",
+          "type": "object"
+        },
+        "counts_by_type": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Counts By Type",
+          "type": "object"
+        },
+        "entries_scanned": {
+          "title": "Entries Scanned",
+          "type": "integer"
+        },
+        "event_count": {
+          "title": "Event Count",
+          "type": "integer"
+        },
+        "finished_at": {
+          "title": "Finished At",
+          "type": "string"
+        },
+        "hostname": {
+          "title": "Hostname",
+          "type": "string"
+        },
+        "max_severity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Severity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mode": {
+          "default": "full",
+          "enum": [
+            "full",
+            "partial"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "roots": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Roots",
+          "type": "array"
+        },
+        "scan_id": {
+          "title": "Scan Id",
+          "type": "string"
+        },
+        "started_at": {
+          "title": "Started At",
+          "type": "string"
+        },
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scan_id",
+        "started_at",
+        "finished_at",
+        "hostname",
+        "tool_version",
+        "baseline_version",
+        "baseline_sha256",
+        "roots",
+        "complete",
+        "entries_scanned",
+        "bytes_hashed",
+        "event_count",
+        "max_severity",
+        "alert"
+      ],
+      "title": "ScanSummary",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "Severity",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The JSON export document. Its JSON schema is published in docs/schemas/.",
+  "properties": {
+    "events": {
+      "items": {
+        "$ref": "#/$defs/Event"
+      },
+      "title": "Events",
+      "type": "array"
+    },
+    "format": {
+      "const": "fim-report",
+      "default": "fim-report",
+      "title": "Format",
+      "type": "string"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/ScanIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "summary": {
+      "$ref": "#/$defs/ScanSummary"
+    }
+  },
+  "required": [
+    "summary",
+    "events",
+    "issues"
+  ],
+  "title": "Report",
+  "type": "object"
+}

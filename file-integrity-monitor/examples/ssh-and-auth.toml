@@ -1,0 +1,17 @@
+# Identity and remote-access surface. Everything here is critical.
+[baseline]
+dir = "/var/lib/fim/baselines"
+
+[scan]
+roots = ["/etc/ssh", "/etc/pam.d", "/etc/sudoers.d", "/etc/passwd", "/etc/shadow", "/etc/group", "/etc/sudoers", "/root/.ssh"]
+
+[policy]
+alert_threshold = "low"
+
+[policy.severities]
+metadata_changed = "low"
+
+[[policy.rules]]
+name = "everything-auth"
+paths = ["/etc/**", "/root/.ssh/**"]
+severity = "critical"

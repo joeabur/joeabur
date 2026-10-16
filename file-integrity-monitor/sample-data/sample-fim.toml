@@ -1,0 +1,9 @@
+[baseline]
+dir = "/tmp/fim-demo/state/baselines"
+
+[scan]
+roots = ["/tmp/fim-demo/target"]
+exclude = ["/tmp/fim-demo/target/cache/**"]
+
+[policy]
+alert_threshold = "medium"

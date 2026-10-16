@@ -1,0 +1,12 @@
+# Forward findings to a central collector over TCP in CEF.
+[baseline]
+dir = "/var/lib/fim/baselines"
+
+[scan]
+roots = ["/etc", "/usr/local/bin"]
+exclude = ["/etc/mtab", "/etc/resolv.conf"]
+
+[export.syslog]
+address = "tcp://siem.example.internal:6514"
+format = "cef"
+min_severity = "low"

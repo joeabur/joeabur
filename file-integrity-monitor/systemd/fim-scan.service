@@ -1,0 +1,46 @@
+[Unit]
+Description=File Integrity Monitor scan
+Documentation=https://github.com/joeabur/joeabur/tree/main/file-integrity-monitor/docs
+ConditionPathExists=/etc/fim/fim.toml
+ConditionPathExists=/var/lib/fim/baselines/CURRENT
+After=local-fs.target
+
+[Service]
+Type=oneshot
+# fim exits 0 (clean), 1 (findings), 3 (incomplete), 4 (untrusted baseline), 5/6 (errors).
+# Any non-zero exit marks the unit failed so `OnFailure=` / monitoring can react; reports are
+# written either way.
+Environment=FIM_BIN=/usr/local/bin/fim
+Environment=FIM_CONFIG=/etc/fim/fim.toml
+Environment=REPORT_DIR=/var/lib/fim/reports
+Environment=REPORT_RETENTION_DAYS=30
+# Uncomment after configuring [export.syslog]:
+# Environment=FIM_SYSLOG=1
+ExecStart=/opt/fim/bin/fim-run-scan
+TimeoutStartSec=2h
+User=root
+UMask=0077
+
+# Resource limits: a scan must not starve the host.
+Nice=10
+IOSchedulingClass=idle
+CPUWeight=20
+MemoryMax=1G
+
+# Hardening. The scanner only reads; the only writable path is the report/baseline store.
+# CAP_DAC_READ_SEARCH lets root-owned-but-restricted files be read; CAP_FOWNER allows O_NOATIME.
+NoNewPrivileges=yes
+CapabilityBoundingSet=CAP_DAC_READ_SEARCH CAP_FOWNER
+ProtectSystem=strict
+ReadWritePaths=/var/lib/fim
+ProtectHome=read-only
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
