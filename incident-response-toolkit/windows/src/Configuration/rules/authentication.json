@@ -1,0 +1,282 @@
+{
+  "rules": [
+    {
+      "id": "WIR-AUTH-001",
+      "version": 1,
+      "title": "Repeated failed logons from one source address",
+      "description": "At least 10 failed logons (4625) from the same IP within 10 minutes.",
+      "category": "authentication",
+      "severity": "medium",
+      "confidence": "medium",
+      "artifact": "events",
+      "when": [
+        {
+          "field": "event_type",
+          "op": "eq",
+          "value": "logon_failure"
+        },
+        {
+          "field": "src_ip",
+          "op": "exists",
+          "value": true
+        }
+      ],
+      "why": "{count} failed logons from {group} within the window.",
+      "false_positives": [
+        "Misconfigured services or users with expired passwords.",
+        "Shared NAT addresses."
+      ],
+      "next_steps": [
+        "Check for a successful logon (4624) from the same source after the failures.",
+        "Review exposure of the logon type used."
+      ],
+      "attack": [
+        "T1110"
+      ],
+      "type": "threshold",
+      "group_by": "src_ip",
+      "threshold": 10,
+      "window_seconds": 600
+    },
+    {
+      "id": "WIR-AUTH-002",
+      "version": 1,
+      "title": "Repeated failed logons for one account",
+      "description": "At least 5 failed logons for the same account within 10 minutes.",
+      "category": "authentication",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "events",
+      "when": [
+        {
+          "field": "event_type",
+          "op": "eq",
+          "value": "logon_failure"
+        },
+        {
+          "field": "user",
+          "op": "exists",
+          "value": true
+        }
+      ],
+      "why": "{count} failed logons for account {group}.",
+      "false_positives": [
+        "Mistyped or expired passwords; stale credentials in a service."
+      ],
+      "next_steps": [
+        "Check the logon types and sources; look for later successes."
+      ],
+      "attack": [
+        "T1110"
+      ],
+      "type": "threshold",
+      "group_by": "user",
+      "threshold": 5,
+      "window_seconds": 600
+    },
+    {
+      "id": "WIR-AUTH-003",
+      "version": 1,
+      "title": "Audit log cleared",
+      "description": "Security (1102) or System (104) log clearing was recorded.",
+      "category": "authentication",
+      "severity": "high",
+      "confidence": "high",
+      "artifact": "events",
+      "when": [
+        {
+          "field": "event_type",
+          "op": "in",
+          "value": [
+            "audit_log_cleared",
+            "log_cleared"
+          ]
+        }
+      ],
+      "why": "{event_type} by {actor} at {ts}.",
+      "false_positives": [
+        "Planned maintenance by administrators."
+      ],
+      "next_steps": [
+        "Confirm with the change record; treat missing logs before this time as untrustworthy."
+      ],
+      "attack": [
+        "T1070.001"
+      ]
+    },
+    {
+      "id": "WIR-AUTH-004",
+      "version": 1,
+      "title": "Local user account created",
+      "description": "Event 4720 was recorded.",
+      "category": "authentication",
+      "severity": "low",
+      "confidence": "medium",
+      "artifact": "events",
+      "when": [
+        {
+          "field": "event_type",
+          "op": "eq",
+          "value": "user_created"
+        }
+      ],
+      "why": "User {user} was created by {actor} at {ts}.",
+      "false_positives": [
+        "Normal provisioning."
+      ],
+      "next_steps": [
+        "Verify the account against change records."
+      ],
+      "attack": [
+        "T1136.001"
+      ]
+    },
+    {
+      "id": "WIR-AUTH-005",
+      "version": 1,
+      "title": "Member added to the local Administrators group",
+      "description": "A group-membership change event targets the Administrators group.",
+      "category": "authentication",
+      "severity": "medium",
+      "confidence": "medium",
+      "artifact": "events",
+      "when": [
+        {
+          "field": "event_type",
+          "op": "eq",
+          "value": "group_member_added"
+        },
+        {
+          "field": "group",
+          "op": "eq",
+          "value": "Administrators"
+        }
+      ],
+      "why": "{member} added to {group} by {actor} at {ts}.",
+      "false_positives": [
+        "Normal administration."
+      ],
+      "next_steps": [
+        "Verify against change records; review the added account."
+      ],
+      "attack": [
+        "T1098"
+      ]
+    },
+    {
+      "id": "WIR-AUTH-006",
+      "version": 1,
+      "title": "Remote interactive (RDP) logon",
+      "description": "Logon type 10 with a source address.",
+      "category": "authentication",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "events",
+      "when": [
+        {
+          "field": "event_type",
+          "op": "eq",
+          "value": "logon_success"
+        },
+        {
+          "field": "logon_type",
+          "op": "eq",
+          "value": "10"
+        },
+        {
+          "field": "src_ip",
+          "op": "exists",
+          "value": true
+        }
+      ],
+      "why": "{user} logged on interactively from {src_ip} at {ts}.",
+      "false_positives": [
+        "Normal remote administration."
+      ],
+      "next_steps": [
+        "Verify the user and source address against expectations."
+      ],
+      "attack": [
+        "T1021.001"
+      ]
+    },
+    {
+      "id": "WIR-AUTH-007",
+      "version": 1,
+      "title": "Service installed from a user-writable location",
+      "description": "Event 7045 shows a service whose image path is in a temp/public/downloads directory.",
+      "category": "authentication",
+      "severity": "high",
+      "confidence": "medium",
+      "artifact": "events",
+      "when": [
+        {
+          "field": "event_type",
+          "op": "eq",
+          "value": "service_installed"
+        },
+        {
+          "field": "image_path",
+          "op": "contains_any",
+          "value": [
+            "\\appdata\\local\\temp\\",
+            "\\windows\\temp\\",
+            "\\users\\public\\",
+            "\\downloads\\",
+            "\\$recycle.bin\\",
+            "\\perflogs\\"
+          ]
+        }
+      ],
+      "why": "Service {service_name} installed with {image_path} at {ts}.",
+      "false_positives": [
+        "Rare installers."
+      ],
+      "next_steps": [
+        "Hash and signature-check the file; review the creating account."
+      ],
+      "attack": [
+        "T1543.003"
+      ]
+    },
+    {
+      "id": "WIR-AUTH-008",
+      "version": 1,
+      "title": "Suspicious PowerShell script block",
+      "description": "A logged script block contains an analyst-defined suspicious construct.",
+      "category": "authentication",
+      "severity": "medium",
+      "confidence": "low",
+      "artifact": "events",
+      "when": [
+        {
+          "field": "event_type",
+          "op": "eq",
+          "value": "scriptblock"
+        },
+        {
+          "field": "script_block_text",
+          "op": "contains_any",
+          "value": [
+            "Invoke-Mimikatz",
+            "FromBase64String",
+            "AmsiUtils",
+            "Net.WebClient",
+            "DownloadString",
+            "VirtualAlloc"
+          ]
+        }
+      ],
+      "why": "Script block at {ts} matches a pattern.",
+      "false_positives": [
+        "Administrative and deployment scripts."
+      ],
+      "next_steps": [
+        "Review the full script block in the event log; identify the host process and user."
+      ],
+      "attack": [
+        "T1059.001"
+      ]
+    }
+  ]
+}

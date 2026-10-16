@@ -1,0 +1,58 @@
+# Process rules. Declarative data only: see docs/configuration.md for the schema.
+rules:
+  - id: MIR-PROC-001
+    version: 1
+    title: Process executing from a world-writable or shared staging directory
+    description: >-
+      The process executable is under /private/tmp, /private/var/tmp, /tmp or /Users/Shared. These locations are writable
+      by many users; some malware runs from them, but installers and build tools legitimately do too.
+    category: process
+    severity: medium
+    confidence: low
+    artifact: processes
+    when:
+      - {field: exe, op: startswith_any, value: ["/private/tmp/", "/private/var/tmp/", "/tmp/", "/var/tmp/", "/Users/Shared/"]}
+    why: "Process {name} (pid {pid}, user {user}) runs from {exe}."
+    false_positives:
+      - Installers, software updaters, CI runners and developer build output.
+    next_steps:
+      - Identify the parent process and which launch item or login session started it.
+      - Hash the file and compare with trusted sources (never execute it); inspect signing with `codesign -dv`.
+    attack: []
+
+  - id: MIR-PROC-002
+    version: 1
+    title: Command line contains analyst-defined suspicious pattern
+    description: >-
+      The (redacted) command line contains a pattern commonly used for reverse shells, script download-and-run, or
+      AppleScript-based execution. Edit the list to suit your environment.
+    category: process
+    severity: high
+    confidence: low
+    artifact: processes
+    when:
+      - {field: cmdline, op: regex, value: "/dev/tcp/|nc\\s+-e|bash\\s+-i|(curl|wget)\\b.*\\|\\s*(ba|z)?sh|osascript\\s+-e.*(do shell script|curl)"}
+    why: "Process {name} (pid {pid}) command line matches a configured pattern: {cmdline}"
+    false_positives:
+      - Developers and administrators use curl-pipe-shell installers and osascript legitimately.
+    next_steps:
+      - Establish the parent chain and launch source; review network sockets owned by the pid.
+    attack: [T1059]
+
+  - id: MIR-PROC-003
+    version: 1
+    title: Process executable could not be hashed
+    description: A running process has an executable path that could not be read for hashing (informational coverage gap).
+    category: process
+    severity: info
+    confidence: high
+    artifact: processes
+    when:
+      - {field: exe_hash_error, op: exists, value: true}
+      - {field: exe, op: startswith_any, value: ["/Users/", "/private/", "/tmp/", "/Library/"]}
+    why: "Executable {exe} (pid {pid}) not hashed: {exe_hash_error}."
+    false_positives:
+      - SIP/TCC-protected paths or files over the size limit.
+    next_steps:
+      - Re-run with appropriate authorisation if this executable matters to the investigation.
+    attack: []

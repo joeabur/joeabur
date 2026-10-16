@@ -1,0 +1,40 @@
+rules:
+  - id: MIR-NET-001
+    version: 1
+    title: New listening socket compared with baseline
+    description: A TCP/UDP listener exists that was not listening in the baseline evidence.
+    category: network
+    severity: low
+    confidence: low
+    artifact: network
+    type: baseline
+    mode: new
+    key_fields: [proto, local_port, process]
+    when:
+      - {field: kind, op: eq, value: socket}
+      - {field: state, op: in, value: [LISTEN, UNCONN]}
+    why: "{proto} port {local_port} (process: {process}) was not listening in the baseline."
+    false_positives:
+      - New legitimate software, ephemeral UDP ports.
+    next_steps:
+      - Identify the owning process and its launch item.
+    attack: []
+
+  - id: MIR-NET-002
+    version: 1
+    title: Listener on analyst-defined port of interest
+    description: A socket listens on a port from the configurable list (defaults are well-known tooling ports).
+    category: network
+    severity: low
+    confidence: low
+    artifact: network
+    when:
+      - {field: kind, op: eq, value: socket}
+      - {field: state, op: in, value: [LISTEN, UNCONN]}
+      - {field: local_port, op: in, value: [4444, 1337, 31337]}
+    why: "{proto} listener on port {local_port} (process: {process}, pid {pid})."
+    false_positives:
+      - Any application may legitimately use these port numbers.
+    next_steps:
+      - Inspect the owning process, its executable path and signature.
+    attack: []

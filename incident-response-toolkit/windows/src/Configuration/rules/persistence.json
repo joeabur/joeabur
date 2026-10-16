@@ -1,0 +1,527 @@
+{
+  "rules": [
+    {
+      "id": "WIR-PERS-001",
+      "version": 1,
+      "title": "Service runs from a user-writable location",
+      "description": "The service ImagePath resolves into a temp, public, downloads or recycle-bin directory.",
+      "category": "persistence",
+      "severity": "high",
+      "confidence": "medium",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "service"
+        },
+        {
+          "field": "exec_expanded",
+          "op": "contains_any",
+          "value": [
+            "\\appdata\\local\\temp\\",
+            "\\windows\\temp\\",
+            "\\users\\public\\",
+            "\\downloads\\",
+            "\\$recycle.bin\\",
+            "\\perflogs\\"
+          ]
+        }
+      ],
+      "why": "Service {name} runs {exec_binary}.",
+      "false_positives": [
+        "Rare; some per-user installers register services under AppData."
+      ],
+      "next_steps": [
+        "Hash and signature-check the binary (do not execute it).",
+        "Review how and when the service was created (event 7045)."
+      ],
+      "attack": [
+        "T1543.003"
+      ]
+    },
+    {
+      "id": "WIR-PERS-002",
+      "version": 1,
+      "title": "Service references a missing executable",
+      "description": "The ImagePath points to an absolute path that does not exist.",
+      "category": "persistence",
+      "severity": "medium",
+      "confidence": "medium",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "service"
+        },
+        {
+          "field": "exec_exists",
+          "op": "falsy"
+        },
+        {
+          "field": "exec_expanded",
+          "op": "regex",
+          "value": "^[A-Za-z]:\\\\"
+        }
+      ],
+      "why": "Service {name} references {exec_binary}, which does not exist.",
+      "false_positives": [
+        "Leftover services of uninstalled software; drivers loaded from non-file paths."
+      ],
+      "next_steps": [
+        "Check when the binary was removed and by whom (file system and event logs)."
+      ],
+      "attack": [
+        "T1543.003"
+      ]
+    },
+    {
+      "id": "WIR-PERS-003",
+      "version": 1,
+      "title": "Service path is unquoted and contains spaces",
+      "description": "An unquoted ImagePath with spaces can be hijacked by a planted executable in a parent directory. This describes the string, not an attack.",
+      "category": "persistence",
+      "severity": "low",
+      "confidence": "medium",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "service"
+        },
+        {
+          "field": "unquoted_path_with_spaces",
+          "op": "truthy"
+        }
+      ],
+      "why": "Service {name} has an unquoted path: {command}",
+      "false_positives": [
+        "Very common in third-party software."
+      ],
+      "next_steps": [
+        "Check write permissions on the intermediate directories before treating this as exploitable."
+      ],
+      "attack": [
+        "T1574.009"
+      ]
+    },
+    {
+      "id": "WIR-PERS-004",
+      "version": 1,
+      "title": "Scheduled task runs from a user-writable location",
+      "description": "A task action executes a file under a temp, public, downloads or recycle-bin directory.",
+      "category": "persistence",
+      "severity": "high",
+      "confidence": "medium",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "scheduled_task"
+        },
+        {
+          "field": "exec_expanded",
+          "op": "contains_any",
+          "value": [
+            "\\appdata\\local\\temp\\",
+            "\\windows\\temp\\",
+            "\\users\\public\\",
+            "\\downloads\\",
+            "\\$recycle.bin\\",
+            "\\perflogs\\"
+          ]
+        }
+      ],
+      "why": "Task {task_path}{name} runs {exec_binary}.",
+      "false_positives": [
+        "Per-user updaters sometimes schedule tasks in AppData."
+      ],
+      "next_steps": [
+        "Hash and signature-check the binary (do not execute it).",
+        "Check task author, creation time and last run."
+      ],
+      "attack": [
+        "T1053.005"
+      ]
+    },
+    {
+      "id": "WIR-PERS-005",
+      "version": 1,
+      "title": "Scheduled task uses encoded or hidden PowerShell / download cradle",
+      "description": "The (redacted) task command contains encoded-command, hidden-window or download patterns.",
+      "category": "persistence",
+      "severity": "medium",
+      "confidence": "low",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "scheduled_task"
+        },
+        {
+          "field": "command",
+          "op": "regex",
+          "value": "-(enc|encodedcommand)\\b|-w(indowstyle)?\\s+hidden|downloadstring|\\biex\\b"
+        }
+      ],
+      "why": "Task {task_path}{name} command matches a pattern: {command}",
+      "false_positives": [
+        "Management and deployment tooling."
+      ],
+      "next_steps": [
+        "Decode/inspect the command offline; review the task's author and trigger."
+      ],
+      "attack": [
+        "T1053.005",
+        "T1059.001"
+      ]
+    },
+    {
+      "id": "WIR-PERS-006",
+      "version": 1,
+      "title": "Run key entry points into a user-writable location",
+      "description": "A Run/RunOnce value launches a file from a temp, public, downloads or recycle-bin directory.",
+      "category": "persistence",
+      "severity": "high",
+      "confidence": "medium",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "run_key"
+        },
+        {
+          "field": "exec_expanded",
+          "op": "contains_any",
+          "value": [
+            "\\appdata\\local\\temp\\",
+            "\\windows\\temp\\",
+            "\\users\\public\\",
+            "\\downloads\\",
+            "\\$recycle.bin\\",
+            "\\perflogs\\"
+          ]
+        }
+      ],
+      "why": "{registry_key}\\{name} launches {exec_binary}.",
+      "false_positives": [
+        "Some per-user software starts from AppData (but usually not Temp)."
+      ],
+      "next_steps": [
+        "Hash and signature-check the target (do not execute it).",
+        "Determine the key's last write time and the logon that created it."
+      ],
+      "attack": [
+        "T1547.001"
+      ]
+    },
+    {
+      "id": "WIR-PERS-007",
+      "version": 1,
+      "title": "Startup entry uses a script host or proxy binary with download or script arguments",
+      "description": "Run/startup command combines a script host or LOLBin with a URL, script file or encoded argument.",
+      "category": "persistence",
+      "severity": "medium",
+      "confidence": "low",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "in",
+          "value": [
+            "run_key",
+            "startup_command"
+          ]
+        },
+        {
+          "field": "command",
+          "op": "regex",
+          "value": "(mshta|wscript|cscript|regsvr32|rundll32|powershell|pwsh)(\\.exe)?\\b.*(http|\\.vbs|\\.js|\\.hta|\\.sct|-enc)"
+        }
+      ],
+      "why": "Startup entry {name} runs: {command}",
+      "false_positives": [
+        "Corporate logon scripts."
+      ],
+      "next_steps": [
+        "Retrieve the referenced script/URL content through safe channels and review it."
+      ],
+      "attack": [
+        "T1547.001"
+      ]
+    },
+    {
+      "id": "WIR-PERS-008",
+      "version": 1,
+      "title": "WMI event consumer present",
+      "description": "A CommandLineEventConsumer or ActiveScriptEventConsumer exists in root\\subscription. Legitimate management software also uses these.",
+      "category": "persistence",
+      "severity": "medium",
+      "confidence": "low",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "wmi_subscription"
+        },
+        {
+          "field": "subscription_part",
+          "op": "eq",
+          "value": "Consumer"
+        }
+      ],
+      "why": "WMI consumer {name} ({consumer_type}) present: {command}",
+      "false_positives": [
+        "SCCM, monitoring and some security products create WMI subscriptions."
+      ],
+      "next_steps": [
+        "Review the bound filter/query and the consumer command; compare with the managed baseline."
+      ],
+      "attack": [
+        "T1546.003"
+      ]
+    },
+    {
+      "id": "WIR-PERS-009",
+      "version": 1,
+      "title": "Winlogon Shell value changed from the default",
+      "description": "HKLM Winlogon Shell is not explorer.exe.",
+      "category": "persistence",
+      "severity": "high",
+      "confidence": "medium",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "winlogon_value"
+        },
+        {
+          "field": "name",
+          "op": "eq",
+          "value": "Shell"
+        },
+        {
+          "field": "value",
+          "op": "ne",
+          "value": "explorer.exe"
+        }
+      ],
+      "why": "Winlogon Shell is '{value}'.",
+      "false_positives": [
+        "Kiosk/shell-replacement deployments."
+      ],
+      "next_steps": [
+        "Verify against the approved image configuration."
+      ],
+      "attack": [
+        "T1547.004"
+      ]
+    },
+    {
+      "id": "WIR-PERS-010",
+      "version": 1,
+      "title": "Winlogon Userinit value changed from the default",
+      "description": "HKLM Winlogon Userinit differs from the default.",
+      "category": "persistence",
+      "severity": "medium",
+      "confidence": "medium",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "winlogon_value"
+        },
+        {
+          "field": "name",
+          "op": "eq",
+          "value": "Userinit"
+        },
+        {
+          "field": "value",
+          "op": "ne",
+          "value": "C:\\Windows\\system32\\userinit.exe,"
+        }
+      ],
+      "why": "Winlogon Userinit is '{value}'.",
+      "false_positives": [
+        "Some endpoint products append entries."
+      ],
+      "next_steps": [
+        "Verify against the approved image configuration."
+      ],
+      "attack": [
+        "T1547.004"
+      ]
+    },
+    {
+      "id": "WIR-PERS-011",
+      "version": 1,
+      "title": "New service compared with baseline",
+      "description": "A service exists that was absent from the baseline evidence.",
+      "category": "persistence",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "service"
+        }
+      ],
+      "why": "Service {name} ({exec_binary}) is absent from the baseline.",
+      "false_positives": [
+        "Software installs and updates since the baseline."
+      ],
+      "next_steps": [
+        "Review the binary, signer and installation time."
+      ],
+      "attack": [
+        "T1543.003"
+      ],
+      "type": "baseline",
+      "mode": "new",
+      "key_fields": [
+        "name"
+      ]
+    },
+    {
+      "id": "WIR-PERS-012",
+      "version": 1,
+      "title": "New scheduled task compared with baseline",
+      "description": "A scheduled task action exists that was absent from the baseline evidence.",
+      "category": "persistence",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "scheduled_task"
+        }
+      ],
+      "why": "Task {task_path}{name} is absent from the baseline.",
+      "false_positives": [
+        "Software installs, updates and group policy."
+      ],
+      "next_steps": [
+        "Review author, trigger and action."
+      ],
+      "attack": [
+        "T1053.005"
+      ],
+      "type": "baseline",
+      "mode": "new",
+      "key_fields": [
+        "task_path",
+        "name",
+        "action_index"
+      ]
+    },
+    {
+      "id": "WIR-PERS-013",
+      "version": 1,
+      "title": "New Run/RunOnce value compared with baseline",
+      "description": "A Run/RunOnce value exists that was absent from the baseline evidence.",
+      "category": "persistence",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "run_key"
+        }
+      ],
+      "why": "{registry_key}\\{name} is absent from the baseline.",
+      "false_positives": [
+        "Software installs."
+      ],
+      "next_steps": [
+        "Review the target binary and when the value was written."
+      ],
+      "attack": [
+        "T1547.001"
+      ],
+      "type": "baseline",
+      "mode": "new",
+      "key_fields": [
+        "registry_key",
+        "name"
+      ]
+    },
+    {
+      "id": "WIR-PERS-014",
+      "version": 1,
+      "title": "Service binary or path changed compared with baseline",
+      "description": "A service present in both evidence sets points to a different executable or hash.",
+      "category": "persistence",
+      "severity": "medium",
+      "confidence": "medium",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "service"
+        }
+      ],
+      "why": "Service {name} changed since the baseline.",
+      "false_positives": [
+        "Software updates."
+      ],
+      "next_steps": [
+        "Compare versions and signers; check update history."
+      ],
+      "attack": [
+        "T1543.003"
+      ],
+      "type": "baseline",
+      "mode": "changed",
+      "key_fields": [
+        "name"
+      ],
+      "compare_fields": [
+        "exec_binary",
+        "exec_sha256"
+      ]
+    },
+    {
+      "id": "WIR-PERS-015",
+      "version": 1,
+      "title": "Executable item in a Startup folder",
+      "description": "A file exists in a per-user or all-users Startup folder.",
+      "category": "persistence",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "persistence",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "startup_folder_item"
+        }
+      ],
+      "why": "Startup folder item {name} in {folder}.",
+      "false_positives": [
+        "Shortcuts for user applications are normal."
+      ],
+      "next_steps": [
+        "Inspect the item (shortcut target, hash) and its creation time."
+      ],
+      "attack": [
+        "T1547.001"
+      ]
+    }
+  ]
+}

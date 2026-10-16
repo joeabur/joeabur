@@ -1,0 +1,296 @@
+[
+  {
+    "rule_id": "IOC-MATCH-DOMAIN",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/persistence.json#records[5]"
+  },
+  {
+    "rule_id": "IOC-MATCH-DOMAIN",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/persistence.json#records[7]"
+  },
+  {
+    "rule_id": "IOC-MATCH-FILE_PATH",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/files.json#records[5]"
+  },
+  {
+    "rule_id": "IOC-MATCH-FILE_PATH",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/persistence.json#records[1]"
+  },
+  {
+    "rule_id": "IOC-MATCH-FILE_PATH",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/processes.json#records[2]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[0]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[10]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[11]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[12]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[1]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[2]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[3]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[4]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[5]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[6]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[7]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[8]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/logs.json#records[9]"
+  },
+  {
+    "rule_id": "IOC-MATCH-IP",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/network.json#records[2]"
+  },
+  {
+    "rule_id": "IOC-MATCH-PROCESS_NAME",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/network.json#records[1]"
+  },
+  {
+    "rule_id": "IOC-MATCH-PROCESS_NAME",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/network.json#records[2]"
+  },
+  {
+    "rule_id": "IOC-MATCH-PROCESS_NAME",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/processes.json#records[2]"
+  },
+  {
+    "rule_id": "IOC-MATCH-SHA256",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/files.json#records[5]"
+  },
+  {
+    "rule_id": "IOC-MATCH-SHA256",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/persistence.json#records[1]"
+  },
+  {
+    "rule_id": "IOC-MATCH-SHA256",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "ioc_match",
+    "evidence_ref": "artifacts/processes.json#records[2]"
+  },
+  {
+    "rule_id": "LIR-AUTH-001",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/logs.json#records[0]"
+  },
+  {
+    "rule_id": "LIR-AUTH-003",
+    "severity": "low",
+    "confidence": "medium",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/logs.json#records[12]"
+  },
+  {
+    "rule_id": "LIR-AUTH-004",
+    "severity": "medium",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/logs.json#records[15]"
+  },
+  {
+    "rule_id": "LIR-FILE-001",
+    "severity": "low",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/files.json#records[5]"
+  },
+  {
+    "rule_id": "LIR-FILE-002",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/files.json#records[2]"
+  },
+  {
+    "rule_id": "LIR-FILE-004",
+    "severity": "high",
+    "confidence": "high",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/files.json#records[4]"
+  },
+  {
+    "rule_id": "LIR-NET-002",
+    "severity": "low",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/network.json#records[1]"
+  },
+  {
+    "rule_id": "LIR-PERS-001",
+    "severity": "medium",
+    "confidence": "medium",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/persistence.json#records[0]"
+  },
+  {
+    "rule_id": "LIR-PERS-002",
+    "severity": "high",
+    "confidence": "medium",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/persistence.json#records[1]"
+  },
+  {
+    "rule_id": "LIR-PERS-003",
+    "severity": "low",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/persistence.json#records[1]"
+  },
+  {
+    "rule_id": "LIR-PERS-005",
+    "severity": "high",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/persistence.json#records[5]"
+  },
+  {
+    "rule_id": "LIR-PERS-007",
+    "severity": "high",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/persistence.json#records[7]"
+  },
+  {
+    "rule_id": "LIR-PERS-008",
+    "severity": "low",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/persistence.json#records[9]"
+  },
+  {
+    "rule_id": "LIR-PERS-010",
+    "severity": "high",
+    "confidence": "high",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/persistence.json#records[8]"
+  },
+  {
+    "rule_id": "LIR-PROC-001",
+    "severity": "medium",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/processes.json#records[2]"
+  },
+  {
+    "rule_id": "LIR-PROC-002",
+    "severity": "medium",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/processes.json#records[3]"
+  },
+  {
+    "rule_id": "LIR-PROC-003",
+    "severity": "high",
+    "confidence": "low",
+    "classification": "heuristic",
+    "evidence_ref": "artifacts/processes.json#records[5]"
+  }
+]

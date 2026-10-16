@@ -1,0 +1,192 @@
+rules:
+  - id: LIR-PERS-001
+    version: 1
+    title: systemd unit references a missing executable
+    description: ExecStart points to an absolute path that does not exist on the examined host.
+    category: persistence
+    severity: medium
+    confidence: medium
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: systemd_unit}
+      - {field: exec_exists, op: falsy}
+      - {field: exec_binary, op: startswith_any, value: ["/"]}
+    why: "Unit {unit} ({path}) ExecStart references {exec_binary}, which does not exist."
+    false_positives:
+      - Units of uninstalled or optional packages, or units guarded by ConditionPathExists.
+      - Collection against an offline filesystem root where paths differ.
+    next_steps:
+      - Check whether the binary was recently removed (package logs, file system timeline).
+      - Determine who created or last modified the unit file (mtime, ownership in the artifact).
+    attack: [T1543.002]
+
+  - id: LIR-PERS-002
+    version: 1
+    title: systemd unit executes from a world-writable staging directory
+    description: ExecStart references a binary in /tmp, /var/tmp or /dev/shm.
+    category: persistence
+    severity: high
+    confidence: medium
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: systemd_unit}
+      - {field: exec_binary, op: startswith_any, value: ["/tmp/", "/var/tmp/", "/dev/shm/"]}
+    why: "Unit {unit} ({path}) runs {exec_binary} from a staging directory."
+    false_positives:
+      - Short-lived test or build units created by administrators.
+    next_steps:
+      - Hash the referenced file if it exists and compare with trusted sources (do not execute it).
+      - Review the unit's enablement links and timers that start it.
+    attack: [T1543.002]
+
+  - id: LIR-PERS-003
+    version: 1
+    title: New systemd unit compared with baseline
+    description: A service/timer file exists that was not present in the supplied baseline evidence.
+    category: persistence
+    severity: low
+    confidence: low
+    artifact: persistence
+    type: baseline
+    mode: new
+    key_fields: [path]
+    when:
+      - {field: kind, op: eq, value: systemd_unit}
+    why: "Unit {unit} ({path}) is absent from the baseline."
+    false_positives:
+      - Legitimate package installs or configuration management changes since the baseline.
+    next_steps:
+      - Compare the unit's mtime and owner with change records.
+      - Review ExecStart and the unit's hash.
+    attack: [T1543.002]
+
+  - id: LIR-PERS-004
+    version: 1
+    title: systemd unit file content changed compared with baseline
+    description: A unit present in both evidence sets has a different SHA-256.
+    category: persistence
+    severity: medium
+    confidence: medium
+    artifact: persistence
+    type: baseline
+    mode: changed
+    key_fields: [path]
+    compare_fields: [sha256]
+    when:
+      - {field: kind, op: eq, value: systemd_unit}
+    why: "Unit {unit} ({path}) hash differs from the baseline."
+    false_positives:
+      - Package upgrades and configuration management.
+    next_steps:
+      - Diff the old and new unit definitions if both are available.
+    attack: [T1543.002]
+
+  - id: LIR-PERS-005
+    version: 1
+    title: Cron entry contains analyst-defined suspicious pattern
+    description: A scheduled command contains a downloader, decoder, or reverse-shell pattern.
+    category: persistence
+    severity: high
+    confidence: low
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: cron_entry}
+      - {field: command, op: regex, value: "(curl|wget)\\b.*\\|\\s*(ba)?sh|base64\\s+(-d|--decode)|/dev/tcp/|nc\\s+-e"}
+    why: "Cron entry in {path} line {line_no} runs: {command}"
+    false_positives:
+      - Legitimate bootstrap or update jobs that pipe downloads to a shell.
+    next_steps:
+      - Identify who owns the crontab and when the file was last modified.
+      - Review network artifacts and logs around the schedule times.
+    attack: [T1053.003]
+
+  - id: LIR-PERS-006
+    version: 1
+    title: Cron entry executes from a world-writable staging directory
+    description: A scheduled command runs a binary or script in /tmp, /var/tmp or /dev/shm.
+    category: persistence
+    severity: medium
+    confidence: medium
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: cron_entry}
+      - {field: exec_binary, op: startswith_any, value: ["/tmp/", "/var/tmp/", "/dev/shm/"]}
+    why: "Cron entry in {path} line {line_no} executes {exec_binary}."
+    false_positives:
+      - Housekeeping jobs that clean these directories use paths but do not execute from them.
+    next_steps:
+      - Examine the referenced file (hash only; do not run it).
+    attack: [T1053.003]
+
+  - id: LIR-PERS-007
+    version: 1
+    title: Shell startup file contains downloader or reverse-shell pattern
+    description: A shell profile contains commands matching analyst-defined suspicious patterns.
+    category: persistence
+    severity: high
+    confidence: low
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: shell_startup}
+      - {field: commands, op: regex, value: "(curl|wget)\\b.*\\|\\s*(ba)?sh|/dev/tcp/|base64\\s+(-d|--decode)|nc\\s+-e"}
+    why: "Startup file {path} contains a command matching a configured pattern."
+    false_positives:
+      - Developer tooling installers (e.g. version managers) legitimately use curl | sh.
+    next_steps:
+      - Review the file's modification time and which login sessions precede it.
+    attack: [T1546.004]
+
+  - id: LIR-PERS-008
+    version: 1
+    title: authorized_keys entry forces a command
+    description: An SSH authorized_keys entry uses the command= option.
+    category: persistence
+    severity: low
+    confidence: low
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: authorized_keys}
+      - {field: has_command_option, op: truthy}
+    why: "{path} contains {key_count} key(s), at least one with a forced command."
+    false_positives:
+      - Backup or automation accounts commonly restrict keys with command=.
+    next_steps:
+      - Compare key fingerprints with the approved key inventory.
+    attack: [T1098.004]
+
+  - id: LIR-PERS-009
+    version: 1
+    title: rc.local contains commands
+    description: /etc/rc.local runs commands at boot.
+    category: persistence
+    severity: low
+    confidence: low
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: rc_local}
+      - {field: commands, op: exists, value: true}
+      - {field: commands, op: regex, value: "\\S"}
+    why: "{path} contains startup commands: {commands}"
+    false_positives:
+      - Older distributions and custom setups use rc.local legitimately.
+    next_steps:
+      - Review each command and the file's modification time.
+    attack: [T1037.004]
+
+  - id: LIR-PERS-010
+    version: 1
+    title: sshd permits empty passwords
+    description: sshd_config sets PermitEmptyPasswords yes.
+    category: persistence
+    severity: high
+    confidence: high
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: sshd_config}
+      - {field: settings.permitemptypasswords, op: eq, value: "yes"}
+    why: "{path} sets PermitEmptyPasswords yes."
+    false_positives:
+      - None expected in production; test images may be configured this way.
+    next_steps:
+      - Confirm the effective configuration (sshd -T as an administrator) and review recent changes.
+    attack: []

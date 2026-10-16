@@ -1,0 +1,190 @@
+rules:
+  - id: MIR-PERS-001
+    version: 1
+    title: Launch item references a missing executable
+    description: A launchd plist points to an absolute program path that does not exist.
+    category: persistence
+    severity: medium
+    confidence: medium
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: launchd_plist}
+      - {field: exec_exists, op: falsy}
+      - {field: exec_binary, op: startswith_any, value: ["/"]}
+    why: "{label} ({path}) references {exec_binary}, which does not exist."
+    false_positives:
+      - Leftover plists from uninstalled software are common on macOS.
+    next_steps:
+      - Check when the target was removed and who owns/modified the plist (mtime, owner in the artifact).
+    attack: [T1543.001]
+
+  - id: MIR-PERS-002
+    version: 1
+    title: Launch item executes from a world-writable or shared directory
+    description: The launchd program lives under /private/tmp, /tmp, /var/tmp or /Users/Shared.
+    category: persistence
+    severity: high
+    confidence: medium
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: launchd_plist}
+      - {field: exec_binary, op: startswith_any, value: ["/private/tmp/", "/private/var/tmp/", "/tmp/", "/var/tmp/", "/Users/Shared/"]}
+    why: "{label} ({path}) runs {exec_binary}."
+    false_positives:
+      - Short-lived installers or test launch agents.
+    next_steps:
+      - Hash the referenced file and inspect its signature (never execute it).
+      - Review RunAtLoad/KeepAlive and who created the plist.
+    attack: [T1543.001, T1543.004]
+
+  - id: MIR-PERS-003
+    version: 1
+    title: System launch item has unexpected ownership or permissions
+    description: A plist in /Library/LaunchDaemons or /Library/LaunchAgents is writable by group/others. launchd refuses insecure daemon plists, so this is unusual.
+    category: persistence
+    severity: high
+    confidence: medium
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: launchd_plist}
+      - {field: scope, op: eq, value: system}
+      - {field: mode, op: regex, value: "^[0-7][0-7][2367][0-7]$|^[0-7][0-7][0-7][2367]$"}
+    why: "{path} has mode {mode} (owner {owner})."
+    false_positives:
+      - Misconfigured third-party installers.
+    next_steps:
+      - Check ownership/mode history and the package that installed the item.
+    attack: [T1543.004]
+
+  - id: MIR-PERS-004
+    version: 1
+    title: Unsigned launch-item executable outside standard locations
+    description: >-
+      The executable referenced by a launch item has no code signature AND resides outside Apple/standard
+      locations. Code signing is contextual: unsigned software is common among developer tools and internal software.
+    category: persistence
+    severity: low
+    confidence: low
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: launchd_plist}
+      - {field: signed, op: eq, value: false}
+      - {field: standard_location, op: falsy}
+    why: "{label}: {exec_binary} is unsigned and not in a standard location."
+    false_positives:
+      - Internal tools, developer builds, open-source daemons installed manually.
+    next_steps:
+      - Establish provenance (package receipts, install time) before drawing conclusions.
+    attack: []
+
+  - id: MIR-PERS-005
+    version: 1
+    title: New launch item compared with baseline
+    description: A launch item exists that was absent from the supplied baseline evidence.
+    category: persistence
+    severity: low
+    confidence: low
+    artifact: persistence
+    type: baseline
+    mode: new
+    key_fields: [path]
+    when:
+      - {field: kind, op: eq, value: launchd_plist}
+    why: "{label} ({path}) is absent from the baseline."
+    false_positives:
+      - Legitimate software installs or updates since the baseline.
+    next_steps:
+      - Review the plist, its executable, and the install time.
+    attack: [T1543.001]
+
+  - id: MIR-PERS-006
+    version: 1
+    title: Launch item plist changed compared with baseline
+    description: A launch item present in both evidence sets has a different plist SHA-256.
+    category: persistence
+    severity: medium
+    confidence: medium
+    artifact: persistence
+    type: baseline
+    mode: changed
+    key_fields: [path]
+    compare_fields: [sha256, exec_sha256]
+    when:
+      - {field: kind, op: eq, value: launchd_plist}
+    why: "{label} ({path}) changed since the baseline."
+    false_positives:
+      - Software updates modify plists and binaries.
+    next_steps:
+      - Compare versions if available; check the update history.
+    attack: [T1543.001]
+
+  - id: MIR-PERS-007
+    version: 1
+    title: Launch item runs a shell with a download-and-execute pattern
+    description: ProgramArguments invoke a shell with curl/wget piping or reverse-shell patterns.
+    category: persistence
+    severity: high
+    confidence: medium
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: launchd_plist}
+      - {field: program_arguments, op: regex, value: "(curl|wget)\\b.*\\|\\s*(ba|z)?sh|/dev/tcp/|base64\\s+(-d|--decode)|osascript\\s+-e"}
+    why: "{label} ({path}) arguments match a configured pattern: {program_arguments}"
+    false_positives:
+      - Management agents that bootstrap themselves with curl.
+    next_steps:
+      - Identify who deployed the item (MDM, installer) and review network activity.
+    attack: [T1543.001, T1059]
+
+  - id: MIR-PERS-008
+    version: 1
+    title: Cron entry contains analyst-defined suspicious pattern
+    description: A crontab command contains a downloader, decoder or reverse-shell pattern.
+    category: persistence
+    severity: high
+    confidence: low
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: cron_entry}
+      - {field: command, op: regex, value: "(curl|wget)\\b.*\\|\\s*(ba|z)?sh|base64\\s+(-d|--decode)|/dev/tcp/|nc\\s+-e"}
+    why: "Cron entry (line {line_no}) runs: {command}"
+    false_positives:
+      - Legitimate bootstrap or update jobs.
+    next_steps:
+      - Determine who installed the crontab and when; review network activity at the scheduled times.
+    attack: [T1053.003]
+
+  - id: MIR-PERS-009
+    version: 1
+    title: Shell startup file contains downloader or reverse-shell pattern
+    description: A shell profile contains commands matching analyst-defined suspicious patterns.
+    category: persistence
+    severity: high
+    confidence: low
+    artifact: persistence
+    when:
+      - {field: kind, op: eq, value: shell_startup}
+      - {field: commands, op: regex, value: "(curl|wget)\\b.*\\|\\s*(ba|z)?sh|/dev/tcp/|base64\\s+(-d|--decode)|nc\\s+-e"}
+    why: "Startup file {path} contains a command matching a configured pattern."
+    false_positives:
+      - Developer tooling installers (version managers, Homebrew) use curl | sh.
+    next_steps:
+      - Review the file's modification time and surrounding commands.
+    attack: [T1546.004]
+
+  - id: MIR-PERS-010
+    version: 1
+    title: Legacy persistence location in use
+    description: Files exist in /Library/StartupItems or /etc/emond.d/rules, mechanisms that are deprecated and rarely used legitimately on modern macOS.
+    category: persistence
+    severity: medium
+    confidence: low
+    artifact: persistence
+    when:
+      - {field: kind, op: in, value: [startup_item, emond_rule]}
+    why: "{path} exists (kind {kind}, mtime {mtime})."
+    false_positives:
+      - Very old third-party software.
+    next_steps:
+      - Examine the item's contents and install time.
+    attack: [T1037.005]

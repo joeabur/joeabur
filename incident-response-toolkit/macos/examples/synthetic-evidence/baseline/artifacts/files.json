@@ -1,0 +1,72 @@
+{
+  "artifact": "files",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [],
+  "notes": [],
+  "records": [
+    {
+      "gid": 0,
+      "kind": "sensitive_file",
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/hosts",
+      "sha256": "081ef9d5367595d16e30b4b4549d9f43537320508b4ce0788963e10e4f808857",
+      "size": 20,
+      "type": "file",
+      "uid": 0,
+      "world_readable": true,
+      "world_writable": false
+    },
+    {
+      "gid": 0,
+      "kind": "sensitive_file",
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/paths",
+      "sha256": "9abf98b944cf12f4b8c85461127bfea97ef0ebdbec2fe38b73f9cd84e9804c7c",
+      "size": 24,
+      "type": "file",
+      "uid": 0,
+      "world_readable": true,
+      "world_writable": false
+    },
+    {
+      "gid": 0,
+      "kind": "sensitive_file",
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/zshrc",
+      "sha256": "72c8f067685947f0f7c6b873b579871bc9516eed816d36c2dc57878303865aa9",
+      "size": 15,
+      "type": "file",
+      "uid": 0,
+      "world_readable": true,
+      "world_writable": false
+    },
+    {
+      "gid": 0,
+      "kind": "sensitive_file",
+      "mode": "0666",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/sudoers",
+      "size": 19,
+      "type": "file",
+      "uid": 0,
+      "world_readable": true,
+      "world_writable": true
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "/etc/hosts",
+    "/etc/paths",
+    "/etc/zshrc",
+    "/etc/sudoers",
+    "/private/tmp"
+  ],
+  "status": "ok"
+}

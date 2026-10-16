@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "name": "Synthetic demo indicators (Windows)",
+  "description": "TEST DATA ONLY. Invented values using RFC 5737 documentation IPs and .example.test domains.",
+  "synthetic": true,
+  "indicators": [
+    {
+      "type": "sha256",
+      "value": "ac42db2b771c6400dd73ea1072446ea2af0719b733c12c0907ad76c85c0a4cce",
+      "severity": "high",
+      "description": "Hash of the harmless synthetic stand-in file",
+      "source": "synthetic"
+    },
+    {
+      "type": "ip",
+      "value": "203.0.113.50",
+      "severity": "high",
+      "description": "Synthetic C2 address (TEST-NET-3)",
+      "source": "synthetic demo"
+    },
+    {
+      "type": "domain",
+      "value": "evil.example.test",
+      "severity": "medium",
+      "description": "Synthetic payload domain",
+      "source": "synthetic demo"
+    },
+    {
+      "type": "process_name",
+      "value": "updater.exe",
+      "severity": "medium",
+      "description": "Synthetic masquerading process name",
+      "source": "synthetic demo"
+    },
+    {
+      "type": "file_path",
+      "value": "C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe",
+      "severity": "medium",
+      "description": "Synthetic dropped file path",
+      "source": "synthetic demo"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "artifact": "inventory",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [],
+  "notes": [
+    "findmnt unavailable; mounts taken from /proc/self/mounts only"
+  ],
+  "records": [
+    {
+      "architecture": "x86_64",
+      "architecture_supported": true,
+      "boot_time": "2026-03-09T11:59:59Z",
+      "collected_at": "2026-03-10T12:00:00Z",
+      "container": null,
+      "distribution": "Ubuntu",
+      "distribution_id": "ubuntu",
+      "euid": 1000,
+      "hostname": "synthetic-host",
+      "init": {
+        "name": "systemd",
+        "pid1_comm": "systemd",
+        "systemd": true
+      },
+      "is_linux": true,
+      "is_root": false,
+      "kernel": "5.15.0-synthetic",
+      "kind": "host",
+      "pretty_name": "Ubuntu 22.04.4 LTS (synthetic)",
+      "python": "3.12.0",
+      "security_settings": {
+        "kernel.randomize_va_space": "2"
+      },
+      "system": "Linux",
+      "timestamp_utc": "2026-03-10T12:00:00Z",
+      "tools": {
+        "ip": "/usr/bin/ip",
+        "journalctl": "/usr/bin/journalctl",
+        "ss": "/usr/bin/ss",
+        "systemctl": "/usr/bin/systemctl",
+        "who": "/usr/bin/who"
+      },
+      "uptime_seconds": 86400,
+      "version": "22.04"
+    },
+    {
+      "device": "/dev/sda1",
+      "fstype": "ext4",
+      "kind": "mount",
+      "mountpoint": "/",
+      "noexec": false,
+      "options": [
+        "rw",
+        "relatime"
+      ]
+    },
+    {
+      "device": "tmpfs",
+      "fstype": "tmpfs",
+      "kind": "mount",
+      "mountpoint": "/tmp",
+      "noexec": false,
+      "options": [
+        "rw",
+        "nosuid"
+      ]
+    },
+    {
+      "from": "198.51.100.77",
+      "kind": "session",
+      "login": "2026-03-10 11:30",
+      "tty": "pts/0",
+      "user": "analyst"
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "/proc/sys/kernel/hostname",
+    "/proc/uptime",
+    "/proc/self/mounts",
+    "who"
+  ],
+  "status": "ok"
+}

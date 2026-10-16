@@ -1,0 +1,101 @@
+{
+  "artifact": "network",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [],
+  "notes": [
+    "lsof without root shows only the current user's processes; listening sockets of other users or system daemons may be missing."
+  ],
+  "records": [
+    {
+      "kind": "socket",
+      "local_addr": "*",
+      "local_port": 22,
+      "pid": 401,
+      "process": "sshd",
+      "proto": "tcp",
+      "remote_addr": "*",
+      "remote_port": null,
+      "source": "lsof",
+      "state": "LISTEN",
+      "user": "root"
+    },
+    {
+      "kind": "socket",
+      "local_addr": "*",
+      "local_port": 4444,
+      "pid": 977,
+      "process": "kworker-upd",
+      "proto": "tcp",
+      "remote_addr": "*",
+      "remote_port": null,
+      "source": "lsof",
+      "state": "LISTEN",
+      "user": "analyst"
+    },
+    {
+      "kind": "socket",
+      "local_addr": "10.0.0.5",
+      "local_port": 51234,
+      "pid": 977,
+      "process": "kworker-upd",
+      "proto": "tcp",
+      "remote_addr": "203.0.113.50",
+      "remote_port": 443,
+      "source": "lsof",
+      "state": "ESTABLISHED",
+      "user": "analyst"
+    },
+    {
+      "kind": "socket",
+      "local_addr": "*",
+      "local_port": 5353,
+      "pid": 602,
+      "process": "Safari",
+      "proto": "udp",
+      "remote_addr": "*",
+      "remote_port": null,
+      "source": "lsof",
+      "state": "UNCONN",
+      "user": "analyst"
+    },
+    {
+      "address": "127.0.0.1",
+      "family": "inet",
+      "interface": "lo0",
+      "kind": "interface"
+    },
+    {
+      "address": "10.0.0.5",
+      "family": "inet",
+      "interface": "en0",
+      "kind": "interface"
+    },
+    {
+      "address": "fe80::1",
+      "family": "inet6",
+      "interface": "en0",
+      "kind": "interface"
+    },
+    {
+      "destination": "default",
+      "flags": "UGScg",
+      "gateway": "10.0.0.1",
+      "interface": "en0",
+      "kind": "route"
+    },
+    {
+      "destination": "10.0.0/24",
+      "flags": "UCS",
+      "gateway": "link#4",
+      "interface": "en0",
+      "kind": "route"
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "lsof -nP -i -F pcLPnT",
+    "ifconfig -a",
+    "netstat -rn"
+  ],
+  "status": "ok"
+}

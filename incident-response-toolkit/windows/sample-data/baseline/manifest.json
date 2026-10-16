@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "tool": {
+    "name": "windows-ir-toolkit",
+    "version": "0.1.0"
+  },
+  "platform": "Windows",
+  "profile": "FocusedIncident",
+  "collectors_requested": [
+    "inventory",
+    "processes",
+    "network",
+    "accounts",
+    "persistence",
+    "events"
+  ],
+  "started_at": "2026-03-10T12:00:00Z",
+  "finished_at": "2026-03-10T12:00:05Z",
+  "host": {
+    "hostname": "SYNTH-WS01",
+    "synthetic": true
+  },
+  "privileged": false,
+  "event_window_hours": 24,
+  "artifacts": [
+    {
+      "name": "accounts",
+      "path": "artifacts/accounts.json",
+      "status": "ok",
+      "record_count": 7,
+      "sources": [
+        "Get-LocalUser",
+        "Get-LocalGroupMember:Administrators",
+        "Get-LocalGroupMember:Remote Desktop Users",
+        "Win32_LogonSession"
+      ],
+      "errors": [],
+      "notes": [
+        "Only local accounts and sessions visible to the current token are listed; domain group nesting is not expanded."
+      ]
+    },
+    {
+      "name": "events",
+      "path": "artifacts/events.json",
+      "status": "partial",
+      "record_count": 19,
+      "sources": [
+        "Security",
+        "System",
+        "Microsoft-Windows-PowerShell/Operational"
+      ],
+      "errors": [
+        {
+          "collector": "events",
+          "source": "Microsoft-Windows-Sysmon/Operational",
+          "kind": "not_found",
+          "message": "The specified channel could not be found."
+        }
+      ],
+      "notes": [
+        "Event coverage depends on audit policy and log retention; cleared or rolled-over logs cannot be recovered by this tool."
+      ]
+    },
+    {
+      "name": "inventory",
+      "path": "artifacts/inventory.json",
+      "status": "ok",
+      "record_count": 2,
+      "sources": [
+        "Win32_OperatingSystem",
+        "Win32_ComputerSystem",
+        "registry:EnableLUA",
+        "Get-NetFirewallProfile",
+        "Get-MpComputerStatus",
+        "SecurityCenter2.AntiVirusProduct"
+      ],
+      "errors": [],
+      "notes": [
+        "Not elevated: some sources (Security log, Defender details, other users' processes) may be partial."
+      ]
+    },
+    {
+      "name": "network",
+      "path": "artifacts/network.json",
+      "status": "ok",
+      "record_count": 3,
+      "sources": [
+        "Get-NetTCPConnection",
+        "Get-NetUDPEndpoint"
+      ],
+      "errors": [],
+      "notes": []
+    },
+    {
+      "name": "persistence",
+      "path": "artifacts/persistence.json",
+      "status": "ok",
+      "record_count": 7,
+      "sources": [
+        "Win32_Service",
+        "Get-ScheduledTask",
+        "registry:Run/RunOnce",
+        "Win32_StartupCommand",
+        "startup folders",
+        "root\\subscription"
+      ],
+      "errors": [],
+      "notes": [
+        "Not covered: COM hijacking, AppInit/AppCert DLLs, IFEO debuggers, LSA/authentication packages, drivers, BITS jobs, browser extensions, DLL search-order issues."
+      ]
+    },
+    {
+      "name": "processes",
+      "path": "artifacts/processes.json",
+      "status": "ok",
+      "record_count": 6,
+      "sources": [
+        "Win32_Process"
+      ],
+      "errors": [],
+      "notes": [
+        "2 process(es) had limited visibility (no command line or path: protected process or missing elevation). Absence of detail is not absence of activity.",
+        "Processes that exited during collection are not listed. A process list is a point-in-time snapshot."
+      ]
+    }
+  ],
+  "coverage": {
+    "ok": [
+      "accounts",
+      "inventory",
+      "network",
+      "persistence",
+      "processes"
+    ],
+    "partial": [
+      "events"
+    ],
+    "failed": [],
+    "skipped": [],
+    "unavailable": []
+  },
+  "files": [
+    {
+      "path": "artifacts/accounts.json",
+      "size": 1994,
+      "sha256": "6836f1ccb9d9d46f7338c6be2d953ffd3f05c7c2a3b192944f9c11e1899f6f06"
+    },
+    {
+      "path": "artifacts/events.json",
+      "size": 9132,
+      "sha256": "5c1738d2a0c3cca6e472f6f880fe98754164c63bd9c0645816f1359d499ef420"
+    },
+    {
+      "path": "artifacts/inventory.json",
+      "size": 1732,
+      "sha256": "6ba7b0fb6861fa3e657b57526c5de8bceb5551bb4b9d7aabf0ea1255097c64e1"
+    },
+    {
+      "path": "artifacts/network.json",
+      "size": 1106,
+      "sha256": "5c99541028cc1199c74f05038127589e11a48d7825554e7e719617e81a4776e5"
+    },
+    {
+      "path": "artifacts/persistence.json",
+      "size": 3324,
+      "sha256": "b5220b12695debd615725f53f3aa98a175fcaabe0dd77d58362342a6cf693b18"
+    },
+    {
+      "path": "artifacts/processes.json",
+      "size": 3503,
+      "sha256": "6a1664235d52752651762aa854a58f3fcb4dbab18b66ffabcfec4133a68e4b79"
+    }
+  ],
+  "limitations": [
+    "Live-response collection is not a forensic disk or memory image; volatile state changed while collecting.",
+    "The manifest is stored beside the evidence: it detects accidental or naive changes but is not independently tamper-proof. Store a copy of the manifest SHA-256 (or a signed manifest) separately.",
+    "Timestamps are normalised to UTC from host-reported values; clock accuracy is not verified. Original local times are retained where relevant.",
+    "Inaccessible or unexamined sources are listed in the coverage section; absence of data is not absence of activity, and incomplete collection never means the host is clean."
+  ]
+}

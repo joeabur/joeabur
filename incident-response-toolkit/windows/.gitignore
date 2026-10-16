@@ -1,0 +1,24 @@
+# Collected evidence, reports and local configuration are NEVER committed
+/evidence/
+/reports/
+/analysis/
+local.json
+*.local.json
+.env
+.env.*
+*.pfx
+*.pem
+*.key
+*.evtx
+*.dmp
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Test output
+TestResults/
+testResults.xml
+coverage.xml

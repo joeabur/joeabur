@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "events": { "windowHours": 6 },
+  "profiles": {
+    "RdpReview": { "description": "RDP-focused", "collectors": ["inventory", "accounts", "events"], "logs": ["Security"] }
+  },
+  "redaction": {
+    "extraPatterns": [ { "name": "ticket", "pattern": "CORP-[A-Z0-9]{12}", "replacement": "[REDACTED-CORP-TOKEN]" } ]
+  }
+}

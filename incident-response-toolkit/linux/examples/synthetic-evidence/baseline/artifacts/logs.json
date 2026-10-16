@@ -1,0 +1,256 @@
+{
+  "artifact": "logs",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [
+    {
+      "collector": "logs",
+      "kind": "not_found",
+      "message": "journalctl: command not found (synthetic)",
+      "source": "journalctl"
+    }
+  ],
+  "notes": [
+    "log coverage is limited to the readable sources and window listed; rotated or remote logs are not assumed to be complete"
+  ],
+  "records": [
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40000 ssh2",
+      "method": "password",
+      "pid": 2000,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:40:00Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40001 ssh2",
+      "method": "password",
+      "pid": 2001,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:40:07Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40002 ssh2",
+      "method": "password",
+      "pid": 2002,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:41:14Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40003 ssh2",
+      "method": "password",
+      "pid": 2003,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:41:21Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40004 ssh2",
+      "method": "password",
+      "pid": 2004,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:42:28Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40005 ssh2",
+      "method": "password",
+      "pid": 2005,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:42:35Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40006 ssh2",
+      "method": "password",
+      "pid": 2006,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:43:42Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40007 ssh2",
+      "method": "password",
+      "pid": 2007,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:43:49Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40008 ssh2",
+      "method": "password",
+      "pid": 2008,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:44:56Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40009 ssh2",
+      "method": "password",
+      "pid": 2009,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:44:03Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40010 ssh2",
+      "method": "password",
+      "pid": 2010,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:45:10Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_failed_login",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Failed password [REDACTED] invalid user admin from 203.0.113.50 port 40011 ssh2",
+      "method": "password",
+      "pid": 2011,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:45:17Z",
+      "user": "admin"
+    },
+    {
+      "event_type": "ssh_accepted",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Accepted password [REDACTED] root from 203.0.113.50 port 40100 ssh2",
+      "method": "password",
+      "pid": 2900,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "203.0.113.50",
+      "ts": "2026-03-10T11:50:30Z",
+      "user": "root"
+    },
+    {
+      "event_type": "ssh_invalid_user",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "Invalid user test from 198.51.100.77",
+      "pid": 2901,
+      "program": "sshd",
+      "source": "/var/log/auth.log",
+      "src_ip": "198.51.100.77",
+      "ts": "2026-03-10T11:51:00Z",
+      "user": "test"
+    },
+    {
+      "command": "/usr/bin/id",
+      "event_type": "sudo_command",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "analyst : TTY=pts/0 ; PWD=[REDACTED] ; USER=root ; COMMAND=/usr/bin/id",
+      "pid": null,
+      "program": "sudo",
+      "source": "/var/log/auth.log",
+      "ts": "2026-03-10T11:55:01Z",
+      "user": "analyst"
+    },
+    {
+      "event_type": "sudo_auth_failure",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "pam_unix(sudo:auth): authentication failure; logname=analyst uid=1000 euid=0 tty=/dev/pts/0 ruser=analyst rhost=  user=analyst",
+      "pid": null,
+      "program": "sudo",
+      "source": "/var/log/auth.log",
+      "ts": "2026-03-10T11:56:00Z",
+      "user": "analyst"
+    },
+    {
+      "event_type": "sudo_auth_failure",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "pam_unix(sudo:auth): authentication failure; logname=analyst uid=1000 euid=0 tty=/dev/pts/0 ruser=analyst rhost=  user=analyst",
+      "pid": null,
+      "program": "sudo",
+      "source": "/var/log/auth.log",
+      "ts": "2026-03-10T11:56:10Z",
+      "user": "analyst"
+    },
+    {
+      "event_type": "sudo_auth_failure",
+      "host": "synthetic-host",
+      "kind": "auth_event",
+      "message": "pam_unix(sudo:auth): authentication failure; logname=analyst uid=1000 euid=0 tty=/dev/pts/0 ruser=analyst rhost=  user=analyst",
+      "pid": null,
+      "program": "sudo",
+      "source": "/var/log/auth.log",
+      "ts": "2026-03-10T11:56:20Z",
+      "user": "analyst"
+    },
+    {
+      "kind": "log_stats",
+      "lines": 20,
+      "outside_window": 1,
+      "unrecognized": 1,
+      "window_end": "2026-03-10T12:00:00Z",
+      "window_start": "2026-03-09T12:00:00Z"
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "/var/log/auth.log"
+  ],
+  "status": "partial"
+}

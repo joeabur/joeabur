@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "artifact": "inventory",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "status": "ok",
+  "sources": [
+    "Win32_OperatingSystem",
+    "Win32_ComputerSystem",
+    "registry:EnableLUA",
+    "Get-NetFirewallProfile",
+    "Get-MpComputerStatus",
+    "SecurityCenter2.AntiVirusProduct"
+  ],
+  "notes": [
+    "Not elevated: some sources (Security log, Defender details, other users' processes) may be partial."
+  ],
+  "errors": [],
+  "records": [
+    {
+      "kind": "host",
+      "hostname": "SYNTH-WS01",
+      "domain": "WORKGROUP",
+      "part_of_domain": false,
+      "os_caption": "Microsoft Windows 11 Pro (synthetic)",
+      "os_version": "10.0.22631",
+      "os_build": "22631",
+      "architecture": "64-bit",
+      "is_server": false,
+      "boot_time": "2026-03-09T08:00:00Z",
+      "uptime_seconds": 100800,
+      "collected_at": "2026-03-10T12:00:00Z",
+      "local_time_original": "2026-03-10T14:00:00+02:00",
+      "time_zone": "(UTC+02:00) Synthetic Standard Time",
+      "utc_offset_minutes": 120,
+      "powershell_version": "7.4.6",
+      "powershell_edition": "Core",
+      "elevated": false,
+      "settings": {
+        "uac_enabled": true,
+        "firewall": {
+          "Domain": true,
+          "Private": true,
+          "Public": false
+        },
+        "defender": {
+          "service_enabled": true,
+          "antivirus_enabled": true,
+          "realtime_protection": true,
+          "tamper_protected": true,
+          "signatures_updated": "2026-03-10T03:00:00Z"
+        }
+      }
+    },
+    {
+      "kind": "security_product",
+      "name": "Windows Defender (synthetic)",
+      "product_state": 397568,
+      "enabled": true,
+      "signatures_up_to_date": true
+    }
+  ]
+}

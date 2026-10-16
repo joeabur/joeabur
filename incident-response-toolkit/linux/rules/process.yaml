@@ -1,0 +1,63 @@
+# Process rules. Declarative data only: see docs/configuration.md for the schema.
+rules:
+  - id: LIR-PROC-001
+    version: 1
+    title: Process executing from a world-writable staging directory
+    description: >-
+      The process executable path is inside /tmp, /var/tmp or /dev/shm. These directories are
+      writable by every user, so malware sometimes runs from them, but installers and build tools
+      legitimately do too.
+    category: process
+    severity: medium
+    confidence: low
+    artifact: processes
+    when:
+      - {field: exe, op: startswith_any, value: ["/tmp/", "/var/tmp/", "/dev/shm/"]}
+    why: "Process {name} (pid {pid}) runs from {exe}."
+    false_positives:
+      - Package installers, CI runners, language-runtime bootstrap scripts and AppImage-style tools.
+    next_steps:
+      - Identify the parent process and the user that started it.
+      - Hash the binary and compare with trusted sources (do not execute it).
+      - Review creation time against the authentication log timeline.
+    attack: []
+
+  - id: LIR-PROC-002
+    version: 1
+    title: Running process whose executable file was deleted
+    description: >-
+      /proc reports the executable as deleted. This can follow a package upgrade, but is also a
+      technique to hinder file-based analysis.
+    category: process
+    severity: medium
+    confidence: low
+    artifact: processes
+    when:
+      - {field: exe_deleted, op: truthy}
+    why: "Process {name} (pid {pid}) is running from a deleted file ({exe})."
+    false_positives:
+      - Services that were not restarted after their package was upgraded.
+    next_steps:
+      - Check package-manager logs for an update at the time the file disappeared.
+      - If acquisition is authorised, preserve the binary from /proc/<pid>/exe before the process ends.
+    attack: [T1070.004]
+
+  - id: LIR-PROC-003
+    version: 1
+    title: Command line contains analyst-defined suspicious pattern
+    description: >-
+      The (redacted) command line contains a pattern commonly used in reverse shells or ad-hoc
+      tooling. Edit this list to suit your environment.
+    category: process
+    severity: high
+    confidence: low
+    artifact: processes
+    when:
+      - {field: cmdline, op: contains_any, value: ["/dev/tcp/", "nc -e ", "ncat -e ", "mkfifo /tmp/"]}
+    why: "Process {name} (pid {pid}) command line matches a configured pattern: {cmdline}"
+    false_positives:
+      - Administrators or tests that deliberately use netcat/bash network redirection.
+    next_steps:
+      - Establish who launched the process and from which session.
+      - Check the matching network socket in the network artifact.
+    attack: [T1059.004]

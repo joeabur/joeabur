@@ -1,0 +1,11 @@
+# Example local configuration: a custom profile focused on persistence + a narrower log predicate.
+# Detection RULES themselves live in rules/*.yaml (see docs/configuration.md). Use with --config.
+profiles:
+  persistence-review:
+    collectors: [persistence, files]
+    deep: true
+logs:
+  window_hours: 12
+  predicate: 'process == "sshd" OR process == "sudo"'
+ioc:
+  match_subdomains: false

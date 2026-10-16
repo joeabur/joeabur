@@ -1,0 +1,7 @@
+# Example: add organisation-specific redaction patterns. Use with --config configs/redaction.yaml.
+# Built-in patterns (passwords, tokens, API keys, URL credentials, bearer tokens, AWS keys) stay active.
+redaction:
+  extra_patterns:
+    - name: internal-ticket-token
+      pattern: 'CORP-[A-Z0-9]{12}'
+      replacement: '[REDACTED-CORP-TOKEN]'

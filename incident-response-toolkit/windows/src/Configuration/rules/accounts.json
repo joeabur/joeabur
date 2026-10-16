@@ -1,0 +1,77 @@
+{
+  "rules": [
+    {
+      "id": "WIR-ACCT-001",
+      "version": 1,
+      "title": "Enabled local account does not require a password",
+      "description": "An enabled local user has PasswordRequired = false.",
+      "category": "authentication",
+      "severity": "low",
+      "confidence": "medium",
+      "artifact": "accounts",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "local_user"
+        },
+        {
+          "field": "enabled",
+          "op": "truthy"
+        },
+        {
+          "field": "password_required",
+          "op": "falsy"
+        }
+      ],
+      "why": "Account {name} is enabled and does not require a password.",
+      "false_positives": [
+        "Built-in Guest-style or kiosk accounts."
+      ],
+      "next_steps": [
+        "Verify the account's purpose and logon restrictions."
+      ],
+      "attack": [
+        "T1078"
+      ]
+    },
+    {
+      "id": "WIR-ACCT-002",
+      "version": 1,
+      "title": "New local Administrators member compared with baseline",
+      "description": "A member of Administrators is absent from the baseline.",
+      "category": "authentication",
+      "severity": "medium",
+      "confidence": "medium",
+      "artifact": "accounts",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "group_member"
+        },
+        {
+          "field": "group",
+          "op": "eq",
+          "value": "Administrators"
+        }
+      ],
+      "why": "{member} is a member of {group} but was absent from the baseline.",
+      "false_positives": [
+        "Planned administrative changes."
+      ],
+      "next_steps": [
+        "Verify against change records."
+      ],
+      "attack": [
+        "T1098"
+      ],
+      "type": "baseline",
+      "mode": "new",
+      "key_fields": [
+        "group",
+        "member"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+rules:
+  - id: LIR-FILE-001
+    version: 1
+    title: Executable file in a world-writable staging directory
+    description: >-
+      An ELF file or file with an executable bit exists in /tmp, /var/tmp or /dev/shm. Executable is
+      not the same as malicious; this is a triage lead only.
+    category: file_integrity
+    severity: low
+    confidence: low
+    artifact: files
+    when:
+      - {field: kind, op: eq, value: writable_dir_exec}
+    why: "{path} (owner {owner}, mode {mode}) is executable in {staging_dir}."
+    false_positives:
+      - Temporary build outputs, installer payloads, test binaries.
+    next_steps:
+      - Check the SHA-256 against your IOC list and trusted sources; do not execute the file.
+      - Identify the creating user from ownership and correlate with logins.
+    attack: []
+
+  - id: LIR-FILE-002
+    version: 1
+    title: /etc/ld.so.preload is present
+    description: The dynamic-linker preload file exists. It is rarely used legitimately and is a known hijack location.
+    category: file_integrity
+    severity: high
+    confidence: medium
+    artifact: files
+    when:
+      - {field: path, op: eq, value: /etc/ld.so.preload}
+      - {field: size, op: gte, value: 1}
+    why: "/etc/ld.so.preload exists with size {size} bytes (mtime {mtime})."
+    false_positives:
+      - Some security or performance tooling (e.g. allocators, sandboxes) uses LD_PRELOAD files.
+    next_steps:
+      - Read the file contents and verify the listed libraries belong to known software.
+    attack: [T1574.006]
+
+  - id: LIR-FILE-003
+    version: 1
+    title: Sensitive file has unexpected permissions
+    description: A password/sudo/ssh configuration file is world-writable, or the shadow file is world-readable.
+    category: file_integrity
+    severity: high
+    confidence: high
+    artifact: files
+    when:
+      - {field: kind, op: eq, value: sensitive_file}
+      - {field: world_writable, op: truthy}
+    why: "{path} is world-writable (mode {mode}, owner {owner})."
+    false_positives:
+      - Containers or test images built with permissive modes.
+    next_steps:
+      - Review recent modifications to the file and restore permissions after evidence is preserved.
+    attack: [T1222.002]
+
+  - id: LIR-FILE-004
+    version: 1
+    title: World-readable shadow file
+    description: /etc/shadow or /etc/gshadow can be read by any user.
+    category: file_integrity
+    severity: high
+    confidence: high
+    artifact: files
+    when:
+      - {field: path, op: in, value: [/etc/shadow, /etc/gshadow]}
+      - {field: world_readable, op: truthy}
+    why: "{path} is world-readable (mode {mode})."
+    false_positives:
+      - Rare custom setups; unexpected on standard distributions.
+    next_steps:
+      - Treat password hashes as potentially exposed; review access history.
+    attack: [T1222.002]
+
+  - id: LIR-FILE-005
+    version: 1
+    title: Selected security-relevant file changed compared with baseline
+    description: A tracked sensitive file's SHA-256 differs from the baseline evidence.
+    category: file_integrity
+    severity: medium
+    confidence: medium
+    artifact: files
+    type: baseline
+    mode: changed
+    key_fields: [path]
+    compare_fields: [sha256]
+    when:
+      - {field: kind, op: eq, value: sensitive_file}
+    why: "{path} content hash changed since the baseline."
+    false_positives:
+      - Normal account, DNS or host-file administration.
+    next_steps:
+      - Obtain the previous version from backups/configuration management and diff.
+    attack: []

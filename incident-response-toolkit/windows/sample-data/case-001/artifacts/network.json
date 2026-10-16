@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "artifact": "network",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "status": "ok",
+  "sources": [
+    "Get-NetTCPConnection",
+    "Get-NetUDPEndpoint"
+  ],
+  "notes": [],
+  "errors": [],
+  "records": [
+    {
+      "kind": "socket",
+      "proto": "tcp",
+      "state": "Listen",
+      "local_addr": "0.0.0.0",
+      "local_port": 445,
+      "remote_addr": "0.0.0.0",
+      "remote_port": 0,
+      "pid": 4,
+      "process": "System",
+      "process_path": null
+    },
+    {
+      "kind": "socket",
+      "proto": "tcp",
+      "state": "Listen",
+      "local_addr": "0.0.0.0",
+      "local_port": 4444,
+      "remote_addr": "0.0.0.0",
+      "remote_port": 0,
+      "pid": 4400,
+      "process": "updater.exe",
+      "process_path": "C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe"
+    },
+    {
+      "kind": "socket",
+      "proto": "tcp",
+      "state": "Established",
+      "local_addr": "10.0.0.5",
+      "local_port": 51234,
+      "remote_addr": "203.0.113.50",
+      "remote_port": 443,
+      "pid": 4400,
+      "process": "updater.exe",
+      "process_path": "C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe"
+    },
+    {
+      "kind": "socket",
+      "proto": "tcp",
+      "state": "Established",
+      "local_addr": "10.0.0.5",
+      "local_port": 50111,
+      "remote_addr": "198.51.100.20",
+      "remote_port": 443,
+      "pid": 2100,
+      "process": "explorer.exe",
+      "process_path": "C:\\Windows\\explorer.exe"
+    },
+    {
+      "kind": "socket",
+      "proto": "udp",
+      "state": "Listen",
+      "local_addr": "0.0.0.0",
+      "local_port": 5353,
+      "remote_addr": "",
+      "remote_port": 0,
+      "pid": 2100,
+      "process": "explorer.exe",
+      "process_path": "C:\\Windows\\explorer.exe"
+    }
+  ]
+}

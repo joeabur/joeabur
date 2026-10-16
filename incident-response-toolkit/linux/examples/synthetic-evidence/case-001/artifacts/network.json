@@ -1,0 +1,97 @@
+{
+  "artifact": "network",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [
+    {
+      "collector": "network",
+      "kind": "not_found",
+      "message": "nft: command not found (synthetic) (root is typically required; re-run this collector as root if needed)",
+      "source": "nft list ruleset"
+    },
+    {
+      "collector": "network",
+      "kind": "not_found",
+      "message": "iptables: command not found (synthetic) (root is typically required; re-run this collector as root if needed)",
+      "source": "iptables -S"
+    }
+  ],
+  "notes": [],
+  "records": [
+    {
+      "kind": "socket",
+      "local_addr": "0.0.0.0",
+      "local_port": 22,
+      "pid": 412,
+      "process": "sshd",
+      "proto": "tcp",
+      "remote_addr": "0.0.0.0",
+      "remote_port": null,
+      "source": "ss",
+      "state": "LISTEN"
+    },
+    {
+      "kind": "socket",
+      "local_addr": "0.0.0.0",
+      "local_port": 4444,
+      "pid": 977,
+      "process": "kworker-upd",
+      "proto": "tcp",
+      "remote_addr": "0.0.0.0",
+      "remote_port": null,
+      "source": "ss",
+      "state": "LISTEN"
+    },
+    {
+      "kind": "socket",
+      "local_addr": "10.0.0.5",
+      "local_port": 51234,
+      "pid": 977,
+      "process": "kworker-upd",
+      "proto": "tcp",
+      "remote_addr": "203.0.113.50",
+      "remote_port": 443,
+      "source": "ss",
+      "state": "ESTAB"
+    },
+    {
+      "kind": "socket",
+      "local_addr": "127.0.0.53",
+      "local_port": 53,
+      "pid": 300,
+      "process": "resolved",
+      "proto": "udp",
+      "remote_addr": "0.0.0.0",
+      "remote_port": null,
+      "source": "ss",
+      "state": "UNCONN"
+    },
+    {
+      "address": "10.0.0.5/24",
+      "family": "inet",
+      "interface": "eth0",
+      "kind": "interface"
+    },
+    {
+      "destination": "default",
+      "dev": "eth0",
+      "kind": "route",
+      "metric": "100",
+      "raw": "default via 10.0.0.1 dev eth0 proto dhcp metric 100",
+      "via": "10.0.0.1"
+    },
+    {
+      "destination": "10.0.0.0/24",
+      "dev": "eth0",
+      "kind": "route",
+      "raw": "10.0.0.0/24 dev eth0 src 10.0.0.5",
+      "src": "10.0.0.5"
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "ss -H -tunap",
+    "ip -o addr",
+    "ip route"
+  ],
+  "status": "partial"
+}

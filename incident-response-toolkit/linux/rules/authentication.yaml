@@ -1,0 +1,83 @@
+rules:
+  - id: LIR-AUTH-001
+    version: 1
+    title: Repeated failed SSH logins from one source
+    description: At least 10 failed SSH logins from the same IP within 10 minutes.
+    category: authentication
+    severity: medium
+    confidence: medium
+    artifact: logs
+    type: threshold
+    group_by: src_ip
+    threshold: 10
+    window_seconds: 600
+    when:
+      - {field: event_type, op: eq, value: ssh_failed_login}
+    why: "{count} failed SSH logins from {group} within the window."
+    false_positives:
+      - Misconfigured automation or users with an expired password.
+      - Shared NAT addresses aggregating many users.
+    next_steps:
+      - Check whether any success follows from the same source (ssh_accepted events).
+      - Consider the source IP against IOC lists and firewall policy (decision for the responder).
+    attack: [T1110]
+
+  - id: LIR-AUTH-002
+    version: 1
+    title: Repeated SSH attempts for invalid users
+    description: At least 5 attempts for non-existent accounts from one IP within 10 minutes.
+    category: authentication
+    severity: low
+    confidence: medium
+    artifact: logs
+    type: threshold
+    group_by: src_ip
+    threshold: 5
+    window_seconds: 600
+    when:
+      - {field: event_type, op: eq, value: ssh_invalid_user}
+    why: "{count} invalid-user attempts from {group}."
+    false_positives:
+      - Internet-wide background scanning (very common for exposed SSH).
+    next_steps:
+      - Correlate with failed/accepted events from the same source.
+    attack: [T1110.001]
+
+  - id: LIR-AUTH-003
+    version: 1
+    title: Direct root SSH login accepted
+    description: An SSH login for the root account succeeded.
+    category: authentication
+    severity: low
+    confidence: medium
+    artifact: logs
+    when:
+      - {field: event_type, op: eq, value: ssh_accepted}
+      - {field: user, op: eq, value: root}
+    why: "root logged in over SSH from {src_ip} using {method} at {ts}."
+    false_positives:
+      - Environments that permit root key-based login for automation.
+    next_steps:
+      - Verify the source address and key fingerprint with the system owner.
+    attack: [T1078]
+
+  - id: LIR-AUTH-004
+    version: 1
+    title: Repeated sudo authentication failures
+    description: At least 3 sudo authentication failures for one user within 15 minutes.
+    category: authentication
+    severity: medium
+    confidence: low
+    artifact: logs
+    type: threshold
+    group_by: user
+    threshold: 3
+    window_seconds: 900
+    when:
+      - {field: event_type, op: eq, value: sudo_auth_failure}
+    why: "{count} sudo authentication failures for user {group}."
+    false_positives:
+      - Users mistyping a password.
+    next_steps:
+      - Check what commands the user ran before and after (sudo_command events).
+    attack: [T1548.003]

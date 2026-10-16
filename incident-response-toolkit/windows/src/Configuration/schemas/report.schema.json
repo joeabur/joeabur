@@ -1,0 +1,13 @@
+{
+  "title": "WinIRToolkit report (schema_version 1)",
+  "description": "Minimal structural schema checked by Test-IRReportSchema: required keys only.",
+  "required": [
+    "schema_version", "tool", "generated_at", "platform", "host", "scope", "integrity", "artifact_counts", "coverage",
+    "detection_counts_by_severity", "ioc_counts_by_severity", "confirmed_observations", "heuristic_findings", "ioc_matches",
+    "ioc_file", "collection_errors", "not_assessed", "limitations", "recommended_next_steps"
+  ],
+  "finding_required": [
+    "rule_id", "rule_version", "title", "observation", "rationale", "category", "severity", "confidence", "classification",
+    "artifact", "evidence_ref", "evidence", "false_positives", "recommended_next_steps", "attack"
+  ]
+}

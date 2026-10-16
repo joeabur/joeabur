@@ -1,0 +1,77 @@
+rules:
+  - id: MIR-FILE-001
+    version: 1
+    title: Executable file in a world-writable or shared staging directory
+    description: >-
+      A Mach-O binary, script or file with an executable bit exists in /private/tmp, /private/var/tmp or /Users/Shared.
+      Executable is not the same as malicious; this is a triage lead only.
+    category: file_integrity
+    severity: low
+    confidence: low
+    artifact: files
+    when:
+      - {field: kind, op: eq, value: writable_dir_exec}
+    why: "{path} (owner {owner}, mode {mode}) is executable in {staging_dir}."
+    false_positives:
+      - Installer payloads, temporary build output and test binaries.
+    next_steps:
+      - Compare the SHA-256 with your IOC list and trusted sources; do not execute the file.
+    attack: []
+
+  - id: MIR-FILE-002
+    version: 1
+    title: Sensitive file has unexpected permissions
+    description: A system configuration file (sudoers, hosts, ssh, pam) is world-writable.
+    category: file_integrity
+    severity: high
+    confidence: high
+    artifact: files
+    when:
+      - {field: kind, op: eq, value: sensitive_file}
+      - {field: world_writable, op: truthy}
+    why: "{path} is world-writable (mode {mode}, owner {owner})."
+    false_positives:
+      - Rare lab configurations.
+    next_steps:
+      - Review modification history and restore permissions after preserving evidence.
+    attack: [T1222.002]
+
+  - id: MIR-FILE-003
+    version: 1
+    title: Sensitive file owned by a non-root account
+    description: A system file under /etc is owned by a user other than root.
+    category: file_integrity
+    severity: medium
+    confidence: medium
+    artifact: files
+    when:
+      - {field: kind, op: eq, value: sensitive_file}
+      - {field: uid, op: gte, value: 1}
+      - {field: path, op: startswith_any, value: ["/etc/"]}
+    why: "{path} is owned by uid {uid} ({owner})."
+    false_positives:
+      - Custom provisioning that chowns configuration files.
+    next_steps:
+      - Establish who changed the ownership and when.
+    attack: [T1222.002]
+
+  - id: MIR-FILE-004
+    version: 1
+    title: Selected security-relevant file changed compared with baseline
+    description: A tracked system file's SHA-256 differs from the baseline evidence (e.g. /etc/hosts).
+    category: file_integrity
+    severity: medium
+    confidence: medium
+    artifact: files
+    type: baseline
+    mode: changed
+    key_fields: [path]
+    compare_fields: [sha256]
+    when:
+      - {field: kind, op: eq, value: sensitive_file}
+    why: "{path} content hash changed since the baseline."
+    false_positives:
+      - Normal administration and OS updates.
+    next_steps:
+      - Obtain the prior version (backups, Time Machine) and diff.
+    attack: []

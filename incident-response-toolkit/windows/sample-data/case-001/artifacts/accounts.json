@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "artifact": "accounts",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "status": "ok",
+  "sources": [
+    "Get-LocalUser",
+    "Get-LocalGroupMember:Administrators",
+    "Get-LocalGroupMember:Remote Desktop Users",
+    "Win32_LogonSession"
+  ],
+  "notes": [
+    "Only local accounts and sessions visible to the current token are listed; domain group nesting is not expanded."
+  ],
+  "errors": [],
+  "records": [
+    {
+      "kind": "local_user",
+      "name": "Administrator",
+      "enabled": false,
+      "sid": "S-1-5-21-1-1-1-500",
+      "last_logon": null,
+      "password_last_set": "2025-01-01T00:00:00Z",
+      "password_required": true
+    },
+    {
+      "kind": "local_user",
+      "name": "analyst",
+      "enabled": true,
+      "sid": "S-1-5-21-1-1-1-1001",
+      "last_logon": "2026-03-10T08:30:00Z",
+      "password_last_set": "2025-06-01T00:00:00Z",
+      "password_required": true
+    },
+    {
+      "kind": "local_user",
+      "name": "svc_backup",
+      "enabled": true,
+      "sid": "S-1-5-21-1-1-1-1002",
+      "last_logon": null,
+      "password_last_set": null,
+      "password_required": false
+    },
+    {
+      "kind": "group_member",
+      "group": "Administrators",
+      "member": "SYNTH-WS01\\Administrator",
+      "object_class": "User",
+      "sid": "S-1-5-21-1-1-1-500"
+    },
+    {
+      "kind": "group_member",
+      "group": "Administrators",
+      "member": "SYNTH-WS01\\analyst",
+      "object_class": "User",
+      "sid": "S-1-5-21-1-1-1-1001"
+    },
+    {
+      "kind": "group_member",
+      "group": "Administrators",
+      "member": "SYNTH-WS01\\svc_backup",
+      "object_class": "User",
+      "sid": "S-1-5-21-1-1-1-1002"
+    },
+    {
+      "kind": "logon_session",
+      "logon_id": "0x3e7",
+      "logon_type": 0,
+      "start_time": "2026-03-09T08:00:10Z",
+      "authentication_package": "Negotiate",
+      "user": "SYSTEM",
+      "domain": "NT AUTHORITY"
+    },
+    {
+      "kind": "logon_session",
+      "logon_id": "0x1a2b3",
+      "logon_type": 2,
+      "start_time": "2026-03-10T08:30:00Z",
+      "authentication_package": "Kerberos",
+      "user": "analyst",
+      "domain": "SYNTH-WS01"
+    }
+  ]
+}

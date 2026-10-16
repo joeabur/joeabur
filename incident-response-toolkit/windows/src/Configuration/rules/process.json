@@ -1,0 +1,206 @@
+{
+  "rules": [
+    {
+      "id": "WIR-PROC-001",
+      "version": 1,
+      "title": "Process running from a user-writable location",
+      "description": "The process executable path is under a temp, public, downloads or recycle-bin directory. Malware often runs from such locations, but installers and portable tools legitimately do too.",
+      "category": "process",
+      "severity": "medium",
+      "confidence": "low",
+      "artifact": "processes",
+      "when": [
+        {
+          "field": "exe",
+          "op": "contains_any",
+          "value": [
+            "\\appdata\\local\\temp\\",
+            "\\windows\\temp\\",
+            "\\users\\public\\",
+            "\\downloads\\",
+            "\\$recycle.bin\\",
+            "\\perflogs\\"
+          ]
+        }
+      ],
+      "why": "Process {name} (pid {pid}, user {user}) runs from {exe}.",
+      "false_positives": [
+        "Installers, updaters, portable tools and software run from Downloads or Temp."
+      ],
+      "next_steps": [
+        "Identify the parent process and the logon session that started it.",
+        "Hash and signature-check the file (never run it) and compare with trusted sources.",
+        "Correlate the start time with authentication and persistence artifacts."
+      ],
+      "attack": []
+    },
+    {
+      "id": "WIR-PROC-002",
+      "version": 1,
+      "title": "Unsigned or untrusted executable in a user-writable location",
+      "description": "Authenticode status is NotSigned/HashMismatch/NotTrusted AND the file lives in a user-writable location. Signing status alone is not a verdict: many legitimate tools are unsigned.",
+      "category": "process",
+      "severity": "medium",
+      "confidence": "low",
+      "artifact": "processes",
+      "when": [
+        {
+          "field": "exe",
+          "op": "contains_any",
+          "value": [
+            "\\appdata\\local\\temp\\",
+            "\\windows\\temp\\",
+            "\\users\\public\\",
+            "\\downloads\\",
+            "\\$recycle.bin\\",
+            "\\perflogs\\"
+          ]
+        },
+        {
+          "field": "signature_status",
+          "op": "in",
+          "value": [
+            "NotSigned",
+            "HashMismatch",
+            "NotTrusted",
+            "UnknownError"
+          ]
+        }
+      ],
+      "why": "Process {name} (pid {pid}) from {exe} has signature status {signature_status}.",
+      "false_positives": [
+        "Internal tools, scripts compiled to executables and developer builds are commonly unsigned."
+      ],
+      "next_steps": [
+        "Establish provenance (download source, installer, creation time).",
+        "Check the SHA-256 against your IOC list and trusted sources."
+      ],
+      "attack": [
+        "T1036"
+      ]
+    },
+    {
+      "id": "WIR-PROC-003",
+      "version": 1,
+      "title": "Office application spawned a script interpreter or proxy-execution binary",
+      "description": "A document-handling application is the parent of a shell, script host or common proxy-execution binary.",
+      "category": "process",
+      "severity": "high",
+      "confidence": "medium",
+      "artifact": "processes",
+      "when": [
+        {
+          "field": "parent_name",
+          "op": "in",
+          "value": [
+            "winword.exe",
+            "excel.exe",
+            "powerpnt.exe",
+            "outlook.exe",
+            "msaccess.exe",
+            "onenote.exe"
+          ]
+        },
+        {
+          "field": "name",
+          "op": "in",
+          "value": [
+            "cmd.exe",
+            "powershell.exe",
+            "pwsh.exe",
+            "wscript.exe",
+            "cscript.exe",
+            "mshta.exe",
+            "rundll32.exe",
+            "regsvr32.exe"
+          ]
+        }
+      ],
+      "why": "{parent_name} (pid {ppid}) spawned {name} (pid {pid}): {cmdline}",
+      "false_positives": [
+        "Macros and add-ins in managed environments can legitimately launch helpers (rare)."
+      ],
+      "next_steps": [
+        "Retrieve the document/e-mail that preceded this process and inspect it in isolation.",
+        "Review child processes and network connections of the spawned process."
+      ],
+      "attack": [
+        "T1204.002",
+        "T1059"
+      ]
+    },
+    {
+      "id": "WIR-PROC-004",
+      "version": 1,
+      "title": "PowerShell started with an encoded command",
+      "description": "PowerShell command line contains -EncodedCommand (or a prefix) with a long Base64-like argument.",
+      "category": "process",
+      "severity": "medium",
+      "confidence": "low",
+      "artifact": "processes",
+      "when": [
+        {
+          "field": "name",
+          "op": "in",
+          "value": [
+            "powershell.exe",
+            "pwsh.exe"
+          ]
+        },
+        {
+          "field": "cmdline",
+          "op": "regex",
+          "value": "\\s-(e|ec|en|enc|enco|encod|encode|encoded|encodedcommand)\\s+[A-Za-z0-9+/=]{20,}"
+        }
+      ],
+      "why": "{name} (pid {pid}) was started with an encoded command.",
+      "false_positives": [
+        "Management agents and installers sometimes pass encoded commands."
+      ],
+      "next_steps": [
+        "Decode the Base64 argument offline (UTF-16LE) and review it; do not execute it.",
+        "Check PowerShell script-block logs (event 4104) for the same time."
+      ],
+      "attack": [
+        "T1059.001",
+        "T1027"
+      ]
+    },
+    {
+      "id": "WIR-PROC-005",
+      "version": 1,
+      "title": "Command line contains analyst-defined suspicious pattern",
+      "description": "Download cradles, hidden windows or LOLBin download switches appear in the (redacted) command line. Edit the list to suit your environment.",
+      "category": "process",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "processes",
+      "when": [
+        {
+          "field": "cmdline",
+          "op": "contains_any",
+          "value": [
+            "Invoke-Expression",
+            "DownloadString(",
+            "DownloadFile(",
+            "-nop -w hidden",
+            "-windowstyle hidden",
+            "certutil -urlcache",
+            "bitsadmin /transfer"
+          ]
+        }
+      ],
+      "why": "Process {name} (pid {pid}) command line matches a configured pattern: {cmdline}",
+      "false_positives": [
+        "Administration scripts and deployment tools use these constructs."
+      ],
+      "next_steps": [
+        "Identify the parent chain and the user.",
+        "Review network connections owned by the pid."
+      ],
+      "attack": [
+        "T1059.001"
+      ]
+    }
+  ]
+}

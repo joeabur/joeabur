@@ -1,0 +1,30 @@
+# Default configuration (identical to the built-in defaults). Copy and edit; pass with --config.
+# Unknown keys are rejected. See docs/configuration.md.
+limits:
+  command_timeout_seconds: 15
+  max_command_output_bytes: 2000000
+  max_processes: 5000
+  max_hash_bytes: 104857600
+  max_log_lines: 5000
+  max_log_file_bytes: 5000000
+  max_records_per_artifact: 20000
+  max_walk_entries: 500
+profiles:
+  basic:
+    collectors: [inventory, processes, network, persistence, logs]
+    deep: false
+  extended:
+    collectors: [inventory, processes, network, persistence, logs, files]
+    deep: true
+logs:
+  window_hours: 24
+detection:
+  max_findings_per_rule: 200
+  max_regex_input_chars: 2048
+  max_records: 200000
+ioc:
+  match_subdomains: false      # explicit opt-in for broader domain matching
+  case_insensitive_paths: false
+redaction:
+  enabled: true
+  extra_patterns: []           # see configs/redaction.yaml for the syntax

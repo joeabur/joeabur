@@ -1,0 +1,209 @@
+{
+  "artifacts": [
+    {
+      "errors": [],
+      "name": "files",
+      "notes": [],
+      "path": "artifacts/files.json",
+      "record_count": 5,
+      "sources": [
+        "/etc/hosts",
+        "/etc/paths",
+        "/etc/zshrc",
+        "/etc/sudoers",
+        "/private/tmp"
+      ],
+      "status": "ok"
+    },
+    {
+      "errors": [],
+      "name": "inventory",
+      "notes": [],
+      "path": "artifacts/inventory.json",
+      "record_count": 4,
+      "sources": [
+        "sw_vers",
+        "uname -m",
+        "hostname",
+        "sysctl -n kern.boottime",
+        "csrutil status",
+        "spctl --status",
+        "fdesetup status",
+        "/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate",
+        "who",
+        "df -k"
+      ],
+      "status": "ok"
+    },
+    {
+      "errors": [],
+      "name": "logs",
+      "notes": [
+        "unified logging may omit, expire or redact (<private>) events; this artifact is a bounded sample of the predicate and window shown, not a complete record",
+        "1 event(s) contained <private> redactions"
+      ],
+      "path": "artifacts/logs.json",
+      "record_count": 19,
+      "sources": [
+        "log show (live)"
+      ],
+      "status": "ok"
+    },
+    {
+      "errors": [],
+      "name": "network",
+      "notes": [
+        "lsof without root shows only the current user's processes; listening sockets of other users or system daemons may be missing."
+      ],
+      "path": "artifacts/network.json",
+      "record_count": 9,
+      "sources": [
+        "lsof -nP -i -F pcLPnT",
+        "ifconfig -a",
+        "netstat -rn"
+      ],
+      "status": "ok"
+    },
+    {
+      "errors": [
+        {
+          "collector": "persistence",
+          "kind": "parse_error",
+          "message": "unparseable property list: ExpatError",
+          "source": "/Library/LaunchDaemons/broken.plist"
+        },
+        {
+          "collector": "persistence",
+          "kind": "not_found",
+          "message": "codesign: not found (synthetic)",
+          "source": "codesign /usr/local/bin/helper"
+        },
+        {
+          "collector": "persistence",
+          "kind": "not_found",
+          "message": "codesign: not found (synthetic)",
+          "source": "codesign /bin/bash"
+        }
+      ],
+      "name": "persistence",
+      "notes": [
+        "only the current user's crontab was listed; other users' crontabs (/var/at/tabs) need root",
+        "Login Items / Background Task Management entries are stored in a protected database (`sfltool dumpbtm` needs root); only artifact file metadata is recorded."
+      ],
+      "path": "artifacts/persistence.json",
+      "record_count": 11,
+      "sources": [
+        "/Library/LaunchDaemons",
+        "/Library/LaunchAgents",
+        "/Users/analyst/Library/LaunchAgents",
+        "crontab -l",
+        "/Library/StartupItems"
+      ],
+      "status": "partial"
+    },
+    {
+      "errors": [],
+      "name": "processes",
+      "notes": [
+        "Processes that exited between ps calls may lack a command line. Absence of a process is not proof it never ran."
+      ],
+      "path": "artifacts/processes.json",
+      "record_count": 6,
+      "sources": [
+        "ps -axo pid=,ppid=,uid=,user=,stat=,lstart=,comm=",
+        "ps -axww -o pid=,command="
+      ],
+      "status": "ok"
+    }
+  ],
+  "collectors_requested": [
+    "inventory",
+    "processes",
+    "network",
+    "persistence",
+    "logs",
+    "files"
+  ],
+  "coverage": {
+    "failed": [],
+    "ok": [
+      "files",
+      "inventory",
+      "logs",
+      "network",
+      "processes"
+    ],
+    "partial": [
+      "persistence"
+    ],
+    "skipped": [],
+    "unavailable": []
+  },
+  "created_at": "2026-03-10T12:00:00Z",
+  "euid": 501,
+  "files": [
+    {
+      "path": "artifacts/files.json",
+      "sha256": "526b23df6921f67bdf599ea122c74d09dcbb60a7cfa13d80b8f368a4a8d729cf",
+      "size": 2145
+    },
+    {
+      "path": "artifacts/inventory.json",
+      "sha256": "9a3274f4bfdbca9f62f89e8026cda475beb6c977d599ae5abea674646b287009",
+      "size": 1806
+    },
+    {
+      "path": "artifacts/logs.json",
+      "sha256": "006b6d3eb075e0ca9c9d08fa6244c8253fc3b0a654071b47b5656c6cf102e123",
+      "size": 8186
+    },
+    {
+      "path": "artifacts/network.json",
+      "sha256": "21299f60c919d30e7d1aa919295acb74247a0843003dbc76718a0339d4192d33",
+      "size": 2177
+    },
+    {
+      "path": "artifacts/persistence.json",
+      "sha256": "c590f349b3898d84d3a60d1ff391730614aea37822f9a3cae404402f2276b1b8",
+      "size": 9355
+    },
+    {
+      "path": "artifacts/processes.json",
+      "sha256": "b038ce3645c2f162f495bced53a646b3c8af929e976ac13a366db102d806bd69",
+      "size": 2841
+    }
+  ],
+  "finished_at": "2026-03-10T12:00:00Z",
+  "host": {
+    "architecture": "arm64",
+    "architecture_supported": true,
+    "euid": 501,
+    "hostname": "synthetic-mac",
+    "is_macos": true,
+    "is_root": false,
+    "kernel": "23.4.0",
+    "major_version": 14,
+    "pretty_name": "macOS 14.4.1",
+    "product_version": "14.4.1",
+    "python": "3.12.0",
+    "system": "Darwin",
+    "timestamp_utc": "2026-03-10T12:00:00Z",
+    "version_supported": true
+  },
+  "limitations": [
+    "Live-response collection is not a forensic disk image; volatile state changed while collecting.",
+    "The manifest is stored beside the evidence: it detects accidental or naive changes but is not independently tamper-proof. Store a copy of the manifest SHA-256 (or a signed manifest) separately.",
+    "Timestamps are those reported by the host clock, normalised to UTC; clock accuracy is not verified.",
+    "Inaccessible or unexamined sources are listed in the coverage section; absence of data is not absence of activity."
+  ],
+  "log_window_hours": 24,
+  "platform": "macOS",
+  "privileged": false,
+  "profile": "extended",
+  "schema_version": 1,
+  "started_at": "2026-03-10T12:00:00Z",
+  "tool": {
+    "name": "macos-ir-toolkit",
+    "version": "0.1.0"
+  }
+}

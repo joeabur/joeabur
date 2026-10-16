@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "limits": {
+    "maxProcesses": 5000,
+    "maxHashBytes": 104857600,
+    "maxHashedExecutables": 400,
+    "maxSignatureChecks": 200,
+    "maxEvents": 2000,
+    "maxRecordsPerArtifact": 20000,
+    "maxOwnerLookups": 300,
+    "commandLineMaxChars": 2000
+  },
+  "events": {
+    "windowHours": 24
+  },
+  "profiles": {
+    "BasicTriage": {
+      "description": "Host, processes, network, accounts, persistence and a short event window",
+      "collectors": [
+        "inventory",
+        "processes",
+        "network",
+        "accounts",
+        "persistence",
+        "events"
+      ]
+    },
+    "AuthenticationInvestigation": {
+      "description": "Accounts and authentication/system events",
+      "collectors": [
+        "inventory",
+        "accounts",
+        "events"
+      ],
+      "logs": [
+        "Security",
+        "System"
+      ]
+    },
+    "PersistenceReview": {
+      "description": "Persistence mechanisms and the processes that use them",
+      "collectors": [
+        "inventory",
+        "processes",
+        "persistence"
+      ]
+    },
+    "FocusedIncident": {
+      "description": "Everything: processes, network, accounts, persistence and PowerShell/Sysmon events",
+      "collectors": [
+        "inventory",
+        "processes",
+        "network",
+        "accounts",
+        "persistence",
+        "events"
+      ],
+      "logs": [
+        "Security",
+        "System",
+        "Microsoft-Windows-PowerShell/Operational",
+        "Microsoft-Windows-Sysmon/Operational"
+      ]
+    }
+  },
+  "detection": {
+    "maxFindingsPerRule": 200,
+    "maxRegexInputChars": 2048,
+    "maxRecords": 200000
+  },
+  "ioc": {
+    "matchSubdomains": false
+  },
+  "redaction": {
+    "enabled": true,
+    "patterns": [
+      {
+        "name": "authorization-header",
+        "pattern": "\\b(authorization)(\\s*[=:]\\s*)(?:(?:bearer|basic|token|negotiate)\\s+)?\\S+",
+        "replacement": "$1$2[REDACTED]"
+      },
+      {
+        "name": "keyword-assignment",
+        "pattern": "\\b(password|passwd|pwd|secret|token|api[_-]?key|apikey|authorization)(\\s*[=:]\\s*|\\s+)(\\S+)",
+        "replacement": "$1$2[REDACTED]"
+      },
+      {
+        "name": "cli-secret-flag",
+        "pattern": "([-/]{1,2}(?:password|passwd|pwd|token|secret|apikey|api-key))([=:]|\\s+)\\S+",
+        "replacement": "$1$2[REDACTED]"
+      },
+      {
+        "name": "url-credentials",
+        "pattern": "://[^/\\s:@]+:[^/\\s@]+@",
+        "replacement": "://[REDACTED]@"
+      },
+      {
+        "name": "bearer",
+        "pattern": "\\bbearer\\s+[A-Za-z0-9._~+/=-]{8,}",
+        "replacement": "Bearer [REDACTED]"
+      },
+      {
+        "name": "aws-access-key",
+        "pattern": "\\bAKIA[0-9A-Z]{16}\\b",
+        "replacement": "[REDACTED-AWS-KEY]"
+      },
+      {
+        "name": "net-use-password",
+        "pattern": "(net\\s+use\\s+\\S+\\s+)(\\S+)(\\s+/user)",
+        "replacement": "$1[REDACTED]$3"
+      }
+    ],
+    "extraPatterns": []
+  }
+}

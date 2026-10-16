@@ -1,0 +1,124 @@
+{
+  "rules": [
+    {
+      "id": "WIR-NET-001",
+      "version": 1,
+      "title": "New listening socket compared with baseline",
+      "description": "A TCP/UDP listener exists that was not listening in the baseline evidence.",
+      "category": "network",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "network",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "socket"
+        },
+        {
+          "field": "state",
+          "op": "eq",
+          "value": "Listen"
+        }
+      ],
+      "why": "{proto} port {local_port} (process: {process}) was not listening in the baseline.",
+      "false_positives": [
+        "New legitimate software or service restarts."
+      ],
+      "next_steps": [
+        "Identify the owning process, its path and signer."
+      ],
+      "attack": [],
+      "type": "baseline",
+      "mode": "new",
+      "key_fields": [
+        "proto",
+        "local_port",
+        "process"
+      ]
+    },
+    {
+      "id": "WIR-NET-002",
+      "version": 1,
+      "title": "Listener on analyst-defined port of interest",
+      "description": "A socket listens on a port from the configurable list (defaults are well-known tooling ports).",
+      "category": "network",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "network",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "socket"
+        },
+        {
+          "field": "state",
+          "op": "eq",
+          "value": "Listen"
+        },
+        {
+          "field": "local_port",
+          "op": "in",
+          "value": [
+            4444,
+            1337,
+            31337
+          ]
+        }
+      ],
+      "why": "{proto} listener on port {local_port} (process: {process}, pid {pid}).",
+      "false_positives": [
+        "Any application may legitimately use these port numbers."
+      ],
+      "next_steps": [
+        "Inspect the owning process, path and signature."
+      ],
+      "attack": []
+    },
+    {
+      "id": "WIR-NET-003",
+      "version": 1,
+      "title": "Established connection owned by a process in a user-writable location",
+      "description": "An outbound connection is owned by a process whose executable lives in a user-writable directory. The remote address is not judged.",
+      "category": "network",
+      "severity": "low",
+      "confidence": "low",
+      "artifact": "network",
+      "when": [
+        {
+          "field": "kind",
+          "op": "eq",
+          "value": "socket"
+        },
+        {
+          "field": "state",
+          "op": "eq",
+          "value": "Established"
+        },
+        {
+          "field": "process_path",
+          "op": "contains_any",
+          "value": [
+            "\\appdata\\local\\temp\\",
+            "\\windows\\temp\\",
+            "\\users\\public\\",
+            "\\downloads\\",
+            "\\$recycle.bin\\",
+            "\\perflogs\\"
+          ]
+        }
+      ],
+      "why": "{process} (pid {pid}) from {process_path} is connected to {remote_addr}:{remote_port}.",
+      "false_positives": [
+        "Portable apps, installers and updaters run from these directories."
+      ],
+      "next_steps": [
+        "Check the remote address against IOC lists; review the process (see process findings)."
+      ],
+      "attack": [
+        "T1071"
+      ]
+    }
+  ]
+}

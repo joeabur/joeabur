@@ -1,0 +1,72 @@
+{
+  "artifact": "inventory",
+  "collected_at": "2026-03-10T12:00:00Z",
+  "errors": [],
+  "notes": [],
+  "records": [
+    {
+      "architecture": "arm64",
+      "architecture_supported": true,
+      "boot_time": "2026-03-07T16:13:20Z",
+      "build": "23E224",
+      "collected_at": "2026-03-10T12:00:00Z",
+      "euid": 501,
+      "hostname": "synthetic-mac.local",
+      "is_macos": true,
+      "is_root": false,
+      "kernel": "23.4.0",
+      "kind": "host",
+      "major_version": 14,
+      "pretty_name": "macOS 14.4.1",
+      "product_name": "macOS",
+      "product_version": "14.4.1",
+      "python": "3.12.0",
+      "rosetta_translated": false,
+      "security_settings": {
+        "application_firewall": "Firewall is disabled. (State = 0)",
+        "filevault": "FileVault is On.",
+        "gatekeeper": "assessments enabled",
+        "sip": "System Integrity Protection status: enabled."
+      },
+      "system": "Darwin",
+      "timestamp_utc": "2026-03-10T12:00:00Z",
+      "uptime_seconds": 244000,
+      "version_supported": true
+    },
+    {
+      "from": null,
+      "kind": "session",
+      "login": "Mar 9 10:05",
+      "tty": "console",
+      "user": "analyst"
+    },
+    {
+      "from": "198.51.100.77",
+      "kind": "session",
+      "login": "Mar 10 11:30",
+      "tty": "ttys000",
+      "user": "analyst"
+    },
+    {
+      "device": "/dev/disk3s1s1",
+      "free_bytes": 307200000000,
+      "kind": "volume",
+      "mountpoint": "/",
+      "total_bytes": 499963174912
+    }
+  ],
+  "schema_version": 1,
+  "sources": [
+    "sw_vers",
+    "uname -m",
+    "hostname",
+    "sysctl -n kern.boottime",
+    "csrutil status",
+    "spctl --status",
+    "fdesetup status",
+    "/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate",
+    "who",
+    "df -k"
+  ],
+  "status": "ok"
+}

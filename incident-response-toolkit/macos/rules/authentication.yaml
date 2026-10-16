@@ -1,0 +1,60 @@
+rules:
+  - id: MIR-AUTH-001
+    version: 1
+    title: Repeated failed SSH logins from one source
+    description: At least 10 failed SSH logins from one IP within 10 minutes (unified log).
+    category: authentication
+    severity: medium
+    confidence: medium
+    artifact: logs
+    type: threshold
+    group_by: src_ip
+    threshold: 10
+    window_seconds: 600
+    when:
+      - {field: event_type, op: eq, value: ssh_failed_login}
+    why: "{count} failed SSH logins from {group} within the window."
+    false_positives:
+      - Misconfigured automation or users with expired credentials.
+    next_steps:
+      - Check for a subsequent ssh_accepted event from the same source.
+    attack: [T1110]
+
+  - id: MIR-AUTH-002
+    version: 1
+    title: SSH login accepted for root
+    description: sshd accepted a login for the root account.
+    category: authentication
+    severity: low
+    confidence: medium
+    artifact: logs
+    when:
+      - {field: event_type, op: eq, value: ssh_accepted}
+      - {field: user, op: eq, value: root}
+    why: "root logged in over SSH from {src_ip} at {ts}."
+    false_positives:
+      - Root login is disabled by default on macOS; if enabled by policy it can be legitimate.
+    next_steps:
+      - Verify the source and whether root SSH is intended on this Mac.
+    attack: [T1078]
+
+  - id: MIR-AUTH-003
+    version: 1
+    title: Repeated sudo authentication failures
+    description: At least 3 sudo authentication failures for one user within 15 minutes.
+    category: authentication
+    severity: medium
+    confidence: low
+    artifact: logs
+    type: threshold
+    group_by: user
+    threshold: 3
+    window_seconds: 900
+    when:
+      - {field: event_type, op: eq, value: sudo_auth_failure}
+    why: "{count} sudo authentication failures for user {group}."
+    false_positives:
+      - Mistyped passwords.
+    next_steps:
+      - Review sudo_command events for the same user around those times.
+    attack: [T1548.003]

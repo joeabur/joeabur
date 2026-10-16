@@ -1,0 +1,54 @@
+name: windows-ir-security
+
+on:
+  push:
+    paths: ["incident-response-toolkit/windows/**", ".github/workflows/windows-ir-security.yml"]
+  pull_request:
+    paths: ["incident-response-toolkit/windows/**", ".github/workflows/windows-ir-security.yml"]
+  schedule:
+    - cron: "41 4 * * 3"
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: gitleaks/gitleaks-action@44c470ffc35caa8b1eb3e8012ca53c2f9bea4eb5 # v2.3.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@3b139cfc5fae8b618d3eae3675e383bb1769c019 # v4.5.0
+
+  forbidden-commands:
+    name: Source must stay read-only
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: incident-response-toolkit/windows
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Scan for state-changing or execution commands
+        shell: pwsh
+        run: |
+          $bad = 'Stop-Process','Remove-Item','Set-ItemProperty','New-ItemProperty','Start-Process','Invoke-Expression','Invoke-WebRequest','Invoke-RestMethod','Stop-Service','Set-Service'
+          $hits = Get-ChildItem ./src -Recurse -Filter *.ps1 | Select-String -Pattern ($bad -join '|') | Where-Object { $_.Line.TrimStart() -notlike '#*' }
+          $hits | ForEach-Object { "$($_.Path):$($_.LineNumber): $($_.Line.Trim())" }
+          if ($hits) { exit 1 }

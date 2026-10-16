@@ -1,0 +1,203 @@
+{
+  "artifacts": [
+    {
+      "errors": [],
+      "name": "files",
+      "notes": [],
+      "path": "artifacts/files.json",
+      "record_count": 4,
+      "sources": [
+        "/etc/passwd",
+        "/etc/ssh/sshd_config",
+        "/etc/crontab",
+        "/etc/shadow",
+        "/tmp"
+      ],
+      "status": "ok"
+    },
+    {
+      "errors": [],
+      "name": "inventory",
+      "notes": [
+        "findmnt unavailable; mounts taken from /proc/self/mounts only"
+      ],
+      "path": "artifacts/inventory.json",
+      "record_count": 4,
+      "sources": [
+        "/proc/sys/kernel/hostname",
+        "/proc/uptime",
+        "/proc/self/mounts",
+        "who"
+      ],
+      "status": "ok"
+    },
+    {
+      "errors": [
+        {
+          "collector": "logs",
+          "kind": "not_found",
+          "message": "journalctl: command not found (synthetic)",
+          "source": "journalctl"
+        }
+      ],
+      "name": "logs",
+      "notes": [
+        "log coverage is limited to the readable sources and window listed; rotated or remote logs are not assumed to be complete"
+      ],
+      "path": "artifacts/logs.json",
+      "record_count": 19,
+      "sources": [
+        "/var/log/auth.log"
+      ],
+      "status": "partial"
+    },
+    {
+      "errors": [
+        {
+          "collector": "network",
+          "kind": "not_found",
+          "message": "nft: command not found (synthetic) (root is typically required; re-run this collector as root if needed)",
+          "source": "nft list ruleset"
+        },
+        {
+          "collector": "network",
+          "kind": "not_found",
+          "message": "iptables: command not found (synthetic) (root is typically required; re-run this collector as root if needed)",
+          "source": "iptables -S"
+        }
+      ],
+      "name": "network",
+      "notes": [],
+      "path": "artifacts/network.json",
+      "record_count": 7,
+      "sources": [
+        "ss -H -tunap",
+        "ip -o addr",
+        "ip route"
+      ],
+      "status": "partial"
+    },
+    {
+      "errors": [],
+      "name": "persistence",
+      "notes": [],
+      "path": "artifacts/persistence.json",
+      "record_count": 10,
+      "sources": [
+        "/etc/systemd/system",
+        "/etc/systemd/system/multi-user.target.wants",
+        "/run/systemd/system",
+        "/etc/cron.d",
+        "/proc/modules"
+      ],
+      "status": "ok"
+    },
+    {
+      "errors": [],
+      "name": "processes",
+      "notes": [],
+      "path": "artifacts/processes.json",
+      "record_count": 6,
+      "sources": [
+        "/proc"
+      ],
+      "status": "ok"
+    }
+  ],
+  "collectors_requested": [
+    "inventory",
+    "processes",
+    "network",
+    "persistence",
+    "logs",
+    "files"
+  ],
+  "coverage": {
+    "failed": [],
+    "ok": [
+      "files",
+      "inventory",
+      "persistence",
+      "processes"
+    ],
+    "partial": [
+      "logs",
+      "network"
+    ],
+    "skipped": [],
+    "unavailable": []
+  },
+  "created_at": "2026-03-10T12:00:00Z",
+  "euid": 1000,
+  "files": [
+    {
+      "path": "artifacts/files.json",
+      "sha256": "731b70d7f6b2c8595f032aaab4642c601482c1cc1682c83755aef50382748312",
+      "size": 1699
+    },
+    {
+      "path": "artifacts/inventory.json",
+      "sha256": "d98915a6dbafbcefb4107863109b63558b771289b285c08b2fbe10da1e067b08",
+      "size": 1908
+    },
+    {
+      "path": "artifacts/logs.json",
+      "sha256": "85ce358bdf003a2ea4d168488c6360eed20a3968eddb06b2795a6cc3bb37993e",
+      "size": 7956
+    },
+    {
+      "path": "artifacts/network.json",
+      "sha256": "df0ec0106acd56bd6bd45f32dc3f9a58ba666d682790d64331a0ffdc03225a71",
+      "size": 2272
+    },
+    {
+      "path": "artifacts/persistence.json",
+      "sha256": "d30c377eeb6f72d3544584211018bc4d2bb7d43c8a30d06e631d3e3468edf4c4",
+      "size": 5505
+    },
+    {
+      "path": "artifacts/processes.json",
+      "sha256": "37360f0bcf6504c2d4e3dcf57d5a2b3872673bdae973013a1f0bde952aae8a1b",
+      "size": 3249
+    }
+  ],
+  "finished_at": "2026-03-10T12:00:00Z",
+  "host": {
+    "architecture": "x86_64",
+    "architecture_supported": true,
+    "container": null,
+    "distribution": "Ubuntu",
+    "distribution_id": "ubuntu",
+    "euid": 1000,
+    "hostname": "synthetic-host",
+    "init": {
+      "name": "systemd",
+      "pid1_comm": "systemd",
+      "systemd": true
+    },
+    "is_linux": true,
+    "is_root": false,
+    "kernel": "5.15.0-synthetic",
+    "pretty_name": "Ubuntu 22.04.4 LTS (synthetic)",
+    "python": "3.12.0",
+    "system": "Linux",
+    "timestamp_utc": "2026-03-10T12:00:00Z",
+    "version": "22.04"
+  },
+  "limitations": [
+    "Live-response collection is not a forensic disk image; volatile state changed while collecting.",
+    "The manifest is stored beside the evidence: it detects accidental or naive changes but is not independently tamper-proof. Store a copy of the manifest SHA-256 (or a signed manifest) separately.",
+    "Timestamps are those reported by the host clock, normalised to UTC; clock accuracy is not verified.",
+    "Inaccessible or unexamined sources are listed in the coverage section; absence of data is not absence of activity."
+  ],
+  "log_window_hours": 24,
+  "platform": "Linux",
+  "privileged": false,
+  "profile": "extended",
+  "schema_version": 1,
+  "started_at": "2026-03-10T12:00:00Z",
+  "tool": {
+    "name": "linux-ir-toolkit",
+    "version": "0.1.0"
+  }
+}
