@@ -1,0 +1,42 @@
+[
+  {
+    "Author": "",
+    "Commit": "",
+    "Date": "",
+    "Description": "Synthetic demo token (fixtures only; matches no real service)",
+    "Email": "",
+    "EndColumn": 53,
+    "EndLine": 4,
+    "Entropy": 3.3258712,
+    "File": "/repo/app/settings.py",
+    "Fingerprint": "/repo/app/settings.py:reposcan-synthetic-token:4",
+    "Match": "REDACTED",
+    "Message": "",
+    "RuleID": "reposcan-synthetic-token",
+    "Secret": "REDACTED",
+    "StartColumn": 19,
+    "StartLine": 4,
+    "SymlinkFile": "",
+    "Tags": []
+  },
+  {
+    "Author": "",
+    "Commit": "",
+    "Date": "",
+    "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+    "Email": "",
+    "EndColumn": 54,
+    "EndLine": 7,
+    "Entropy": 5,
+    "File": "/repo/app/settings.py",
+    "Fingerprint": "/repo/app/settings.py:generic-api-key:7",
+    "Match": "internal_api_key = \"REDACTED\"",
+    "Message": "",
+    "RuleID": "generic-api-key",
+    "Secret": "REDACTED",
+    "StartColumn": 2,
+    "StartLine": 7,
+    "SymlinkFile": "",
+    "Tags": []
+  }
+]

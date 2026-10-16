@@ -1,0 +1,7 @@
+# Report-only: never fails on severity (scanner errors still exit 3).
+# Use while rolling the tool out, then move to balanced.toml.
+[scan]
+version_policy = "warn"
+
+[policy]
+fail_on = "none"

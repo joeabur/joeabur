@@ -1,0 +1,69 @@
+# GitLab CI example for reposcan.
+#
+# * Merge-request pipelines scan; the Code Quality widget shows NEW findings only.
+# * Jobs use least-privilege defaults: no deploy tokens, no variables beyond CI defaults.
+# * The image is pinned by digest (python:3.13-slim as resolved on 2026-10-16 via mirror.gcr.io).
+#   Refresh digests on a schedule; see docs/user-guide.md "Upgrading".
+# * Protected release practice: set the `release` job's environment as protected, restrict it to
+#   protected tags, and keep REPOSCAN_BASELINE/CODEOWNERS approval rules on the baseline file.
+#
+# Exit codes: 0 pass, 1 policy failure, 2 configuration error, 3 scanner error, 130 cancelled.
+
+stages: [test, security]
+
+default:
+  image: python:3.13-slim@sha256:70729b46c69b4f1e97c4822c1af3df53a1476cf5ddc6c087c0c10bc3a5678c2f
+  interruptible: true
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+variables:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  REPOSCAN_VERSION: "0.1.0"
+  SEMGREP_VERSION: "1.181.0"
+  GITLEAKS_VERSION: "8.30.1"
+
+.install-scanners: &install-scanners
+  - apt-get update -qq && apt-get install -y -qq --no-install-recommends git golang-go ca-certificates
+  - pip install "reposcan==${REPOSCAN_VERSION}" "semgrep==${SEMGREP_VERSION}"
+  - |
+    GOBIN=/usr/local/bin GOTOOLCHAIN=auto go install \
+      -ldflags "-X github.com/zricethezav/gitleaks/v8/version.Version=${GITLEAKS_VERSION}" \
+      github.com/zricethezav/gitleaks/v8@v${GITLEAKS_VERSION}
+  - reposcan doctor --all || true
+
+reposcan:
+  stage: security
+  script:
+    - *install-scanners
+    - |
+      reposcan scan . \
+        --config ci/reposcan.toml \
+        --baseline ci/reposcan-baseline.json \
+        --scanners gitleaks,semgrep \
+        --fail-on high \
+        --output-dir reposcan-output \
+        --format json,sarif,md,codequality
+  after_script:
+    - echo "exit status is reported by the job; reports are redacted by design"
+  artifacts:
+    when: always
+    expire_in: 14 days
+    paths:
+      - reposcan-output/reposcan-report.json
+      - reposcan-output/reposcan.sarif
+      - reposcan-output/reposcan-summary.md
+    reports:
+      codequality: reposcan-output/gl-code-quality-report.json
+
+# Dependency auditing for the project's own Python dependencies.
+dependency-audit:
+  stage: test
+  script:
+    - pip install pip-audit
+    - pip-audit -r requirements.txt --strict
+  rules:
+    - exists: [requirements.txt]

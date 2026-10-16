@@ -1,0 +1,464 @@
+{
+  "ArtifactName": "/repo",
+  "ArtifactType": "filesystem",
+  "Results": [
+    {
+      "Class": "lang-pkgs",
+      "Packages": [
+        {
+          "AnalyzedBy": "pip",
+          "Identifier": {
+            "PURL": "pkg:pypi/jinja2@2.10",
+            "UID": "ac3d248febc64ae3"
+          },
+          "Locations": [
+            {
+              "EndLine": 4,
+              "StartLine": 4
+            }
+          ],
+          "Name": "Jinja2",
+          "Version": "2.10"
+        },
+        {
+          "AnalyzedBy": "pip",
+          "Identifier": {
+            "PURL": "pkg:pypi/pyyaml@5.3",
+            "UID": "61d10b44d1f8aaeb"
+          },
+          "Locations": [
+            {
+              "EndLine": 3,
+              "StartLine": 3
+            }
+          ],
+          "Name": "PyYAML",
+          "Version": "5.3"
+        },
+        {
+          "AnalyzedBy": "pip",
+          "Identifier": {
+            "PURL": "pkg:pypi/requests@2.19.1",
+            "UID": "ebfa0f8a25b158c"
+          },
+          "Locations": [
+            {
+              "EndLine": 2,
+              "StartLine": 2
+            }
+          ],
+          "Name": "requests",
+          "Version": "2.19.1"
+        }
+      ],
+      "Target": "requirements.txt",
+      "Type": "pip",
+      "Vulnerabilities": [
+        {
+          "Description": "In Pallets Jinja before 2.10.1, str.format_map allows a sandbox escape.",
+          "Fingerprint": "sha256:c5411027453db8df7f606467a915cad53e778d3d9f2cb53dfbda7d0d898dd022",
+          "FixedVersion": "2.10.1",
+          "InstalledVersion": "2.10",
+          "PkgName": "Jinja2",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-10906",
+          "References": [
+            "http://lists.opensuse.org/opensuse-security-announce/2019-05/msg00030.html",
+            "http://lists.opensuse.org/opensuse-security-announce/2019-06/msg00064.html",
+            "https://access.redhat.com/errata/RHSA-2019:1152"
+          ],
+          "Severity": "HIGH",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "python-jinja2: str.format_map allows sandbox escape",
+          "VendorIDs": [
+            "GHSA-462w-v97r-4m45"
+          ],
+          "VulnerabilityID": "CVE-2019-10906"
+        },
+        {
+          "CweIDs": [
+            "CWE-400"
+          ],
+          "Description": "This affects the package jinja2 from 0.0.0 and before 2.11.3. The ReDoS vulnerability is mainly due to the `_punctuation_re regex` operator and its use of multiple wildcards. The last wildcard is the ",
+          "Fingerprint": "sha256:26ab2b978ac93b3e6ac363715c56b3ae61a35fcb9b6d3fbffa9f8a49f2311712",
+          "FixedVersion": "2.11.3",
+          "InstalledVersion": "2.10",
+          "PkgName": "Jinja2",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-28493",
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2020-28493",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=1772014",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=1928707"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "python-jinja2: ReDoS vulnerability in the urlize filter",
+          "VendorIDs": [
+            "GHSA-g3rq-g295-4j3m"
+          ],
+          "VulnerabilityID": "CVE-2020-28493"
+        },
+        {
+          "CweIDs": [
+            "CWE-79"
+          ],
+          "Description": "Jinja is an extensible templating engine. Special placeholders in the template allow writing code similar to Python syntax. It is possible to inject arbitrary HTML attributes into the rendered HTML te",
+          "Fingerprint": "sha256:93a0ab74b67379568eab35b12dac1c9e8da5f0ba59bcd96bad14959a6e76743f",
+          "FixedVersion": "3.1.3",
+          "InstalledVersion": "2.10",
+          "PkgName": "Jinja2",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-22195",
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2024:2348",
+            "https://access.redhat.com/errata/RHSA-2024:3102",
+            "https://access.redhat.com/security/cve/CVE-2024-22195"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "jinja2: HTML attribute injection when passing user input as keys to xmlattr filter",
+          "VendorIDs": [
+            "GHSA-h5c8-rqwp-cp95"
+          ],
+          "VulnerabilityID": "CVE-2024-22195"
+        },
+        {
+          "CweIDs": [
+            "CWE-79"
+          ],
+          "Description": "Jinja is an extensible templating engine. The `xmlattr` filter in affected versions of Jinja accepts keys containing non-attribute characters. XML/HTML attributes cannot contain spaces, `/`, `>`, or `",
+          "Fingerprint": "sha256:11470d3707b1600c01732955d757d914fe68f139dff0424ea0bd0b7c38b7359b",
+          "FixedVersion": "3.1.4",
+          "InstalledVersion": "2.10",
+          "PkgName": "Jinja2",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-34064",
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2024:9150",
+            "https://access.redhat.com/security/cve/CVE-2024-34064",
+            "https://advisory.echohq.com/cve/CVE-2024-34064"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "jinja2: accepts keys containing non-attribute characters",
+          "VendorIDs": [
+            "GHSA-h75v-3vvj-5mfj"
+          ],
+          "VulnerabilityID": "CVE-2024-34064"
+        },
+        {
+          "CweIDs": [
+            "CWE-693",
+            "CWE-1336"
+          ],
+          "Description": "Jinja is an extensible templating engine. Prior to 3.1.5, An oversight in how the Jinja sandboxed environment detects calls to str.format allows an attacker that controls the content of a template to ",
+          "Fingerprint": "sha256:71d01000b63a5765e15e890b1f3a336fd0454b0695519e073652f4d0d7aeab81",
+          "FixedVersion": "3.1.5",
+          "InstalledVersion": "2.10",
+          "PkgName": "Jinja2",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-56326",
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2025:0667",
+            "https://access.redhat.com/security/cve/CVE-2024-56326",
+            "https://advisory.echohq.com/cve/CVE-2024-56326"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "jinja2: Jinja has a sandbox breakout through indirect reference to format method",
+          "VendorIDs": [
+            "GHSA-q2x7-8rv6-6q7h"
+          ],
+          "VulnerabilityID": "CVE-2024-56326"
+        },
+        {
+          "CweIDs": [
+            "CWE-1336"
+          ],
+          "Description": "Jinja is an extensible templating engine. Prior to 3.1.6, an oversight in how the Jinja sandboxed environment interacts with the |attr filter allows an attacker that controls the content of a template",
+          "Fingerprint": "sha256:fef5393502ddd0ce385199ac4365ae44b762f06dd02818f107011e601e6dc02a",
+          "FixedVersion": "3.1.6",
+          "InstalledVersion": "2.10",
+          "PkgName": "Jinja2",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-27516",
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2025:3406",
+            "https://access.redhat.com/security/cve/CVE-2025-27516",
+            "https://bugzilla.redhat.com/2350190"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "jinja2: Jinja sandbox breakout through attr filter selecting format method",
+          "VendorIDs": [
+            "GHSA-cpwx-vrp4-4pq7"
+          ],
+          "VulnerabilityID": "CVE-2025-27516"
+        },
+        {
+          "CweIDs": [
+            "CWE-20"
+          ],
+          "Description": "A vulnerability was discovered in the PyYAML library in versions before 5.4, where it is susceptible to arbitrary code execution when it processes untrusted YAML files through the full_load method or ",
+          "Fingerprint": "sha256:755471f94d457ae636b282ae01c6c890ee79575fc0087c6770186d51c56ef96d",
+          "FixedVersion": "5.4",
+          "InstalledVersion": "5.3",
+          "PkgName": "PyYAML",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-14343",
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2020-14343",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=1860466",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-14343"
+          ],
+          "Severity": "CRITICAL",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "PyYAML: incomplete fix for CVE-2020-1747",
+          "VendorIDs": [
+            "GHSA-8q59-q68h-6hv4"
+          ],
+          "VulnerabilityID": "CVE-2020-14343"
+        },
+        {
+          "CweIDs": [
+            "CWE-20"
+          ],
+          "Description": "A vulnerability was discovered in the PyYAML library in versions before 5.3.1, where it is susceptible to arbitrary code execution when it processes untrusted YAML files through the full_load method o",
+          "Fingerprint": "sha256:a7e0b43278fa3b09e382bd4f526dd35e87e675788bdbb5327b21e11899e45103",
+          "FixedVersion": "5.3.1",
+          "InstalledVersion": "5.3",
+          "PkgName": "PyYAML",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-1747",
+          "References": [
+            "http://lists.opensuse.org/opensuse-security-announce/2020-04/msg00017.html",
+            "http://lists.opensuse.org/opensuse-security-announce/2020-05/msg00017.html",
+            "https://access.redhat.com/security/cve/CVE-2020-1747"
+          ],
+          "Severity": "CRITICAL",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "PyYAML: arbitrary command execution through python/object/new when FullLoader is used",
+          "VendorIDs": [
+            "GHSA-6757-jp84-gxfx"
+          ],
+          "VulnerabilityID": "CVE-2020-1747"
+        },
+        {
+          "CweIDs": [
+            "CWE-522"
+          ],
+          "Description": "The Requests package before 2.20.0 for Python sends an HTTP Authorization header to an http URI upon receiving a same-hostname https-to-http redirect, which makes it easier for remote attackers to dis",
+          "Fingerprint": "sha256:082136e24eac8569c4ee5ff2870444ca3b0af13007f247c373532c1a7aca4cfd",
+          "FixedVersion": "2.20.0",
+          "InstalledVersion": "2.19.1",
+          "PkgName": "requests",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2018-18074",
+          "References": [
+            "http://docs.python-requests.org/en/master/community/updates/#release-and-version-history",
+            "http://lists.opensuse.org/opensuse-security-announce/2019-07/msg00024.html",
+            "https://access.redhat.com/errata/RHSA-2019:2035"
+          ],
+          "Severity": "HIGH",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "python-requests: Redirect from HTTPS to HTTP does not remove Authorization header",
+          "VendorIDs": [
+            "GHSA-x84v-xcm2-53pg"
+          ],
+          "VulnerabilityID": "CVE-2018-18074"
+        },
+        {
+          "CweIDs": [
+            "CWE-200"
+          ],
+          "Description": "Requests is a HTTP library. Since Requests 2.3.0, Requests has been leaking Proxy-Authorization headers to destination servers when redirected to an HTTPS endpoint. This is a product of how we use `re",
+          "Fingerprint": "sha256:abd8d777009b4f1be6ecf76f2fda7522589627cf9f6d7945015adb45a7fe0b69",
+          "FixedVersion": "2.31.0",
+          "InstalledVersion": "2.19.1",
+          "PkgName": "requests",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-32681",
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2023:4350",
+            "https://access.redhat.com/security/cve/CVE-2023-32681",
+            "https://bugzilla.redhat.com/2209469"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "python-requests: Unintended leak of Proxy-Authorization header",
+          "VendorIDs": [
+            "GHSA-j8r2-6x86-q33q"
+          ],
+          "VulnerabilityID": "CVE-2023-32681"
+        },
+        {
+          "CweIDs": [
+            "CWE-670"
+          ],
+          "Description": "Requests is a HTTP library. Prior to 2.32.0, when making requests through a Requests `Session`, if the first request is made with `verify=False` to disable cert verification, all subsequent requests t",
+          "Fingerprint": "sha256:a3ee868562eab04e8aff3d928020e061461d2d79903c088ac4f159636ce8e1a7",
+          "FixedVersion": "2.32.0",
+          "InstalledVersion": "2.19.1",
+          "PkgName": "requests",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-35195",
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2025:7049",
+            "https://access.redhat.com/security/cve/CVE-2024-35195",
+            "https://bugzilla.redhat.com/2282114"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "requests: subsequent requests to the same host ignore cert verification",
+          "VendorIDs": [
+            "GHSA-9wx4-h78v-vm56"
+          ],
+          "VulnerabilityID": "CVE-2024-35195"
+        },
+        {
+          "CweIDs": [
+            "CWE-522"
+          ],
+          "Description": "Requests is a HTTP library. Due to a URL parsing issue, Requests releases prior to 2.32.4 may leak .netrc credentials to third parties for specific maliciously-crafted URLs. Users should upgrade to ve",
+          "Fingerprint": "sha256:96ca7a407181df0889eb341145184b016d3a111ba6d5bfbd2807fe592b24f221",
+          "FixedVersion": "2.32.4",
+          "InstalledVersion": "2.19.1",
+          "PkgName": "requests",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-47081",
+          "References": [
+            "http://seclists.org/fulldisclosure/2025/Jun/2",
+            "http://www.openwall.com/lists/oss-security/2025/06/03/11",
+            "http://www.openwall.com/lists/oss-security/2025/06/03/9"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "requests: Requests vulnerable to .netrc credentials leak via malicious URLs",
+          "VendorIDs": [
+            "GHSA-9hjg-9r4m-mvj7"
+          ],
+          "VulnerabilityID": "CVE-2024-47081"
+        },
+        {
+          "CweIDs": [
+            "CWE-377"
+          ],
+          "Description": "Requests is a HTTP library. Prior to version 2.33.0, the `requests.utils.extract_zipped_paths()` utility function uses a predictable filename when extracting files from zip archives into the system te",
+          "Fingerprint": "sha256:f9e4a954a3c3570e5175dc04c7898930449bd97d035332c05555903ee9fd6e2c",
+          "FixedVersion": "2.33.0",
+          "InstalledVersion": "2.19.1",
+          "PkgName": "requests",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-25645",
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-25645",
+            "https://github.com/psf/requests",
+            "https://github.com/psf/requests/commit/66d21cb07bd6255b1280291c4fafb71803cdb3b7"
+          ],
+          "Severity": "MEDIUM",
+          "SeveritySource": "ghsa",
+          "Status": "fixed",
+          "Title": "requests: Requests: Security bypass due to predictable temporary file creation",
+          "VendorIDs": [
+            "GHSA-gc5v-m9x4-r6x2"
+          ],
+          "VulnerabilityID": "CVE-2026-25645"
+        }
+      ]
+    },
+    {
+      "Class": "config",
+      "MisconfSummary": {
+        "Failures": 3,
+        "Successes": 24
+      },
+      "Misconfigurations": [
+        {
+          "CauseMetadata": {
+            "Provider": "Dockerfile",
+            "Service": "general"
+          },
+          "Description": "Running containers with 'root' user can lead to a container escape situation. It is a best practice to run containers as non-root users, which can be done by adding a 'USER' statement to the Dockerfil",
+          "ID": "DS-0002",
+          "Message": "Specify at least 1 USER command in Dockerfile with non-root user as argument",
+          "Namespace": "builtin.dockerfile.DS002",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ds-0002",
+          "Query": "data.builtin.dockerfile.DS002.deny",
+          "References": [
+            "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+            "https://avd.aquasec.com/misconfig/ds-0002"
+          ],
+          "Resolution": "Add 'USER <non root user name>' line to the Dockerfile",
+          "Severity": "HIGH",
+          "Status": "FAIL",
+          "Title": "Image user should not be 'root'",
+          "Type": "Dockerfile Security Check"
+        },
+        {
+          "CauseMetadata": {
+            "Code": {
+              "Lines": [
+                {
+                  "Annotation": "",
+                  "Content": "ADD . /app",
+                  "FirstCause": true,
+                  "Highlighted": "\u001b[38;5;64mADD\u001b[0m . /app",
+                  "IsCause": true,
+                  "LastCause": true,
+                  "Number": 2,
+                  "Truncated": false
+                }
+              ]
+            },
+            "EndLine": 2,
+            "Provider": "Dockerfile",
+            "Service": "general",
+            "StartLine": 2
+          },
+          "Description": "You should use COPY instead of ADD unless you want to extract a tar file. Note that an ADD command will extract a tar file, which adds the risk of Zip-based vulnerabilities. Accordingly, it is advised",
+          "ID": "DS-0005",
+          "Message": "Consider using 'COPY . /app' command instead of 'ADD . /app'",
+          "Namespace": "builtin.dockerfile.DS005",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ds-0005",
+          "Query": "data.builtin.dockerfile.DS005.deny",
+          "References": [
+            "https://docs.docker.com/engine/reference/builder/#add",
+            "https://avd.aquasec.com/misconfig/ds-0005"
+          ],
+          "Resolution": "Use COPY instead of ADD",
+          "Severity": "LOW",
+          "Status": "FAIL",
+          "Title": "ADD instead of COPY",
+          "Type": "Dockerfile Security Check"
+        },
+        {
+          "CauseMetadata": {
+            "Provider": "Dockerfile",
+            "Service": "general"
+          },
+          "Description": "You should add HEALTHCHECK instruction in your docker container images to perform the health check on running containers.",
+          "ID": "DS-0026",
+          "Message": "Add HEALTHCHECK instruction in your Dockerfile",
+          "Namespace": "builtin.dockerfile.DS026",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ds-0026",
+          "Query": "data.builtin.dockerfile.DS026.deny",
+          "References": [
+            "https://blog.aquasec.com/docker-security-best-practices",
+            "https://avd.aquasec.com/misconfig/ds-0026"
+          ],
+          "Resolution": "Add HEALTHCHECK instruction in Dockerfile",
+          "Severity": "LOW",
+          "Status": "FAIL",
+          "Title": "No HEALTHCHECK defined",
+          "Type": "Dockerfile Security Check"
+        }
+      ],
+      "Target": "infra/Dockerfile",
+      "Type": "dockerfile"
+    }
+  ],
+  "SchemaVersion": 2,
+  "Trivy": {
+    "Version": "0.76.0"
+  }
+}

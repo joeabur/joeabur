@@ -1,0 +1,4 @@
+# Used by scripts/demo.sh to demonstrate a SCANNER failure (exit code 3):
+# reposcan refuses remote Semgrep registry rules unless explicitly allowed.
+[scanners.semgrep]
+rules = ["p/default"]

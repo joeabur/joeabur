@@ -1,0 +1,11 @@
+# Rule-level suppressions. Every entry needs an owner and a reason; add an expiry.
+# Suppressed findings stay visible in every report and are labelled with this text.
+[policy]
+fail_on = "high"
+
+[[suppressions]]
+rule_id = "reposcan.python.weak-hash"
+path = "app/cache/*.py"
+owner = "platform-team"
+reason = "MD5 is used only to derive non-security cache keys"
+expires = 2027-03-31

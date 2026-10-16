@@ -1,0 +1,23 @@
+# Recommended starting point: fail pull requests on NEW high/critical findings.
+[scan]
+timeout_seconds = 600
+version_policy = "enforce"
+
+[policy]
+fail_on = "high"
+fail_on_baseline = false
+require_expiry_at_or_above = "critical"
+max_accept_days = 365
+
+[scanners.gitleaks]
+enabled = true
+
+[scanners.semgrep]
+enabled = true
+
+[scanners.trivy]
+enabled = true
+scanners = ["vuln", "misconfig"]
+
+[scanners.osv]
+enabled = false

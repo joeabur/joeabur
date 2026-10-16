@@ -1,0 +1,654 @@
+{
+  "$defs": {
+    "Dependency": {
+      "additionalProperties": false,
+      "properties": {
+        "ecosystem": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ecosystem"
+        },
+        "fixed_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fixed Version"
+        },
+        "installed_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Installed Version"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Dependency",
+      "type": "object"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artifact"
+        },
+        "cve": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Cve",
+          "type": "array"
+        },
+        "cwe": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Cwe",
+          "type": "array"
+        },
+        "dependency": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Dependency"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "end_line": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Line"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence"
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "fingerprint": {
+          "title": "Fingerprint",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/FindingKind"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "original_severity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Severity"
+        },
+        "references": {
+          "items": {
+            "type": "string"
+          },
+          "title": "References",
+          "type": "array"
+        },
+        "remediation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remediation"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "scanner": {
+          "title": "Scanner",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "status": {
+          "$ref": "#/$defs/FindingStatus",
+          "default": "new"
+        },
+        "status_detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status Detail"
+        },
+        "suppression_expired": {
+          "default": false,
+          "title": "Suppression Expired",
+          "type": "boolean"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fingerprint",
+        "scanner",
+        "kind",
+        "rule_id",
+        "title",
+        "severity"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "FindingKind": {
+      "enum": [
+        "secret",
+        "sast",
+        "dependency",
+        "misconfiguration"
+      ],
+      "title": "FindingKind",
+      "type": "string"
+    },
+    "FindingStatus": {
+      "enum": [
+        "new",
+        "baseline",
+        "suppressed"
+      ],
+      "title": "FindingStatus",
+      "type": "string"
+    },
+    "PolicyResult": {
+      "additionalProperties": false,
+      "properties": {
+        "fail_on": {
+          "title": "Fail On",
+          "type": "string"
+        },
+        "fail_on_baseline": {
+          "title": "Fail On Baseline",
+          "type": "boolean"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "violating_findings": {
+          "title": "Violating Findings",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "passed",
+        "fail_on",
+        "fail_on_baseline",
+        "violating_findings"
+      ],
+      "title": "PolicyResult",
+      "type": "object"
+    },
+    "ScanMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Baseline File"
+        },
+        "config_sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Config Sources",
+          "type": "array"
+        },
+        "finished_at": {
+          "format": "date-time",
+          "title": "Finished At",
+          "type": "string"
+        },
+        "offline": {
+          "title": "Offline",
+          "type": "boolean"
+        },
+        "platform": {
+          "title": "Platform",
+          "type": "string"
+        },
+        "python_version": {
+          "title": "Python Version",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        },
+        "tool": {
+          "default": "reposcan",
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_version": {
+          "title": "Tool Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_version",
+        "started_at",
+        "finished_at",
+        "python_version",
+        "platform",
+        "offline"
+      ],
+      "title": "ScanMetadata",
+      "type": "object"
+    },
+    "ScanScope": {
+      "additionalProperties": false,
+      "properties": {
+        "file_count": {
+          "title": "File Count",
+          "type": "integer"
+        },
+        "history_scanned": {
+          "default": false,
+          "title": "History Scanned",
+          "type": "boolean"
+        },
+        "is_git_repository": {
+          "title": "Is Git Repository",
+          "type": "boolean"
+        },
+        "symlinks_skipped": {
+          "title": "Symlinks Skipped",
+          "type": "integer"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "top_extensions": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Top Extensions",
+          "type": "object"
+        },
+        "total_bytes": {
+          "title": "Total Bytes",
+          "type": "integer"
+        },
+        "trivy_image": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trivy Image"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "target",
+        "is_git_repository",
+        "file_count",
+        "total_bytes",
+        "symlinks_skipped",
+        "top_extensions"
+      ],
+      "title": "ScanScope",
+      "type": "object"
+    },
+    "ScannerRun": {
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Command",
+          "type": "array"
+        },
+        "duration_seconds": {
+          "default": 0.0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exit Code"
+        },
+        "finding_count": {
+          "default": 0,
+          "title": "Finding Count",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "not_found",
+            "version_mismatch",
+            "failed",
+            "timeout",
+            "cancelled",
+            "malformed_output",
+            "skipped"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "supported_versions": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Supported Versions"
+        },
+        "tested_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tested Version"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "status"
+      ],
+      "title": "ScannerRun",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "Summary": {
+      "additionalProperties": false,
+      "properties": {
+        "by_kind": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Kind",
+          "type": "object"
+        },
+        "by_scanner": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Scanner",
+          "type": "object"
+        },
+        "by_severity": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Severity",
+          "type": "object"
+        },
+        "by_status": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Status",
+          "type": "object"
+        },
+        "new_by_severity": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "New By Severity",
+          "type": "object"
+        },
+        "total": {
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total",
+        "by_severity",
+        "by_status",
+        "by_scanner",
+        "by_kind",
+        "new_by_severity"
+      ],
+      "title": "Summary",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "exit_code": {
+      "title": "Exit Code",
+      "type": "integer"
+    },
+    "exit_reason": {
+      "title": "Exit Reason",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "metadata": {
+      "$ref": "#/$defs/ScanMetadata"
+    },
+    "policy": {
+      "$ref": "#/$defs/PolicyResult"
+    },
+    "scanners": {
+      "items": {
+        "$ref": "#/$defs/ScannerRun"
+      },
+      "title": "Scanners",
+      "type": "array"
+    },
+    "scope": {
+      "$ref": "#/$defs/ScanScope"
+    },
+    "summary": {
+      "$ref": "#/$defs/Summary"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "metadata",
+    "scope",
+    "scanners",
+    "findings",
+    "summary",
+    "policy",
+    "exit_code",
+    "exit_reason"
+  ],
+  "title": "reposcan JSON report",
+  "type": "object"
+}

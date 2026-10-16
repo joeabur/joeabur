@@ -1,0 +1,25 @@
+# Used only to scan THIS project's own source tree in CI (see .github/workflows).
+# Fixture and documentation directories hold clearly synthetic credentials on
+# purpose, so they are path-allowlisted here. Never use this file for real repos.
+title = "reposcan self-scan"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "reposcan-synthetic-token"
+description = "Synthetic demo token (fixtures only; matches no real service)"
+regex = '''DEMO_TOKEN_[A-Z0-9]{24}'''
+keywords = ["demo_token_"]
+
+[[allowlists]]
+description = "Synthetic fixtures and documentation"
+paths = [
+  '''sample-data/''',
+  '''tests/''',
+  '''docs/''',
+  '''examples/''',
+  '''(^|/)\.venv/''',
+  '''(^|/)\.git/''',
+  '''(^|/)(walkthrough-output|demo-output)/''',
+]

@@ -1,0 +1,59 @@
+# Local, offline Semgrep rules shipped with reposcan. Remote registry rules are
+# refused by default because fetching them transmits metadata to semgrep.dev.
+rules:
+  - id: reposcan.python.sql-string-concat
+    languages: [python]
+    severity: ERROR
+    message: SQL query built by string concatenation; use parameterised queries.
+    metadata:
+      cwe: ["CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"]
+      category: security
+    pattern-either:
+      - pattern: $CONN.execute($Q + ...)
+      - pattern: $CONN.execute(f"...{...}...")
+      - patterns:
+          - pattern: $CONN.execute($Q)
+          - pattern-inside: |
+              $Q = $X + ...
+              ...
+  - id: reposcan.python.subprocess-shell-true
+    languages: [python]
+    severity: ERROR
+    message: subprocess call with shell=True; pass an argument list instead.
+    metadata:
+      cwe: ["CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"]
+      category: security
+    pattern-either:
+      - pattern: subprocess.call(..., shell=True, ...)
+      - pattern: subprocess.run(..., shell=True, ...)
+      - pattern: subprocess.Popen(..., shell=True, ...)
+      - pattern: subprocess.check_output(..., shell=True, ...)
+  - id: reposcan.python.eval-call
+    languages: [python]
+    severity: ERROR
+    message: eval() on dynamic input can execute arbitrary code.
+    metadata:
+      cwe: ["CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"]
+      category: security
+    patterns:
+      - pattern: eval($X)
+      - pattern-not: eval("...")
+  - id: reposcan.python.weak-hash
+    languages: [python]
+    severity: WARNING
+    message: MD5/SHA-1 are broken for security purposes; use SHA-256 or better.
+    metadata:
+      cwe: ["CWE-327: Use of a Broken or Risky Cryptographic Algorithm"]
+      category: security
+    pattern-either:
+      - pattern: hashlib.md5(...)
+      - pattern: hashlib.sha1(...)
+  - id: reposcan.python.yaml-unsafe-load
+    languages: [python]
+    severity: ERROR
+    message: yaml.load without a safe Loader can construct arbitrary objects.
+    metadata:
+      cwe: ["CWE-502: Deserialization of Untrusted Data"]
+      category: security
+    patterns:
+      - pattern: yaml.load($X)

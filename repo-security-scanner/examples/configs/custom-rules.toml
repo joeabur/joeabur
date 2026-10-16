@@ -1,0 +1,6 @@
+# Use your own local Semgrep rules and Gitleaks configuration (paths are relative to this file).
+[scanners.semgrep]
+rules = ["rules/team-rules.yml"]
+
+[scanners.gitleaks]
+config = "gitleaks-team.toml"

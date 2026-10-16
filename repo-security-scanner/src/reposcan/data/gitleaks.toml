@@ -1,0 +1,13 @@
+# Gitleaks configuration used by reposcan.
+# reposcan always passes this file explicitly so a repository cannot weaken the
+# scan by shipping its own .gitleaks.toml.
+title = "reposcan gitleaks config"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "reposcan-synthetic-token"
+description = "Synthetic demo token (fixtures only; matches no real service)"
+regex = '''DEMO_TOKEN_[A-Z0-9]{24}'''
+keywords = ["demo_token_"]

@@ -1,0 +1,1738 @@
+{
+  "experimental_config": {
+    "licenses": {
+      "allowlist": null,
+      "summary": false
+    }
+  },
+  "results": [
+    {
+      "packages": [
+        {
+          "groups": [
+            {
+              "aliases": [
+                "CVE-2019-10906",
+                "GHSA-462w-v97r-4m45",
+                "PYSEC-2019-217"
+              ],
+              "ids": [
+                "PYSEC-2019-217",
+                "GHSA-462w-v97r-4m45"
+              ],
+              "max_severity": "8.6"
+            },
+            {
+              "aliases": [
+                "CVE-2020-28493",
+                "GHSA-g3rq-g295-4j3m",
+                "PYSEC-2021-66",
+                "SNYK-PYTHON-JINJA2-1012994"
+              ],
+              "ids": [
+                "PYSEC-2021-66",
+                "GHSA-g3rq-g295-4j3m"
+              ],
+              "max_severity": "6.9"
+            },
+            {
+              "aliases": [
+                "CVE-2025-27516",
+                "GHSA-cpwx-vrp4-4pq7",
+                "PYSEC-2026-1471"
+              ],
+              "ids": [
+                "PYSEC-2026-1471",
+                "GHSA-cpwx-vrp4-4pq7"
+              ],
+              "max_severity": "5.4"
+            },
+            {
+              "aliases": [
+                "CVE-2024-22195",
+                "GHSA-h5c8-rqwp-cp95",
+                "PYSEC-2026-1473"
+              ],
+              "ids": [
+                "PYSEC-2026-1473",
+                "GHSA-h5c8-rqwp-cp95"
+              ],
+              "max_severity": "5.4"
+            },
+            {
+              "aliases": [
+                "CVE-2024-34064",
+                "GHSA-h75v-3vvj-5mfj",
+                "PYSEC-2026-1474"
+              ],
+              "ids": [
+                "PYSEC-2026-1474",
+                "GHSA-h75v-3vvj-5mfj"
+              ],
+              "max_severity": "5.4"
+            },
+            {
+              "aliases": [
+                "CVE-2024-56326",
+                "GHSA-q2x7-8rv6-6q7h",
+                "PYSEC-2026-1475"
+              ],
+              "ids": [
+                "PYSEC-2026-1475",
+                "GHSA-q2x7-8rv6-6q7h"
+              ],
+              "max_severity": "7.8"
+            }
+          ],
+          "package": {
+            "ecosystem": "PyPI",
+            "name": "jinja2",
+            "purl": "pkg:pypi/jinja2@2.10",
+            "version": "2.10"
+          },
+          "vulnerabilities": [
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.10.1"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2019-10906",
+                "GHSA-462w-v97r-4m45"
+              ],
+              "details": "In Pallets Jinja before 2.10.1, str.format_map allows a sandbox escape.",
+              "id": "PYSEC-2019-217",
+              "modified": "2023-11-08T04:00:58.644982Z",
+              "published": "2019-04-07T00:29:00Z",
+              "references": [
+                {
+                  "type": "ARTICLE",
+                  "url": "https://palletsprojects.com/blog/jinja-2-10-1-released"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://lists.apache.org/thread.html/b2380d147b508bbcb90d2cad443c159e63e12555966ab4f320ee22da@%3Ccommits.airflow.apache.org%3E"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://lists.apache.org/thread.html/46c055e173b52d599c648a98199972dbd6a89d2b4c4647b0500f2284@%3Cdevnull.infra.apache.org%3E"
+                }
+              ],
+              "schema_version": "1.7.3"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.11.3"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2020-28493",
+                "GHSA-g3rq-g295-4j3m",
+                "SNYK-PYTHON-JINJA2-1012994"
+              ],
+              "details": "This affects the package jinja2 from 0.0.0 and before 2.11.3. The ReDoS vulnerability is mainly due to the `_punctuation_re regex` operator and its use of multiple wildcards. The last wildcard is the ",
+              "id": "PYSEC-2021-66",
+              "modified": "2023-11-08T04:03:28.543308Z",
+              "published": "2021-02-01T20:15:00Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/blob/ab81fd9c277900c85da0c322a2ff9d68a235b2e6/src/jinja2/utils.py%23L20"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/pull/1343"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://snyk.io/vuln/SNYK-PYTHON-JINJA2-1012994"
+                }
+              ],
+              "schema_version": "1.7.3"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "3.1.6"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2025-27516",
+                "GHSA-cpwx-vrp4-4pq7"
+              ],
+              "details": "An oversight in how the Jinja sandboxed environment interacts with the `|attr` filter allows an attacker that controls the content of a template to execute arbitrary Python code.\n\nTo exploit the vulne",
+              "id": "PYSEC-2026-1471",
+              "modified": "2026-07-07T17:46:43.358335981Z",
+              "published": "2026-07-07T14:34:50.446969Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/security/advisories/GHSA-cpwx-vrp4-4pq7"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27516"
+                },
+                {
+                  "type": "FIX",
+                  "url": "https://github.com/pallets/jinja/commit/90457bbf33b8662926ae65cdde4c4c32e756e403"
+                }
+              ],
+              "schema_version": "1.7.5",
+              "severity": [
+                {
+                  "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+                  "type": "CVSS_V4"
+                }
+              ],
+              "summary": "Jinja2 vulnerable to sandbox breakout through attr filter selecting format method"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "3.1.3"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-22195",
+                "GHSA-h5c8-rqwp-cp95"
+              ],
+              "details": "The `xmlattr` filter in affected versions of Jinja accepts keys containing spaces. XML/HTML attributes cannot contain spaces, as each would then be interpreted as a separate attribute. If an applicati",
+              "id": "PYSEC-2026-1473",
+              "modified": "2026-07-07T17:46:13.853151947Z",
+              "published": "2026-07-07T11:45:29.949639Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/security/advisories/GHSA-h5c8-rqwp-cp95"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22195"
+                },
+                {
+                  "type": "FIX",
+                  "url": "https://github.com/pallets/jinja/commit/716795349a41d4983a9a4771f7d883c96ea17be7"
+                }
+              ],
+              "schema_version": "1.7.5",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Jinja vulnerable to HTML attribute injection when passing user input as keys to xmlattr filter"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "3.1.4"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-34064",
+                "GHSA-h75v-3vvj-5mfj"
+              ],
+              "details": "The `xmlattr` filter in affected versions of Jinja accepts keys containing non-attribute characters. XML/HTML attributes cannot contain spaces, `/`, `>`, or `=`, as each would then be interpreted as s",
+              "id": "PYSEC-2026-1474",
+              "modified": "2026-07-07T17:46:13.832160246Z",
+              "published": "2026-07-07T11:45:41.875280Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/security/advisories/GHSA-h75v-3vvj-5mfj"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34064"
+                },
+                {
+                  "type": "FIX",
+                  "url": "https://github.com/pallets/jinja/commit/0668239dc6b44ef38e7a6c9f91f312fd4ca581cb"
+                }
+              ],
+              "schema_version": "1.7.5",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Jinja vulnerable to HTML attribute injection when passing user input as keys to xmlattr filter"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "3.1.5"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-56326",
+                "GHSA-q2x7-8rv6-6q7h"
+              ],
+              "details": "An oversight in how the Jinja sandboxed environment detects calls to `str.format` allows an attacker that controls the content of a template to execute arbitrary Python code.\n\nTo exploit the vulnerabi",
+              "id": "PYSEC-2026-1475",
+              "modified": "2026-07-07T17:46:13.842466429Z",
+              "published": "2026-07-07T14:34:47.732576Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/security/advisories/GHSA-q2x7-8rv6-6q7h"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-56326"
+                },
+                {
+                  "type": "FIX",
+                  "url": "https://github.com/pallets/jinja/commit/48b0687e05a5466a91cd5812d604fa37ad0943b4"
+                }
+              ],
+              "schema_version": "1.7.5",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+                  "type": "CVSS_V3"
+                },
+                {
+                  "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+                  "type": "CVSS_V4"
+                }
+              ],
+              "summary": "Jinja has a sandbox breakout through indirect reference to format method"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.10.1"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2019-10906",
+                "PYSEC-2019-217"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-693"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2020-06-16T20:57:35Z",
+                "nvd_published_at": "2019-04-07T00:29:00Z",
+                "severity": "HIGH"
+              },
+              "details": "In Pallets Jinja before 2.10.1, `str.format_map` allows a sandbox escape.\n\nThe sandbox is used to restrict what code can be evaluated when rendering untrusted, user-provided templates. Due to the way ",
+              "id": "GHSA-462w-v97r-4m45",
+              "modified": "2024-09-24T21:03:59.802687Z",
+              "published": "2019-04-10T14:30:24Z",
+              "references": [
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10906"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://usn.ubuntu.com/4011-2"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://usn.ubuntu.com/4011-1"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N",
+                  "type": "CVSS_V3"
+                },
+                {
+                  "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:H/SI:N/SA:N",
+                  "type": "CVSS_V4"
+                }
+              ],
+              "summary": "Jinja2 sandbox escape via string formatting"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "3.1.6"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2025-27516",
+                "PYSEC-2026-1471"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-1336"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2025-03-05T20:40:14Z",
+                "nvd_published_at": "2025-03-05T21:15:20Z",
+                "severity": "MODERATE"
+              },
+              "details": "An oversight in how the Jinja sandboxed environment interacts with the `|attr` filter allows an attacker that controls the content of a template to execute arbitrary Python code.\n\nTo exploit the vulne",
+              "id": "GHSA-cpwx-vrp4-4pq7",
+              "modified": "2026-09-10T03:49:48.526758681Z",
+              "published": "2025-03-05T20:40:14Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/security/advisories/GHSA-cpwx-vrp4-4pq7"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27516"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/commit/90457bbf33b8662926ae65cdde4c4c32e756e403"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+                  "type": "CVSS_V4"
+                }
+              ],
+              "summary": "Jinja2 vulnerable to sandbox breakout through attr filter selecting format method"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.11.3"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2020-28493",
+                "PYSEC-2021-66",
+                "SNYK-PYTHON-JINJA2-1012994"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-400"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2021-03-13T01:08:09Z",
+                "nvd_published_at": "2021-02-01T20:15:00Z",
+                "severity": "MODERATE"
+              },
+              "details": "This affects the package jinja2 from 0.0.0 and before 2.11.3. The ReDOS vulnerability of the regex is mainly due to the sub-pattern [a-zA-Z0-9._-]+.[a-zA-Z0-9._-]+ This issue can be mitigated by Markd",
+              "id": "GHSA-g3rq-g295-4j3m",
+              "modified": "2025-02-14T05:26:14.565160Z",
+              "published": "2021-03-19T21:28:05Z",
+              "references": [
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-28493"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/pull/1343"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/commit/15ef8f09b659f9100610583938005a7a10472d4d"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+                  "type": "CVSS_V3"
+                },
+                {
+                  "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N",
+                  "type": "CVSS_V4"
+                }
+              ],
+              "summary": "Regular Expression Denial of Service (ReDoS) in Jinja2"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "3.1.3"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-22195",
+                "PYSEC-2026-1473"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-79"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2024-01-11T15:20:48Z",
+                "nvd_published_at": "2024-01-11T03:15:11Z",
+                "severity": "MODERATE"
+              },
+              "details": "The `xmlattr` filter in affected versions of Jinja accepts keys containing spaces. XML/HTML attributes cannot contain spaces, as each would then be interpreted as a separate attribute. If an applicati",
+              "id": "GHSA-h5c8-rqwp-cp95",
+              "modified": "2026-09-10T03:50:00.236017440Z",
+              "published": "2024-01-11T15:20:48Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/security/advisories/GHSA-h5c8-rqwp-cp95"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22195"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/commit/716795349a41d4983a9a4771f7d883c96ea17be7"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Jinja vulnerable to HTML attribute injection when passing user input as keys to xmlattr filter"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "3.1.4"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-34064",
+                "PYSEC-2026-1474"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-79"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2024-05-06T14:20:59Z",
+                "nvd_published_at": "2024-05-06T15:15:23Z",
+                "severity": "MODERATE"
+              },
+              "details": "The `xmlattr` filter in affected versions of Jinja accepts keys containing non-attribute characters. XML/HTML attributes cannot contain spaces, `/`, `>`, or `=`, as each would then be interpreted as s",
+              "id": "GHSA-h75v-3vvj-5mfj",
+              "modified": "2026-09-10T03:50:13.786450101Z",
+              "published": "2024-05-06T14:20:59Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/security/advisories/GHSA-h75v-3vvj-5mfj"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34064"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/commit/0668239dc6b44ef38e7a6c9f91f312fd4ca581cb"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Jinja vulnerable to HTML attribute injection when passing user input as keys to xmlattr filter"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "jinja2",
+                    "purl": "pkg:pypi/jinja2"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "3.1.5"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-56326",
+                "PYSEC-2026-1475"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-693"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2024-12-23T17:56:08Z",
+                "nvd_published_at": "2024-12-23T16:15:07Z",
+                "severity": "MODERATE"
+              },
+              "details": "An oversight in how the Jinja sandboxed environment detects calls to `str.format` allows an attacker that controls the content of a template to execute arbitrary Python code.\n\nTo exploit the vulnerabi",
+              "id": "GHSA-q2x7-8rv6-6q7h",
+              "modified": "2026-09-10T03:50:21.662855250Z",
+              "published": "2024-12-23T17:56:08Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/security/advisories/GHSA-q2x7-8rv6-6q7h"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-56326"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/pallets/jinja/commit/48b0687e05a5466a91cd5812d604fa37ad0943b4"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+                  "type": "CVSS_V3"
+                },
+                {
+                  "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+                  "type": "CVSS_V4"
+                }
+              ],
+              "summary": "Jinja has a sandbox breakout through indirect reference to format method"
+            }
+          ]
+        },
+        {
+          "groups": [
+            {
+              "aliases": [
+                "CVE-2020-1747",
+                "GHSA-6757-jp84-gxfx",
+                "PYSEC-2020-96"
+              ],
+              "ids": [
+                "PYSEC-2020-96",
+                "GHSA-6757-jp84-gxfx"
+              ],
+              "max_severity": "9.8"
+            },
+            {
+              "aliases": [
+                "CVE-2020-14343",
+                "GHSA-8q59-q68h-6hv4",
+                "PYSEC-2021-142"
+              ],
+              "ids": [
+                "PYSEC-2021-142",
+                "GHSA-8q59-q68h-6hv4"
+              ],
+              "max_severity": "9.8"
+            }
+          ],
+          "package": {
+            "ecosystem": "PyPI",
+            "name": "pyyaml",
+            "purl": "pkg:pypi/pyyaml@5.3",
+            "version": "5.3"
+          },
+          "vulnerabilities": [
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "pyyaml",
+                    "purl": "pkg:pypi/pyyaml"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "5.1"
+                        },
+                        {
+                          "fixed": "5.3.1"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2020-1747",
+                "GHSA-6757-jp84-gxfx"
+              ],
+              "details": "A vulnerability was discovered in the PyYAML library in versions before 5.3.1, where it is susceptible to arbitrary code execution when it processes untrusted YAML files through the full_load method o",
+              "id": "PYSEC-2020-96",
+              "modified": "2026-05-04T08:57:14.897560893Z",
+              "published": "2020-03-24T15:15:00Z",
+              "references": [
+                {
+                  "type": "REPORT",
+                  "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2020-1747"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/yaml/pyyaml/pull/386"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/WORRFHPQVAFKKXXWLSSW6XKUYLWM6CSH/"
+                }
+              ],
+              "schema_version": "1.7.5"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "pyyaml",
+                    "purl": "pkg:pypi/pyyaml"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "5.4"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2020-14343",
+                "GHSA-8q59-q68h-6hv4"
+              ],
+              "details": "A vulnerability was discovered in the PyYAML library in versions before 5.4, where it is susceptible to arbitrary code execution when it processes untrusted YAML files through the full_load method or ",
+              "id": "PYSEC-2021-142",
+              "modified": "2023-11-08T04:02:26.414885Z",
+              "published": "2021-02-09T21:15:00Z",
+              "references": [
+                {
+                  "type": "REPORT",
+                  "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1860466"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://github.com/advisories/GHSA-8q59-q68h-6hv4"
+                }
+              ],
+              "schema_version": "1.7.3"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "pyyaml",
+                    "purl": "pkg:pypi/pyyaml"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "5.1b7"
+                        },
+                        {
+                          "fixed": "5.3.1"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2020-1747",
+                "PYSEC-2020-96"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-20"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2021-04-07T22:29:00Z",
+                "nvd_published_at": "2020-03-24T15:15:00Z",
+                "severity": "CRITICAL"
+              },
+              "details": "A vulnerability was discovered in the PyYAML library in versions before 5.3.1, where it is susceptible to arbitrary code execution when it processes untrusted YAML files through the full_load method o",
+              "id": "GHSA-6757-jp84-gxfx",
+              "modified": "2026-05-04T08:57:14.897560893Z",
+              "published": "2021-04-20T16:14:24Z",
+              "references": [
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-1747"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/github/advisory-database/pull/4942"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/yaml/pyyaml/pull/386"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                  "type": "CVSS_V3"
+                },
+                {
+                  "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+                  "type": "CVSS_V4"
+                }
+              ],
+              "summary": "Improper Input Validation in PyYAML"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "pyyaml",
+                    "purl": "pkg:pypi/pyyaml"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "5.4"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2020-14343",
+                "PYSEC-2021-142"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-20"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2021-03-25T21:15:23Z",
+                "nvd_published_at": "2021-02-09T21:15:00Z",
+                "severity": "CRITICAL"
+              },
+              "details": "A vulnerability was discovered in the PyYAML library in versions before 5.4, where it is susceptible to arbitrary code execution when it processes untrusted YAML files through the full_load method or ",
+              "id": "GHSA-8q59-q68h-6hv4",
+              "modified": "2026-02-04T03:33:10.792778Z",
+              "published": "2021-03-25T21:26:26Z",
+              "references": [
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14343"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/SeldonIO/seldon-core/issues/2252"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/yaml/pyyaml/issues/420"
+                }
+              ],
+              "related": [
+                "CVE-2026-24009"
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                  "type": "CVSS_V3"
+                },
+                {
+                  "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+                  "type": "CVSS_V4"
+                }
+              ],
+              "summary": "Improper Input Validation in PyYAML"
+            }
+          ]
+        },
+        {
+          "groups": [
+            {
+              "aliases": [
+                "CVE-2018-18074",
+                "GHSA-x84v-xcm2-53pg",
+                "PYSEC-2018-28"
+              ],
+              "ids": [
+                "PYSEC-2018-28",
+                "GHSA-x84v-xcm2-53pg"
+              ],
+              "max_severity": "7.5"
+            },
+            {
+              "aliases": [
+                "CVE-2023-32681",
+                "GHSA-j8r2-6x86-q33q",
+                "PYSEC-2023-74"
+              ],
+              "ids": [
+                "PYSEC-2023-74",
+                "GHSA-j8r2-6x86-q33q"
+              ],
+              "max_severity": "6.1"
+            },
+            {
+              "aliases": [
+                "CVE-2024-47081",
+                "GHSA-9hjg-9r4m-mvj7",
+                "PYSEC-2026-1872"
+              ],
+              "ids": [
+                "PYSEC-2026-1872",
+                "GHSA-9hjg-9r4m-mvj7"
+              ],
+              "max_severity": "5.3"
+            },
+            {
+              "aliases": [
+                "CVE-2024-35195",
+                "GHSA-9wx4-h78v-vm56",
+                "PYSEC-2026-1873"
+              ],
+              "ids": [
+                "PYSEC-2026-1873",
+                "GHSA-9wx4-h78v-vm56"
+              ],
+              "max_severity": "5.6"
+            },
+            {
+              "aliases": [
+                "CVE-2026-25645",
+                "GHSA-gc5v-m9x4-r6x2",
+                "PYSEC-2026-2275"
+              ],
+              "ids": [
+                "PYSEC-2026-2275",
+                "GHSA-gc5v-m9x4-r6x2"
+              ],
+              "max_severity": "5.5"
+            }
+          ],
+          "package": {
+            "ecosystem": "PyPI",
+            "name": "requests",
+            "purl": "pkg:pypi/requests@2.19.1",
+            "version": "2.19.1"
+          },
+          "vulnerabilities": [
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "c45d7c49ea75133e52ab22a8e9e13173938e36ff"
+                        }
+                      ],
+                      "repo": "https://github.com/requests/requests",
+                      "type": "GIT"
+                    },
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.20.0"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2018-18074",
+                "GHSA-x84v-xcm2-53pg"
+              ],
+              "details": "The Requests package before 2.20.0 for Python sends an HTTP Authorization header to an http URI upon receiving a same-hostname https-to-http redirect, which makes it easier for remote attackers to dis",
+              "id": "PYSEC-2018-28",
+              "modified": "2023-11-08T04:00:04.815794Z",
+              "published": "2018-10-09T17:29:00Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/requests/requests/pull/4718"
+                },
+                {
+                  "type": "REPORT",
+                  "url": "https://github.com/requests/requests/issues/4716"
+                },
+                {
+                  "type": "FIX",
+                  "url": "https://github.com/requests/requests/commit/c45d7c49ea75133e52ab22a8e9e13173938e36ff"
+                }
+              ],
+              "schema_version": "1.7.3"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "74ea7cf7a6a27a4eeb2ae24e162bcc942a6706d5"
+                        }
+                      ],
+                      "repo": "https://github.com/psf/requests",
+                      "type": "GIT"
+                    },
+                    {
+                      "events": [
+                        {
+                          "introduced": "2.3.0"
+                        },
+                        {
+                          "fixed": "2.31.0"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2023-32681",
+                "GHSA-j8r2-6x86-q33q"
+              ],
+              "details": "Requests is a HTTP library. Since Requests 2.3.0, Requests has been leaking Proxy-Authorization headers to destination servers when redirected to an HTTPS endpoint. This is a product of how we use `re",
+              "id": "PYSEC-2023-74",
+              "modified": "2023-11-08T04:12:35.436175Z",
+              "published": "2023-05-26T18:15:00Z",
+              "references": [
+                {
+                  "type": "ADVISORY",
+                  "url": "https://github.com/psf/requests/security/advisories/GHSA-j8r2-6x86-q33q"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/releases/tag/v2.31.0"
+                },
+                {
+                  "type": "FIX",
+                  "url": "https://github.com/psf/requests/commit/74ea7cf7a6a27a4eeb2ae24e162bcc942a6706d5"
+                }
+              ],
+              "schema_version": "1.7.3"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.32.4"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-47081",
+                "GHSA-9hjg-9r4m-mvj7"
+              ],
+              "details": "### Impact\n\nDue to a URL parsing issue, Requests releases prior to 2.32.4 may leak .netrc credentials to third parties for specific maliciously-crafted URLs.\n\n### Workarounds\nFor older versions of Req",
+              "id": "PYSEC-2026-1872",
+              "modified": "2026-07-07T17:47:00.332079836Z",
+              "published": "2026-07-07T16:02:54.151964Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/security/advisories/GHSA-9hjg-9r4m-mvj7"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-47081"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/pull/6965"
+                }
+              ],
+              "schema_version": "1.7.5",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Requests vulnerable to .netrc credentials leak via malicious URLs"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.32.0"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-35195",
+                "GHSA-9wx4-h78v-vm56"
+              ],
+              "details": "When using a `requests.Session`, if the first request to a given origin is made with `verify=False`, TLS certificate verification may remain disabled for all subsequent requests to that origin, even i",
+              "id": "PYSEC-2026-1873",
+              "modified": "2026-07-07T17:46:36.762141019Z",
+              "published": "2026-07-07T11:45:42.890131Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/security/advisories/GHSA-9wx4-h78v-vm56"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35195"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/pull/6655"
+                }
+              ],
+              "schema_version": "1.7.5",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Requests `Session` object does not verify requests after making first request with verify=False"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.33.0"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2026-25645",
+                "GHSA-gc5v-m9x4-r6x2"
+              ],
+              "details": "Requests is a HTTP library. Prior to version 2.33.0, the `requests.utils.extract_zipped_paths()` utility function uses a predictable filename when extracting files from zip archives into the system te",
+              "id": "PYSEC-2026-2275",
+              "modified": "2026-07-13T07:15:43.964902190Z",
+              "published": "2026-03-25T17:16:52.970Z",
+              "references": [
+                {
+                  "type": "ADVISORY",
+                  "url": "https://github.com/psf/requests/releases/tag/v2.33.0"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://github.com/psf/requests/security/advisories/GHSA-gc5v-m9x4-r6x2"
+                },
+                {
+                  "type": "FIX",
+                  "url": "https://github.com/psf/requests/commit/66d21cb07bd6255b1280291c4fafb71803cdb3b7"
+                }
+              ],
+              "schema_version": "1.7.5",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+                  "type": "CVSS_V3"
+                }
+              ]
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.32.4"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-47081",
+                "PYSEC-2026-1872"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-522"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2025-06-09T19:06:08Z",
+                "nvd_published_at": "2025-06-09T18:15:24Z",
+                "severity": "MODERATE"
+              },
+              "details": "### Impact\n\nDue to a URL parsing issue, Requests releases prior to 2.32.4 may leak .netrc credentials to third parties for specific maliciously-crafted URLs.\n\n### Workarounds\nFor older versions of Req",
+              "id": "GHSA-9hjg-9r4m-mvj7",
+              "modified": "2026-09-10T03:50:25.139398550Z",
+              "published": "2025-06-09T19:06:08Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/security/advisories/GHSA-9hjg-9r4m-mvj7"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-47081"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/pull/6965"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Requests vulnerable to .netrc credentials leak via malicious URLs"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.32.0"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2024-35195",
+                "PYSEC-2026-1873"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-670"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2024-05-20T20:15:00Z",
+                "nvd_published_at": "2024-05-20T21:15:09Z",
+                "severity": "MODERATE"
+              },
+              "details": "When using a `requests.Session`, if the first request to a given origin is made with `verify=False`, TLS certificate verification may remain disabled for all subsequent requests to that origin, even i",
+              "id": "GHSA-9wx4-h78v-vm56",
+              "modified": "2026-09-10T03:50:13.740879755Z",
+              "published": "2024-05-20T20:15:00Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/security/advisories/GHSA-9wx4-h78v-vm56"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35195"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/pull/6655"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Requests `Session` object does not verify requests after making first request with verify=False"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.33.0"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2026-25645",
+                "PYSEC-2026-2275"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-377"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2026-03-25T16:56:28Z",
+                "nvd_published_at": "2026-03-25T17:16:52Z",
+                "severity": "MODERATE"
+              },
+              "details": "### Impact\nThe `requests.utils.extract_zipped_paths()` utility function uses a predictable filename when extracting files from zip archives into the system temporary directory. If the target file alre",
+              "id": "GHSA-gc5v-m9x4-r6x2",
+              "modified": "2026-09-10T03:50:39.207922076Z",
+              "published": "2026-03-25T16:56:28Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/security/advisories/GHSA-gc5v-m9x4-r6x2"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25645"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/commit/66d21cb07bd6255b1280291c4fafb71803cdb3b7"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:N/I:H/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Requests has Insecure Temp File Reuse in its extract_zipped_paths() utility function"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "2.3.0"
+                        },
+                        {
+                          "fixed": "2.31.0"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2023-32681",
+                "PYSEC-2023-74"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-200"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2023-05-22T20:36:32Z",
+                "nvd_published_at": "2023-05-26T18:15:14Z",
+                "severity": "MODERATE"
+              },
+              "details": "### Impact\n\nSince Requests v2.3.0, Requests has been vulnerable to potentially leaking `Proxy-Authorization` headers to destination servers, specifically during redirects to an HTTPS origin. This is a",
+              "id": "GHSA-j8r2-6x86-q33q",
+              "modified": "2026-09-10T03:50:01.756149727Z",
+              "published": "2023-05-22T20:36:32Z",
+              "references": [
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/security/advisories/GHSA-j8r2-6x86-q33q"
+                },
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32681"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/psf/requests/commit/74ea7cf7a6a27a4eeb2ae24e162bcc942a6706d5"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Unintended leak of Proxy-Authorization header in requests"
+            },
+            {
+              "affected": [
+                {
+                  "package": {
+                    "ecosystem": "PyPI",
+                    "name": "requests",
+                    "purl": "pkg:pypi/requests"
+                  },
+                  "ranges": [
+                    {
+                      "events": [
+                        {
+                          "introduced": "0"
+                        },
+                        {
+                          "fixed": "2.20.0"
+                        }
+                      ],
+                      "type": "ECOSYSTEM"
+                    }
+                  ]
+                }
+              ],
+              "aliases": [
+                "CVE-2018-18074",
+                "PYSEC-2018-28"
+              ],
+              "database_specific": {
+                "cwe_ids": [
+                  "CWE-522"
+                ],
+                "github_reviewed": true,
+                "github_reviewed_at": "2020-06-16T22:02:40Z",
+                "nvd_published_at": "2018-10-09T17:29:00Z",
+                "severity": "HIGH"
+              },
+              "details": "The Requests package through 2.19.1 before 2018-09-14 for Python sends an HTTP Authorization header to an http URI upon receiving a same-hostname https-to-http redirect, which makes it easier for remo",
+              "id": "GHSA-x84v-xcm2-53pg",
+              "modified": "2024-10-21T21:42:55.896669Z",
+              "published": "2018-10-29T19:06:46Z",
+              "references": [
+                {
+                  "type": "ADVISORY",
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-18074"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/requests/requests/issues/4716"
+                },
+                {
+                  "type": "WEB",
+                  "url": "https://github.com/requests/requests/pull/4718"
+                }
+              ],
+              "schema_version": "1.9.0",
+              "severity": [
+                {
+                  "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                  "type": "CVSS_V3"
+                }
+              ],
+              "summary": "Insufficiently Protected Credentials in Requests"
+            }
+          ]
+        }
+      ],
+      "source": {
+        "path": "/repo/requirements.txt",
+        "type": "lockfile"
+      }
+    }
+  ]
+}

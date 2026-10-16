@@ -1,0 +1,119 @@
+{
+  "engine_requested": "OSS",
+  "errors": [],
+  "results": [
+    {
+      "check_id": "reposcan.python.sql-string-concat",
+      "end": {
+        "col": 31,
+        "line": 13,
+        "offset": 427
+      },
+      "extra": {
+        "engine_kind": "OSS",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "message": "SQL query built by string concatenation; use parameterised queries.",
+        "metadata": {
+          "category": "security",
+          "cwe": [
+            "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+          ]
+        },
+        "severity": "ERROR",
+        "validation_state": "NO_VALIDATOR"
+      },
+      "path": "/repo/app/server.py",
+      "start": {
+        "col": 12,
+        "line": 13,
+        "offset": 408
+      }
+    },
+    {
+      "check_id": "reposcan.python.subprocess-shell-true",
+      "end": {
+        "col": 60,
+        "line": 18,
+        "offset": 601
+      },
+      "extra": {
+        "engine_kind": "OSS",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "message": "subprocess call with shell=True; pass an argument list instead.",
+        "metadata": {
+          "category": "security",
+          "cwe": [
+            "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+          ]
+        },
+        "severity": "ERROR",
+        "validation_state": "NO_VALIDATOR"
+      },
+      "path": "/repo/app/server.py",
+      "start": {
+        "col": 12,
+        "line": 18,
+        "offset": 553
+      }
+    },
+    {
+      "check_id": "reposcan.python.weak-hash",
+      "end": {
+        "col": 29,
+        "line": 23,
+        "offset": 706
+      },
+      "extra": {
+        "engine_kind": "OSS",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "message": "MD5/SHA-1 are broken for security purposes; use SHA-256 or better.",
+        "metadata": {
+          "category": "security",
+          "cwe": [
+            "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+          ]
+        },
+        "severity": "WARNING",
+        "validation_state": "NO_VALIDATOR"
+      },
+      "path": "/repo/app/server.py",
+      "start": {
+        "col": 12,
+        "line": 23,
+        "offset": 689
+      }
+    },
+    {
+      "check_id": "reposcan.python.eval-call",
+      "end": {
+        "col": 28,
+        "line": 28,
+        "offset": 820
+      },
+      "extra": {
+        "engine_kind": "OSS",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "message": "eval() on dynamic input can execute arbitrary code.",
+        "metadata": {
+          "category": "security",
+          "cwe": [
+            "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"
+          ]
+        },
+        "severity": "ERROR",
+        "validation_state": "NO_VALIDATOR"
+      },
+      "path": "/repo/app/server.py",
+      "start": {
+        "col": 12,
+        "line": 28,
+        "offset": 804
+      }
+    }
+  ],
+  "version": "1.181.0"
+}

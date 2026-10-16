@@ -1,0 +1,7 @@
+# Config for scanning THIS project's own tree in CI (see .github/workflows/security-scan.yml).
+# The Gitleaks config is path-allowlisted for the synthetic fixtures; do not reuse it elsewhere.
+[policy]
+fail_on = "high"
+
+[scanners.gitleaks]
+config = "gitleaks-selfscan.toml"

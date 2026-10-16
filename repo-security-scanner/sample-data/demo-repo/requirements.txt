@@ -1,0 +1,4 @@
+# Intentionally outdated pins with publicly known advisories (demo only).
+requests==2.19.1
+PyYAML==5.3
+Jinja2==2.10

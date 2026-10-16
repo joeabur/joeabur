@@ -1,0 +1,25 @@
+# Strict: fail on medium and above, require an expiry for anything high or above,
+# and keep re-failing the build if an accepted finding is critical.
+[scan]
+timeout_seconds = 900
+version_policy = "enforce"
+
+[policy]
+fail_on = "medium"
+fail_on_baseline = false
+require_expiry_at_or_above = "high"
+max_accept_days = 90
+
+[scanners.gitleaks]
+enabled = true
+
+[scanners.semgrep]
+enabled = true
+
+[scanners.trivy]
+enabled = true
+scanners = ["vuln", "misconfig", "secret"]
+
+[scanners.osv]
+enabled = true
+mode = "local-db"

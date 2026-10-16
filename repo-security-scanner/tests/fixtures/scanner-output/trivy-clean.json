@@ -1,0 +1,8 @@
+{
+  "ArtifactName": "/repo",
+  "ArtifactType": "filesystem",
+  "SchemaVersion": 2,
+  "Trivy": {
+    "Version": "0.76.0"
+  }
+}

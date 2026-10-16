@@ -1,0 +1,10 @@
+# Air-gapped / no-egress runs. Requires warm caches: `reposcan update-db` for Trivy
+# beforehand (online), and no OSV-Scanner. Gitleaks and Semgrep need no network.
+[scan]
+offline = true
+
+[policy]
+fail_on = "high"
+
+[scanners.osv]
+enabled = false
