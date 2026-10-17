@@ -16,7 +16,8 @@ RETENTION_DAYS="${REPORT_RETENTION_DAYS:-30}"
 mkdir -p -- "$REPORT_DIR"
 chmod 0700 -- "$REPORT_DIR"
 
-stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+# unique even for two runs in the same second (reports are never overwritten)
+stamp="$(date -u +%Y%m%dT%H%M%SZ)-$$"
 args=(--config "$FIM_CONFIG" scan --json "$REPORT_DIR/scan-$stamp.json" --csv "$REPORT_DIR/scan-$stamp.csv")
 if [[ "${FIM_SYSLOG:-0}" == "1" ]]; then
     args+=(--syslog)

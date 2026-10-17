@@ -34,7 +34,7 @@ from pydantic import ValidationError
 from fim import __version__
 from fim.errors import BaselineError, LockError, TrustError
 from fim.hashing import sha256_bytes
-from fim.models import BASELINE_SCHEMA_VERSION, Baseline, FileRecord, ScanIssue
+from fim.models import BASELINE_SCHEMA_VERSION, Baseline, FileRecord, ScanIssue, record_to_json
 
 _NAME_RE = re.compile(r"^baseline-(\d{6,})\.json$")
 SIGNER = Any  # callable: bytes -> tuple[str, str]  (signature text, key id)
@@ -200,7 +200,9 @@ class BaselineStore:
             )
         if baseline.version != version:
             raise TrustError(f"{path.name} claims to be version {baseline.version}")
-        if compute_content_hash(doc) != baseline.content_sha256:
+        digest_ok = compute_content_hash(doc) == baseline.content_sha256
+        del doc  # the parsed JSON tree is ~0.7 KiB/entry; release it before the caller scans
+        if not digest_ok:
             raise TrustError(
                 f"baseline {path.name} failed its integrity check (content hash mismatch): "
                 "it was modified or corrupted after it was written"
@@ -243,7 +245,7 @@ class BaselineStore:
                 "complete": complete,
                 "issues": [i.model_dump(mode="json") for i in issues],
                 "prev_sha256": prev_hash,
-                "entries": {p: r.model_dump(mode="json") for p, r in sorted(entries.items())},
+                "entries": {p: record_to_json(r) for p, r in sorted(entries.items())},
             }
             body["content_sha256"] = compute_content_hash(body)
             baseline = Baseline.model_validate(body)

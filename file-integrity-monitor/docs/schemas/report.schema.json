@@ -139,7 +139,7 @@
     },
     "FileRecord": {
       "additionalProperties": false,
-      "description": "What we know about one path at one moment.",
+      "description": "What we know about one path at one moment.\n\nA slotted, frozen, validated dataclass (not a BaseModel): a 300k-entry estate holds two sets\nof these in memory, and this costs ~10x less per record than a pydantic model instance.\nUse ``dataclasses.replace`` to derive a modified copy and ``record_to_json`` to serialise.",
       "properties": {
         "gid": {
           "minimum": 0,

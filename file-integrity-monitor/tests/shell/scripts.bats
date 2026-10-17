@@ -196,6 +196,21 @@ setup() {
     [ "$(stat -c %a "$(find "$W/reports" -name 'scan-*.json' | head -n1)")" = "600" ]
 }
 
+@test "run-scan.sh back-to-back runs in the same second do not collide" {
+    command -v fim >/dev/null || skip "fim is not installed in this environment"
+    W="$BATS_TEST_TMPDIR/w2"
+    mkdir -p "$W/target" "$W/state"
+    echo one > "$W/target/f"
+    printf '[baseline]\ndir="%s/state/b"\n[scan]\nroots=["%s/target"]\n' "$W" "$W" > "$W/fim.toml"
+    fim -c "$W/fim.toml" baseline create >/dev/null
+    export FIM_CONFIG="$W/fim.toml" REPORT_DIR="$W/reports"
+    for _ in 1 2 3 4 5; do
+        run "$REPO/scripts/run-scan.sh"
+        [ "$status" -eq 0 ]
+    done
+    [ "$(find "$W/reports" -name 'scan-*.json' | wc -l)" -eq 5 ]
+}
+
 @test "run-scan.sh rejects a relative REPORT_DIR" {
     REPORT_DIR=relative run "$REPO/scripts/run-scan.sh"
     [ "$status" -eq 2 ]

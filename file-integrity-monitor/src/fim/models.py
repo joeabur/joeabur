@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import dataclasses
 from enum import StrEnum
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
+from pydantic.dataclasses import dataclass as pydantic_dataclass
 
 BASELINE_SCHEMA_VERSION = 1
 REPORT_SCHEMA_VERSION = 1
@@ -69,21 +71,30 @@ class FileType(StrEnum):
     SPECIAL = "special"  # fifo, socket, device: metadata only, never opened
 
 
-class FileRecord(BaseModel):
-    """What we know about one path at one moment."""
+@pydantic_dataclass(frozen=True, slots=True, config=ConfigDict(extra="forbid"))
+class FileRecord:
+    """What we know about one path at one moment.
 
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    A slotted, frozen, validated dataclass (not a BaseModel): a 300k-entry estate holds two sets
+    of these in memory, and this costs ~10x less per record than a pydantic model instance.
+    Use ``dataclasses.replace`` to derive a modified copy and ``record_to_json`` to serialise.
+    """
 
     type: FileType
-    size: int = Field(ge=0)
-    mode: str = Field(pattern=r"^[0-7]{4,6}$", description="Octal permission bits, e.g. 0644")
-    uid: int = Field(ge=0)
-    gid: int = Field(ge=0)
+    size: Annotated[int, Field(ge=0)]
+    mode: Annotated[str, Field(pattern=r"^[0-7]{4,6}$", description="Octal permission bits, e.g. 0644")]
+    uid: Annotated[int, Field(ge=0)]
+    gid: Annotated[int, Field(ge=0)]
     mtime_ns: int
-    sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    sha256: Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")] | None = None
     link_target: str | None = None
     # name -> sha256 of the attribute value; None = not collected (disabled/unsupported fs).
     xattrs: dict[str, str] | None = None
+
+
+def record_to_json(rec: FileRecord) -> dict[str, object]:
+    """JSON-ready dict of a FileRecord (enums are str subclasses, so json.dumps handles them)."""
+    return dataclasses.asdict(rec)
 
 
 class ScanIssue(BaseModel):

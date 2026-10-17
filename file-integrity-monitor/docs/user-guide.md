@@ -205,6 +205,26 @@ for any non-zero exit so that `OnFailure=` or monitoring can react. Cron alterna
 A baseline made from an incomplete scan is refused unless `--allow-incomplete`, is marked
 `complete: false`, and every later scan warns about the coverage gap.
 
+## Backup and restore
+
+The baseline directory is small and self-describing; back it up after every authorized update
+(ideally to an independent system; see [security-and-limitations.md](security-and-limitations.md#recommended-stronger-deployment)).
+
+```bash
+# back up (preserves modes and ownership; run as the user that owns the store)
+sudo tar -C /var/lib/fim -cpf /secure/location/fim-baselines-$(date -u +%Y%m%d).tar baselines
+
+# restore into an empty location, preserving permissions
+sudo tar -C /var/lib/fim -xpf /secure/location/fim-baselines-20261017.tar
+fim baseline verify      # integrity, signature, audit-chain consistency
+fim audit verify
+```
+
+If permissions were not preserved FIM refuses to use the store (`unsafe permissions`), and tells you
+to `chmod 700` it; fix and re-verify. Restoring *only part* of the directory (an old `CURRENT`
+pointer, or `baseline-N.json` without its `.sig`) is detected as rollback/untrusted (exit 4). These
+three cases are covered by `TestBackupRestore` in `tests/integration/test_cli_flows.py`.
+
 ## Sizing and performance
 
 Measured with `scripts/benchmark.py` (300,001 small files in 300 directories + one 512 MiB file,
@@ -212,15 +232,16 @@ ext4 on a 4-vCPU VM, CPython 3.13, cold-ish cache; your hardware will differ):
 
 | Operation | Wall time | Peak memory |
 |---|---|---|
-| `baseline create` | 26.6 s | ~1.16 GiB |
-| `scan`, nothing changed | 17.6 s | ~1.16 GiB |
-| `scan`, one change | 17.0 s | ~1.16 GiB |
+| `baseline create` | 19.6 s | ~590 MiB |
+| `scan`, nothing changed | 14.1 s | ~590 MiB |
+| `scan`, one change | 13.7 s | ~590 MiB |
 | Baseline file on disk | 84 MiB | |
 
-Rules of thumb: **~4 KiB of memory per recorded entry** (the whole baseline and the new scan are held
-in memory as validated objects), ~85 µs/file for small files plus disk-bound hashing for large ones
+Rules of thumb: **~2 KiB of memory per recorded entry** (the whole baseline and the new scan are held
+in memory as validated slotted records; an earlier pydantic-model representation cost ~4 KiB and was
+replaced after this was measured), ~45 µs/file for small files plus disk-bound hashing for large ones
 (streaming; memory does not depend on file size). The default `max_files = 2000000` therefore needs
-roughly 8 GiB; set `max_files` and the systemd `MemoryMax=` (shipped as 4G) to match your estate, or
+roughly 4 GiB; the shipped systemd `MemoryMax=4G` matches that. Lower both for small hosts, or
 split roots into several configurations. Re-run `python scripts/benchmark.py --files N` on your
 own hardware before sizing production.
 

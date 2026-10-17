@@ -365,3 +365,11 @@ def test_scan_hashes_match_contents_for_arbitrary_trees(
     res = Scanner(cfg.scan).scan()
     for path, data in written.items():
         assert res.entries[path].sha256 == hashlib.sha256(data).hexdigest()
+
+
+def test_file_records_stay_lightweight(ws: Workspace) -> None:
+    """Guards the memory budget (~2 KiB/entry at 300k files): records must be slotted dataclasses,
+    not pydantic model instances carrying a per-object __dict__."""
+    rec = scan(ws).entries[str(ws.data / "a.txt")]
+    assert not hasattr(rec, "__dict__")
+    assert hasattr(type(rec), "__slots__")

@@ -301,3 +301,50 @@ def test_fifo_in_tree_does_not_hang(ws: Workspace, run) -> None:  # type: ignore
     os.mkfifo(ws.data / "pipe")
     assert run("baseline", "create").exit_code == 0
     assert run("scan").exit_code == 0
+
+
+class TestBackupRestore:
+    """Documented in docs/user-guide.md#backup-and-restore."""
+
+    def _tar(self, *args: str, cwd: Path) -> None:
+        subprocess.run(["tar", *args], cwd=cwd, check=True, capture_output=True)
+
+    def test_restore_preserving_permissions_verifies(self, ws: Workspace, run) -> None:  # type: ignore[no-untyped-def]
+        import shutil
+
+        run("baseline", "create")
+        (ws.data / "a.txt").write_text("changed")
+        run("baseline", "update", "--reason", "r", "--yes")
+        self._tar("-cpf", str(ws.root / "backup.tar"), "baselines", cwd=ws.state)
+        shutil.rmtree(ws.state / "baselines")
+        self._tar("-xpf", str(ws.root / "backup.tar"), cwd=ws.state)
+        assert run("baseline", "verify").exit_code == 0
+        assert run("scan").exit_code == 0
+        assert run("audit", "verify").exit_code == 0
+
+    def test_restore_losing_permissions_is_refused_until_fixed(self, ws: Workspace, run) -> None:  # type: ignore[no-untyped-def]
+        import shutil
+
+        run("baseline", "create")
+        self._tar("-cf", str(ws.root / "backup.tar"), "baselines", cwd=ws.state)
+        shutil.rmtree(ws.state / "baselines")
+        old = os.umask(0o022)
+        try:
+            self._tar("-xf", str(ws.root / "backup.tar"), "--no-same-permissions", cwd=ws.state)
+        finally:
+            os.umask(old)
+        (ws.state / "baselines").chmod(0o755)
+        r = run("scan")
+        assert r.exit_code == cli.EXIT_OPERATIONAL and "chmod 700" in r.output
+        (ws.state / "baselines").chmod(0o700)
+        assert run("scan").exit_code == 0
+
+    def test_restoring_an_older_backup_is_detected_as_rollback(self, ws: Workspace, run) -> None:  # type: ignore[no-untyped-def]
+        run("baseline", "create")
+        d = ws.state / "baselines"
+        old_current = (d / "CURRENT").read_text()
+        (ws.data / "a.txt").write_text("changed")
+        run("baseline", "update", "--reason", "r", "--yes")
+        (d / "CURRENT").write_text(old_current)  # what restoring only an old pointer looks like
+        r = run("scan")
+        assert r.exit_code == cli.EXIT_UNTRUSTED and "rollback" in r.output

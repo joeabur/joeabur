@@ -33,7 +33,7 @@ roots = ["/etc"]
 | `follow_outside_roots` | `false` | Only with `follow`: also follow links leading outside the roots. Off by default; otherwise reported as informational `symlink_outside_root`. |
 | `xattrs` | `true` | Record extended attributes (POSIX ACLs `system.posix_acl_*`, SELinux label `security.selinux`, file capabilities `security.capability`, `user.*`). Only a SHA-256 of each value is stored, never the value. Filesystems without xattr support yield "not collected" and never alert; a baseline made without xattrs (older version, or `xattrs = false`) never alerts on them either. A real read failure (e.g. `EACCES`) is an `unreadable` issue. |
 | `one_file_system` | `true` | Do not descend into other mounts (keeps `/proc`, `/sys`, network mounts out). |
-| `max_files` | `2000000` | **Memory scales with entries (~4 KiB each, measured; see [sizing](user-guide.md#sizing-and-performance)).** Abort after this many entries; scan becomes incomplete (`limit_reached`) and **no deletions are reported**. |
+| `max_files` | `2000000` | **Memory scales with entries (~2 KiB each, measured; see [sizing](user-guide.md#sizing-and-performance)).** Abort after this many entries; scan becomes incomplete (`limit_reached`) and **no deletions are reported**. |
 | `max_file_bytes` | `1073741824` | Larger files are *not hashed* and are reported as `too_large` (incomplete); `0` = unlimited. |
 | `max_depth` | `64` | Directory depth limit (`max_depth` issue beyond it). |
 | `timeout_seconds` | `3600` | Wall-clock limit (`0` = none); aborts like `max_files`. |

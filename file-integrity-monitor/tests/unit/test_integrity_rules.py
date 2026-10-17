@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import dataclasses
 import os
 from pathlib import Path
 
@@ -9,7 +10,7 @@ from hypothesis import strategies as st
 
 from fim import integrity, scanner
 from fim.baseline import compute_content_hash
-from fim.models import Baseline, EventType, FileRecord, FileType, IssueKind, Severity
+from fim.models import Baseline, EventType, FileRecord, FileType, IssueKind, Severity, record_to_json
 from fim.scanner import Scanner
 from tests.conftest import Workspace
 
@@ -22,7 +23,7 @@ def baseline_from(ws: Workspace, cfg=None, **kw: object) -> tuple[Baseline, obje
         "created_at": "2026-01-01T00:00:00+00:00", "hostname": "h", "tool_version": "t",
         "roots": cfg.scan.roots, "exclude": cfg.scan.exclude, "symlinks": cfg.scan.symlinks,
         "complete": res.complete, "issues": [], "prev_sha256": None,
-        "entries": {p: r.model_dump(mode="json") for p, r in res.entries.items()},
+        "entries": {p: record_to_json(r) for p, r in res.entries.items()},
     }  # fmt: skip
     body["content_sha256"] = compute_content_hash(body)
     return Baseline.model_validate(body), cfg
@@ -94,7 +95,7 @@ def test_owner_change(ws: Workspace) -> None:
     b, cfg = baseline_from(ws)
     key = str(ws.data / "a.txt")
     entries = dict(b.entries)
-    entries[key] = entries[key].model_copy(update={"uid": 4242, "gid": 4343})
+    entries[key] = dataclasses.replace(entries[key], uid=4242, gid=4343)
     forged = b.model_copy(update={"entries": entries})
     ev = events_for(ws, forged, cfg)
     assert by_type(ev) == {"owner_changed": ["a.txt"]}
@@ -199,7 +200,7 @@ class TestIncompleteScansNeverBecomeFalseDeletions:
         b, cfg = baseline_from(ws)
         res = Scanner(cfg.scan).scan()
         key = str(ws.data / "a.txt")
-        res.entries[key] = res.entries[key].model_copy(update={"sha256": None})
+        res.entries[key] = dataclasses.replace(res.entries[key], sha256=None)
         assert integrity.compare(cfg, b, res, scan_id="t") == []
 
     def test_scope_limits_deletion_detection(self, ws: Workspace) -> None:
@@ -292,7 +293,7 @@ def test_compare_finds_exactly_the_injected_changes(
     body = {
         "format": "fim-baseline", "schema_version": 1, "version": 1, "created_at": "x", "hostname": "h",
         "tool_version": "t", "roots": cfg.scan.roots, "exclude": [], "symlinks": "record", "complete": True,
-        "issues": [], "prev_sha256": None, "entries": {p: r.model_dump(mode="json") for p, r in res0.entries.items()},
+        "issues": [], "prev_sha256": None, "entries": {p: record_to_json(r) for p, r in res0.entries.items()},
     }  # fmt: skip
     body["content_sha256"] = compute_content_hash(body)
     b = Baseline.model_validate(body)

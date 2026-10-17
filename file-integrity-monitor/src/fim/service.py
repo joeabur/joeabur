@@ -65,6 +65,7 @@ def load_trusted(cfg: Config, store: BaselineStore, version: int | None = None) 
         sig_status = f"verified ({kid})"
     else:
         warnings.append("baseline is not signed: only accidental corruption is detectable")
+    loaded.raw = b""  # only needed for the signature check above; free it (large estates)
     if version is None:  # the audit cross-check only describes the *current* baseline
         mismatch = store.audit_baseline_mismatch(b)
         if mismatch:

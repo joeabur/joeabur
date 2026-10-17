@@ -68,29 +68,30 @@ Exit codes: `0` clean · `1` findings · `2` usage/config · `3` incomplete scan
 
 ## Test results
 
-Actual results from the development runs (Ubuntu 24.04 sandbox, CPython 3.13.16 unless stated):
+Actual results from the development runs (Ubuntu 24.04 sandbox, CPython 3.13 unless stated):
 
 | Check | Result |
 |---|---|
-| `pytest` (unit + integration + docs, Hypothesis property tests, real inotify and rsyslog-verified paths) | **236 passed, 1 skipped** as root (the skip is the `chmod 000` test, root bypasses permissions) |
+| `pytest` (unit + integration + docs, Hypothesis property tests, real inotify) | **240 passed, 1 skipped** as root (the skip is the `chmod 000` test, root bypasses permissions) |
 | Same suite as an **unprivileged user** | the real `chmod 000` test runs; only the root-only `security.capability` test is skipped |
-| Python 3.11.17 and 3.12.3 | 236 passed on each |
-| Debian 12 and Rocky Linux 9 containers (overlayfs, Python 3.11.15), root and non-root | 236 passed each; `install.sh` + `demo.sh` + `uninstall.sh` OK |
-| tmpfs | 236 passed |
+| Python 3.11 / 3.12 / 3.13 | passing locally; GitHub Actions matrix ran all three |
+| Oracle Linux 9.8 (distro Python 3.11), Debian 12, Rocky 9, Ubuntu 22.04/24.04 containers | install + demo + uninstall OK; full suite passing on Oracle Linux (root and non-root) and Debian/Rocky (standalone Python) |
+| Filesystems: ext4, tmpfs, overlayfs, XFS | full suite passing |
+| Booted systemd 255 | scan unit (hardened), timer and watcher unit verified end to end |
 | Non-root with only `CAP_DAC_READ_SEARCH` | baselines and scans root-only files; without it the scan is INCOMPLETE |
-| `bats tests/shell` / `shellcheck -x` | 19/19 ok / clean |
+| `bats tests/shell` / `shellcheck -x` | 20/20 ok / clean |
 | `ruff` / `mypy --strict` | clean |
-| `pip-audit` on `requirements.lock` | no known vulnerabilities |
-| `systemd-analyze verify` / `security --offline` | no directive errors / exposure 3.1 (OK) |
+| `pip-audit` on `requirements.lock` | no known vulnerabilities (locally and in CI) |
+| `systemd-analyze security` | exposure 3.1 (OK) |
 | Real `rsyslogd` | RFC 5424 over UDP/TCP parsed correctly; unix socket uses BSD framing |
 | Real inotify exhaustion | `fim watch` exits 6 with guidance |
-| Scale (`scripts/benchmark.py`, 300,001 files + 512 MiB) | baseline 26.6 s, scan 17.6 s, ~1.16 GiB peak memory, 84 MiB baseline |
+| Scale (`scripts/benchmark.py`, 300,001 files + 512 MiB) | baseline 19.6 s, scan 14.1 s, ~590 MiB peak, 84 MiB baseline |
+| GitHub Actions (`fim-ci`) | lint/types, pip-audit, gitleaks, reproducibility, Ubuntu and Rocky 9 smoke: green; test jobs exposed (and I fixed) a same-second report filename collision |
 | Walkthrough | all command blocks executed; expected outputs matched |
 
 **Still not validated** (see [docs/security-and-limitations.md](docs/security-and-limitations.md#platform-specific-validation-still-required)):
-distro-packaged Python installs on RHEL/Debian (mirrors were unreachable here), Ubuntu 22.04, booted
-systemd, SELinux/AppArmor, XFS/btrfs/NFS, estates much larger than ~300k files, and your own SIEM parsers.
-The GitHub Actions workflow has not yet executed on GitHub.
+SELinux and AppArmor, btrfs/ZFS/NFS, distro-packaged Python on a real Debian/Rocky host, estates much
+larger than ~300k files, and your own SIEM parsers.
 
 ## License
 

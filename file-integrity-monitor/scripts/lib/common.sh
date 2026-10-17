@@ -55,7 +55,7 @@ find_python() {
 # python_install_hint <family>
 python_install_hint() {
     case "$1" in
-        debian) echo "sudo apt-get install -y python3 python3-venv   (Ubuntu 22.04+/Debian 12+ ship Python >= 3.10; 24.04/12 recommended)" ;;
+        debian) echo "sudo apt-get install -y python3 python3-venv   (Debian 12 and Ubuntu 24.04 ship Python >= 3.11; on Ubuntu 22.04 (Python 3.10) install python3.11 python3.11-venv, a 3.11.0 release candidate, or a newer interpreter, then set FIM_PYTHON)" ;;
         rhel)   echo "sudo dnf install -y python3.11   (RHEL/Rocky/Alma 9 ship 3.9 by default; install the python3.11 or python3.12 package)" ;;
         *)      echo "install CPython >= 3.11 with venv support from your distribution" ;;
     esac

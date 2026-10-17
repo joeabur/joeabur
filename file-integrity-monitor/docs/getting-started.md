@@ -98,10 +98,13 @@ Then do the real thing step by step in the [walkthrough](walkthrough.md).
 | Platform | Status in this repository |
 |---|---|
 | Ubuntu 24.04, Python 3.13 | Unit, integration, shell and documentation tests executed (see [README](../README.md#test-results)) |
-| Python 3.11 and 3.12 | Full suite executed and passing; also in the CI matrix |
-| Debian 12 and Rocky Linux 9 (containers, non-root and root) | Install, demo, uninstall and full test suite executed and passing, using a standalone Python 3.11 because distro package mirrors were unreachable; CI jobs use the distro packages |
-| tmpfs, overlayfs | Full suite executed and passing |
-| SELinux/AppArmor, booted systemd, XFS/btrfs/NFS, very large estates | Not validated; see [the checklist](security-and-limitations.md#platform-specific-validation-still-required) |
+| Python 3.11, 3.12, 3.13 | Full suite passing locally and in the GitHub Actions matrix |
+| Ubuntu 24.04 (distro Python 3.12) | Install, demo, tests: passing |
+| Ubuntu 22.04 | System Python 3.10 is correctly refused; works with `python3.11` (a 3.11.0 release candidate) via `FIM_PYTHON` |
+| RHEL-compatible 9 | Oracle Linux 9.8 (distro `python3.11`): install, demo, full tests passing as root and non-root; Rocky 9 install smoke passing in GitHub Actions |
+| Debian 12 | Install, demo, tests passing with a standalone Python 3.11 (distro packages unreachable from the sandbox) |
+| ext4, tmpfs, overlayfs, XFS; booted systemd 255 | Executed and passing |
+| SELinux/AppArmor, btrfs/ZFS/NFS, very large estates | Not validated; see [the checklist](security-and-limitations.md#platform-specific-validation-still-required) |
 
 ## Next steps
 
