@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import contextlib
 import errno
+import hashlib
 import os
 import stat
 import time
@@ -56,8 +57,45 @@ class _Abort(Exception):
     pass
 
 
+_XATTR_UNSUPPORTED = {errno.ENOTSUP, errno.EOPNOTSUPP, errno.ENODATA, errno.ENOSYS}
+
+
+def read_xattrs(target: int | str) -> dict[str, str] | None:
+    """Return {name: sha256(value)} for ``target`` (fd or path, symlinks not followed).
+
+    ``None`` means the filesystem does not support xattrs. Raises OSError for real failures
+    (e.g. EACCES) so the caller can report them instead of treating them as "no attributes".
+    """
+    try:
+        names = (
+            os.listxattr(target, follow_symlinks=False) if isinstance(target, str) else os.listxattr(target)
+        )
+    except OSError as exc:
+        if exc.errno in _XATTR_UNSUPPORTED:
+            return None
+        raise
+    out: dict[str, str] = {}
+    for name in sorted(names):
+        try:
+            value = (
+                os.getxattr(target, name, follow_symlinks=False)
+                if isinstance(target, str)
+                else os.getxattr(target, name)
+            )
+        except OSError as exc:
+            if exc.errno in (errno.ENODATA, errno.ENOENT):
+                continue  # removed between list and get
+            raise
+        out[name] = hashlib.sha256(value).hexdigest()
+    return out
+
+
 def _record_from_stat(
-    st: os.stat_result, ftype: FileType, sha: str | None, link_target: str | None = None
+    st: os.stat_result,
+    ftype: FileType,
+    sha: str | None,
+    link_target: str | None = None,
+    xattrs: dict[str, str] | None = None,
 ) -> FileRecord:
     return FileRecord(
         type=ftype,
@@ -68,6 +106,7 @@ def _record_from_stat(
         mtime_ns=st.st_mtime_ns,
         sha256=sha,
         link_target=link_target,
+        xattrs=xattrs,
     )
 
 
@@ -141,7 +180,9 @@ class Scanner:
                 if self.cfg.exclude and matches_any(cur, self.cfg.exclude, is_dir=True):
                     continue
                 self._tick(cur)
-                self._result.entries[cur] = _record_from_stat(lst, FileType.DIR, None)
+                self._result.entries[cur] = _record_from_stat(
+                    lst, FileType.DIR, None, xattrs=self._xattrs_for_path(cur)
+                )
                 if not (self.cfg.one_file_system and lst.st_dev != self._root_dev):
                     self._push_children(cur, depth, chain, stack)
             elif stat.S_ISLNK(mode):
@@ -151,7 +192,9 @@ class Scanner:
                 self._handle_file(cur, lst, follow=False)
             else:
                 self._tick(cur)
-                self._result.entries[cur] = _record_from_stat(lst, FileType.SPECIAL, None)
+                self._result.entries[cur] = _record_from_stat(
+                    lst, FileType.SPECIAL, None, xattrs=self._xattrs_for_path(cur)
+                )
 
     def _push_children(
         self,
@@ -175,6 +218,15 @@ class Scanner:
         base = "" if cur == "/" else cur
         for name in reversed(names):  # LIFO stack: reversed push => sorted processing order
             stack.append((f"{base}/{name}", depth + 1, chain))
+
+    def _xattrs_for_path(self, path: str) -> dict[str, str] | None:
+        if not self.cfg.xattrs:
+            return None
+        try:
+            return read_xattrs(path)
+        except OSError as exc:
+            self._issue(IssueKind.UNREADABLE, path, f"xattrs: {exc.strerror or exc}")
+            return None
 
     # ---- symlinks
     def _handle_symlink(
@@ -273,6 +325,12 @@ class Scanner:
                 except HashAborted:  # grew while we were reading it
                     digest, nread = "", -1
                 st2 = os.fstat(fd)
+                xattrs = None
+                if self.cfg.xattrs and not follow:
+                    try:
+                        xattrs = read_xattrs(fd)
+                    except OSError as exc:
+                        self._issue(IssueKind.UNREADABLE, path, f"xattrs: {exc.strerror or exc}")
         except FileNotFoundError:
             self._issue(IssueKind.VANISHED, path, "disappeared before it could be read")
             return
@@ -290,4 +348,4 @@ class Scanner:
             self._result.entries[path] = _record_from_stat(st2, ftype, None, link_target)
             return
         self._result.bytes_hashed += nread
-        self._result.entries[path] = _record_from_stat(st, ftype, digest, link_target)
+        self._result.entries[path] = _record_from_stat(st, ftype, digest, link_target, xattrs)

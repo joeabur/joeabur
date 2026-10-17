@@ -24,6 +24,9 @@ def risk_flags(before: FileRecord | None, after: FileRecord | None) -> list[str]
         flags.append("setgid_set")
     if new & WORLD_WRITABLE and not old & WORLD_WRITABLE and after.type.value != "symlink":
         flags.append("world_writable")
+    old_x, new_x = (before.xattrs if before else None) or {}, after.xattrs or {}
+    if "security.capability" in new_x and new_x["security.capability"] != old_x.get("security.capability"):
+        flags.append("file_capability_set")
     return flags
 
 
@@ -36,7 +39,8 @@ def evaluate(cfg: Config, event_type: EventType, path: str, flags: list[str]) ->
         if event_type in r.events and matches_any(path, r.paths):
             severity, rule = r.severity, r.name
             break
-    if ("setuid_set" in flags or "setgid_set" in flags) and severity.rank < Severity.CRITICAL.rank:
+    privileged = {"setuid_set", "setgid_set", "file_capability_set"}
+    if privileged & set(flags) and severity.rank < Severity.CRITICAL.rank:
         severity, rule = Severity.CRITICAL, f"{rule}+risk"
     elif "world_writable" in flags and severity.rank < Severity.HIGH.rank:
         severity, rule = Severity.HIGH, f"{rule}+risk"

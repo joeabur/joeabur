@@ -41,6 +41,7 @@ class EventType(StrEnum):
     TYPE_CHANGED = "type_changed"  # e.g. file -> symlink
     SYMLINK_CHANGED = "symlink_changed"  # link target differs
     METADATA_CHANGED = "metadata_changed"  # only mtime differs; content identical
+    XATTR_CHANGED = "xattr_changed"  # extended attributes: POSIX ACLs, SELinux label, file capabilities
 
 
 class IssueKind(StrEnum):
@@ -81,6 +82,8 @@ class FileRecord(BaseModel):
     mtime_ns: int
     sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     link_target: str | None = None
+    # name -> sha256 of the attribute value; None = not collected (disabled/unsupported fs).
+    xattrs: dict[str, str] | None = None
 
 
 class ScanIssue(BaseModel):

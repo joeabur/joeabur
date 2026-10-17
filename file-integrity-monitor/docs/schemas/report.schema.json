@@ -87,7 +87,8 @@
         "owner_changed",
         "type_changed",
         "symlink_changed",
-        "metadata_changed"
+        "metadata_changed",
+        "xattr_changed"
       ],
       "title": "EventType",
       "type": "string"
@@ -192,6 +193,21 @@
           "minimum": 0,
           "title": "Uid",
           "type": "integer"
+        },
+        "xattrs": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Xattrs"
         }
       },
       "required": [

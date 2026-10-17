@@ -22,6 +22,7 @@ DEFAULT_SEVERITIES: dict[EventType, Severity] = {
     EventType.TYPE_CHANGED: Severity.HIGH,
     EventType.SYMLINK_CHANGED: Severity.HIGH,
     EventType.METADATA_CHANGED: Severity.INFO,
+    EventType.XATTR_CHANGED: Severity.HIGH,
 }
 
 
@@ -52,6 +53,7 @@ class ScanConfig(_Strict):
     symlinks: Literal["record", "skip", "follow"] = "record"
     follow_outside_roots: bool = False
     one_file_system: bool = True
+    xattrs: bool = True  # record extended attributes (POSIX ACLs, SELinux label, file capabilities)
     max_files: int = Field(default=2_000_000, ge=1)
     max_file_bytes: int = Field(default=1024**3, ge=0, description="0 = unlimited")
     max_depth: int = Field(default=64, ge=1, le=4096)

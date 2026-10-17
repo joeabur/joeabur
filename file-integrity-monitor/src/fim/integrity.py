@@ -78,6 +78,18 @@ def diff_record(path: str, old: FileRecord, new: FileRecord) -> list[tuple[Event
     ]
     if owner:
         out.append((EventType.OWNER_CHANGED, owner))
+    if old.xattrs is not None and new.xattrs is not None and old.xattrs != new.xattrs:
+        names = sorted(set(old.xattrs) | set(new.xattrs))
+        out.append(
+            (
+                EventType.XATTR_CHANGED,
+                [
+                    FieldChange(field=f"xattr:{n}", old=old.xattrs.get(n), new=new.xattrs.get(n))
+                    for n in names
+                    if old.xattrs.get(n) != new.xattrs.get(n)
+                ],
+            )
+        )
     if (
         not content_changed
         and old.type in (FileType.FILE, FileType.SYMLINK)
