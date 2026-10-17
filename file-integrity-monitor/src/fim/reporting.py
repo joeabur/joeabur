@@ -168,6 +168,30 @@ def format_rfc5424(e: Event, hostname: str, cfg: SyslogConfig) -> str:
     return f"<{pri}>1 {e.timestamp} {hostname} {cfg.app_name} - {e.event_type.value} [{SD_ID}{sd}] {msg}"
 
 
+def _bsd_value(v: object) -> str:
+    return '"' + str(v).replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ").replace("\r", " ") + '"'
+
+
+def format_bsd(e: Event, cfg: SyslogConfig) -> str:
+    """BSD syslog framing (RFC 3164 style) for local sockets such as /dev/log.
+
+    Local syslog daemons (rsyslog imuxsock, syslog-ng, journald) expect this on unix sockets and do
+    not parse RFC 5424 there; the structured fields travel as key="value" pairs in the message.
+    """
+    pri = cfg.facility * 8 + _SYSLOG_SEV[e.severity]
+    ts = datetime.fromisoformat(e.timestamp).strftime("%b %e %H:%M:%S")
+    pairs = {
+        "scan_id": e.scan_id, "event": e.event_type.value, "severity": e.severity.value,
+        "path": e.path, "rule": e.rule, "baseline": e.baseline_version,
+        "fields": ",".join(c.field for c in e.changes),
+        "old_sha256": e.before.sha256 if e.before and e.before.sha256 else "",
+        "new_sha256": e.after.sha256 if e.after and e.after.sha256 else "",
+        "risk": ",".join(e.risk_flags),
+    }  # fmt: skip
+    body = " ".join(f"{k}={_bsd_value(v)}" for k, v in pairs.items() if v != "")
+    return f"<{pri}>{ts} {cfg.app_name}: {body}"
+
+
 def format_cef(e: Event, hostname: str, version: str) -> str:
     ext = {
         "rt": _epoch_ms(e.timestamp), "dvchost": hostname, "externalId": e.scan_id,
@@ -210,9 +234,17 @@ def syslog_messages(report: Report, cfg: SyslogConfig) -> list[str]:
             continue
         if cfg.format == "cef":
             msgs.append(format_cef(e, s.hostname, s.tool_version))
+        elif cfg.address.startswith("/"):
+            msgs.append(format_bsd(e, cfg))
         else:
             msgs.append(format_rfc5424(e, s.hostname, cfg))
-    if not s.complete and cfg.format == "rfc5424":
+    if not s.complete and cfg.format == "rfc5424" and cfg.address.startswith("/"):
+        pri = cfg.facility * 8 + 4
+        ts = datetime.fromisoformat(s.finished_at).strftime("%b %e %H:%M:%S")
+        msgs.append(
+            f'<{pri}>{ts} {cfg.app_name}: scan_incomplete scan_id="{s.scan_id}" issues="{len(report.issues)}"'
+        )
+    elif not s.complete and cfg.format == "rfc5424":
         msgs.append(_issue_message(report, cfg))
     elif not s.complete:
         sev = _CEF_SEV[Severity.MEDIUM]

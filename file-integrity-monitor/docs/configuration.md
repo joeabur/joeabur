@@ -31,8 +31,9 @@ roots = ["/etc"]
 | `exclude` | `[]` | Absolute globs for volatile paths. `*`/`?` stay within one path segment; `**` crosses `/` (`**/` may match nothing). A directory matched by `PATTERN` or `PATTERN/` is pruned. |
 | `symlinks` | `record` | `record`: store the link and its target, never follow. `skip`: ignore links. `follow`: follow links that stay inside the roots and hash the target; symlink loops are detected (`symlink_loop`). |
 | `follow_outside_roots` | `false` | Only with `follow`: also follow links leading outside the roots. Off by default; otherwise reported as informational `symlink_outside_root`. |
+| `xattrs` | `true` | Record extended attributes (POSIX ACLs `system.posix_acl_*`, SELinux label `security.selinux`, file capabilities `security.capability`, `user.*`). Only a SHA-256 of each value is stored, never the value. Filesystems without xattr support yield "not collected" and never alert; a baseline made without xattrs (older version, or `xattrs = false`) never alerts on them either. A real read failure (e.g. `EACCES`) is an `unreadable` issue. |
 | `one_file_system` | `true` | Do not descend into other mounts (keeps `/proc`, `/sys`, network mounts out). |
-| `max_files` | `2000000` | Abort after this many entries; scan becomes incomplete (`limit_reached`) and **no deletions are reported**. |
+| `max_files` | `2000000` | **Memory scales with entries (~4 KiB each, measured; see [sizing](user-guide.md#sizing-and-performance)).** Abort after this many entries; scan becomes incomplete (`limit_reached`) and **no deletions are reported**. |
 | `max_file_bytes` | `1073741824` | Larger files are *not hashed* and are reported as `too_large` (incomplete); `0` = unlimited. |
 | `max_depth` | `64` | Directory depth limit (`max_depth` issue beyond it). |
 | `timeout_seconds` | `3600` | Wall-clock limit (`0` = none); aborts like `max_files`. |
@@ -47,7 +48,7 @@ Severities: `info < low < medium < high < critical`.
 
 Event types and default severities: `added` medium, `modified` high, `deleted` high,
 `permission_changed` high, `owner_changed` high, `type_changed` high, `symlink_changed` high,
-`metadata_changed` info (mtime changed, content identical).
+`xattr_changed` high (ACL/label/capability/user attribute added, removed or changed), `metadata_changed` info (mtime changed, content identical).
 
 Override per type:
 
@@ -66,7 +67,7 @@ events = ["modified", "added", "deleted"]   # optional; default = all events
 severity = "critical"
 ```
 
-Escalation on top of any rule: a newly set **setuid/setgid** bit raises to `critical`; a newly
+Escalation on top of any rule: a newly set **setuid/setgid** bit or a new/changed **file capability** (`file_capability_set`) raises to `critical`; a newly
 **world-writable** mode raises to at least `high` (event `rule` gets a `+risk` suffix and
 `risk_flags` lists why).
 
@@ -81,6 +82,8 @@ Used by `fim scan --syslog` and `fim watch --syslog`.
 | `facility` | `13` | Syslog facility 0-23 (13 = log audit). |
 | `app_name` | `fim` | RFC 5424 APP-NAME. |
 | `min_severity` | `low` | Events below this are not sent. |
+
+Framing depends on `address`: **UDP/TCP** carry RFC 5424 (or CEF). A **unix socket** (such as `/dev/log`) receives BSD syslog framing (`<PRI>Mmm dd hh:mm:ss app: key="value" …`), because local daemons (rsyslog `imuxsock`, syslog-ng, journald) do not parse RFC 5424 on local sockets; verified against rsyslog (see [security-and-limitations.md](security-and-limitations.md#what-has-been-validated)). CEF is sent unchanged on every transport.
 
 Severity mapping: RFC 5424 info→6, low→5, medium→4, high→3, critical→2. CEF severity 1/3/5/8/10.
 An incomplete scan additionally emits one `scan_incomplete` message. If delivery fails, `fim`

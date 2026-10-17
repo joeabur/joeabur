@@ -98,9 +98,10 @@ Then do the real thing step by step in the [walkthrough](walkthrough.md).
 | Platform | Status in this repository |
 |---|---|
 | Ubuntu 24.04, Python 3.13 | Unit, integration, shell and documentation tests executed (see [README](../README.md#test-results)) |
-| Ubuntu / Debian, Python 3.11, 3.12 | Run by the CI matrix (`.github/workflows/ci.yml`) |
-| RHEL-compatible 9 (Rocky container) | CI job `install-smoke-rhel` runs `scripts/install.sh` and the demo; **not executed during development of this release**, so treat as unverified until CI has passed on your fork |
-| SELinux enforcing, real systemd units on a booted host, other filesystems (XFS, btrfs, NFS, overlayfs) | Not validated; see [the checklist](security-and-limitations.md#platform-specific-validation-still-required) |
+| Python 3.11 and 3.12 | Full suite executed and passing; also in the CI matrix |
+| Debian 12 and Rocky Linux 9 (containers, non-root and root) | Install, demo, uninstall and full test suite executed and passing, using a standalone Python 3.11 because distro package mirrors were unreachable; CI jobs use the distro packages |
+| tmpfs, overlayfs | Full suite executed and passing |
+| SELinux/AppArmor, booted systemd, XFS/btrfs/NFS, very large estates | Not validated; see [the checklist](security-and-limitations.md#platform-specific-validation-still-required) |
 
 ## Next steps
 

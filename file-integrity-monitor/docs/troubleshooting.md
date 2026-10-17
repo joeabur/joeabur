@@ -29,7 +29,7 @@ Exit codes are listed in [user-guide.md](user-guide.md#exit-codes).
 
 | Symptom | Explanation / fix |
 |---|---|
-| `OSError: inotify watch limit reached` / `inotify instance limit reached` | Raise `fs.inotify.max_user_watches` (e.g. `sysctl fs.inotify.max_user_watches=524288`) or monitor fewer directories. |
+| `error: cannot start inotify watches (inotify watch limit reached ...)` (exit 6) | Raise `fs.inotify.max_user_watches` (e.g. `sysctl fs.inotify.max_user_watches=524288`) or monitor fewer directories. |
 | Changes on NFS/SMB/FUSE are not reported | inotify only sees changes made through the local kernel. Rely on the periodic full scan (`watch.full_scan_interval_seconds`) or scan on the file server. |
 | A burst of changes shows only some files | The event queue can overflow, and files created in a brand-new directory may be missed. The periodic full scan is the authority; keep it enabled. |
 | `fim watch` prints nothing for a change you made | The path may be excluded, out of scope, or already reported with identical evidence (duplicates are suppressed). Run `fim scan --root PATH`. |

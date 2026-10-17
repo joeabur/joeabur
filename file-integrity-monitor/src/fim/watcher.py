@@ -21,7 +21,7 @@ from collections.abc import Callable
 from typing import Any
 
 from fim.config import Config
-from fim.errors import DependencyError
+from fim.errors import DependencyError, WatcherError
 from fim.integrity import build_report, compare, new_scan_id
 from fim.models import Baseline, Report
 from fim.pathutil import is_within, matches_any
@@ -128,10 +128,18 @@ class Watcher:
                 outer._mark(event.src_path, getattr(event, "dest_path", None))
 
         self.observer = observer_cls()
-        for root in self.cfg.scan.roots:
-            if os.path.isdir(root):
-                self.observer.schedule(Handler(), root, recursive=True)
-        self.observer.start()
+        try:
+            for root in self.cfg.scan.roots:
+                if os.path.isdir(root):
+                    self.observer.schedule(Handler(), root, recursive=True)
+            self.observer.start()
+        except OSError as exc:
+            self.observer = None
+            raise WatcherError(
+                f"cannot start inotify watches ({exc.strerror or exc}). Raise fs.inotify.max_user_watches / "
+                "max_user_instances, monitor fewer directories, or use the periodic 'fim scan' fallback "
+                "(see docs/troubleshooting.md)"
+            ) from exc
 
     def stop(self) -> None:
         self._stop.set()

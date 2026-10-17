@@ -68,25 +68,29 @@ Exit codes: `0` clean · `1` findings · `2` usage/config · `3` incomplete scan
 
 ## Test results
 
-Actual results from the development run (Ubuntu 24.04 container, CPython 3.13.16, running as **root**):
+Actual results from the development runs (Ubuntu 24.04 sandbox, CPython 3.13.16 unless stated):
 
 | Check | Result |
 |---|---|
-| `pytest` (unit + integration + docs, incl. Hypothesis property tests, real inotify watcher tests) | **222 passed, 1 skipped** (the skip is a real `chmod 000` test that cannot run as root; the same code path is covered by injected `PermissionError` tests) |
-| Line coverage of `src/fim` | **92 %** (`pytest --cov=fim`) |
-| `bats tests/shell` | **19 / 19 ok** |
-| `shellcheck -x` on all scripts | clean |
-| `ruff check` / `ruff format --check` | clean |
-| `mypy --strict` on `src/fim` | clean (15 files) |
+| `pytest` (unit + integration + docs, Hypothesis property tests, real inotify and rsyslog-verified paths) | **236 passed, 1 skipped** as root (the skip is the `chmod 000` test, root bypasses permissions) |
+| Same suite as an **unprivileged user** | the real `chmod 000` test runs; only the root-only `security.capability` test is skipped |
+| Python 3.11.17 and 3.12.3 | 236 passed on each |
+| Debian 12 and Rocky Linux 9 containers (overlayfs, Python 3.11.15), root and non-root | 236 passed each; `install.sh` + `demo.sh` + `uninstall.sh` OK |
+| tmpfs | 236 passed |
+| Non-root with only `CAP_DAC_READ_SEARCH` | baselines and scans root-only files; without it the scan is INCOMPLETE |
+| `bats tests/shell` / `shellcheck -x` | 19/19 ok / clean |
+| `ruff` / `mypy --strict` | clean |
 | `pip-audit` on `requirements.lock` | no known vulnerabilities |
-| `systemd-analyze verify` on the units | no directive errors (only "binary not installed" on the build host) |
-| `scripts/install.sh` (real, hash-pinned install) + `scripts/demo.sh` with the installed binary + `scripts/uninstall.sh` | worked |
-| Walkthrough (`docs/walkthrough.md`) | all 8 command blocks executed and their expected output matched |
+| `systemd-analyze verify` / `security --offline` | no directive errors / exposure 3.1 (OK) |
+| Real `rsyslogd` | RFC 5424 over UDP/TCP parsed correctly; unix socket uses BSD framing |
+| Real inotify exhaustion | `fim watch` exits 6 with guidance |
+| Scale (`scripts/benchmark.py`, 300,001 files + 512 MiB) | baseline 26.6 s, scan 17.6 s, ~1.16 GiB peak memory, 84 MiB baseline |
+| Walkthrough | all command blocks executed; expected outputs matched |
 
-**Not run here** (listed in [docs/security-and-limitations.md](docs/security-and-limitations.md#platform-specific-validation-still-required)):
-RHEL-family and Debian 12 runs, Python 3.11/3.12 matrix, non-root capability operation, SELinux/AppArmor,
-booted-systemd behavior, non-ext4 filesystems, large-scale performance, real SIEM ingestion. The CI
-workflow defines jobs for the first three; it has not yet executed on GitHub.
+**Still not validated** (see [docs/security-and-limitations.md](docs/security-and-limitations.md#platform-specific-validation-still-required)):
+distro-packaged Python installs on RHEL/Debian (mirrors were unreachable here), Ubuntu 22.04, booted
+systemd, SELinux/AppArmor, XFS/btrfs/NFS, estates much larger than ~300k files, and your own SIEM parsers.
+The GitHub Actions workflow has not yet executed on GitHub.
 
 ## License
 

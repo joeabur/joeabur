@@ -25,3 +25,7 @@ class LockError(FimError):
 
 class DependencyError(FimError):
     """An optional dependency is not installed."""
+
+
+class WatcherError(FimError):
+    """The filesystem watcher could not be started (e.g. inotify limits)."""

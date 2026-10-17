@@ -22,6 +22,7 @@ from fim.errors import (
     FimError,
     LockError,
     TrustError,
+    WatcherError,
 )
 from fim.models import Report
 
@@ -68,7 +69,7 @@ def guarded(fn: F) -> F:
             _die(f"{exc}\nthe baseline is NOT trusted; see docs/troubleshooting.md", EXIT_UNTRUSTED)
         except ConfigError as exc:
             _die(str(exc), EXIT_USAGE)
-        except (BaselineError, LockError, DependencyError) as exc:
+        except (BaselineError, LockError, DependencyError, WatcherError) as exc:
             _die(str(exc), EXIT_OPERATIONAL)
         except FimError as exc:
             _die(str(exc), EXIT_EXPORT)
@@ -362,7 +363,8 @@ def report_convert(
                 reporting.issues_path_for(output), reporting.issues_csv(report), overwrite=overwrite
             )
     elif fmt in ("cef", "rfc5424"):
-        sc = SyslogConfig(format=fmt, min_severity="info")
+        # conversion output is for forwarding, so use the network (RFC 5424) framing, not local BSD framing
+        sc = SyslogConfig(format=fmt, min_severity="info", address="udp://127.0.0.1:514")
         data = ("\n".join(reporting.syslog_messages(report, sc)) + "\n").encode()
     else:
         _die(f"unknown format {fmt!r}", EXIT_USAGE)

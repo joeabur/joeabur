@@ -278,7 +278,7 @@ RFC5424_RE = re.compile(
 
 class TestSyslogFormats:
     def test_rfc5424_structure(self, sample_report: Report) -> None:
-        cfg = SyslogConfig()
+        cfg = SyslogConfig(address="udp://127.0.0.1:514")
         msgs = reporting.syslog_messages(sample_report, cfg)
         assert len(msgs) == len(sample_report.events)
         for m, e in zip(msgs, sample_report.events, strict=True):
@@ -287,6 +287,23 @@ class TestSyslogFormats:
             sev = {"info": 6, "low": 5, "medium": 4, "high": 3, "critical": 2}[e.severity.value]
             assert int(g["pri"]) == 13 * 8 + sev
             assert g["msgid"] == e.event_type.value
+
+    def test_unix_socket_uses_bsd_framing_not_rfc5424(self, sample_report: Report) -> None:
+        msgs = reporting.syslog_messages(sample_report, SyslogConfig(address="/dev/log"))
+        assert len(msgs) == len(sample_report.events)
+        rx = re.compile(
+            r'^<(\d+)>[A-Z][a-z]{2} [ \d]\d \d\d:\d\d:\d\d fim: scan_id="\w+" event="(\w+)" severity="(\w+)" path="(?:[^"\\]|\\.)+" '
+        )
+        for m, e in zip(msgs, sample_report.events, strict=True):
+            g = rx.match(m)
+            assert g, m
+            assert g[2] == e.event_type.value and g[3] == e.severity.value
+            assert "\n" not in m
+
+    def test_bsd_value_escaping(self, sample_report: Report) -> None:
+        e = sample_report.events[0].model_copy(update={"path": '/x/"q"\\\nnewline'})
+        m = reporting.format_bsd(e, SyslogConfig())
+        assert 'path="/x/\\"q\\"\\\\ newline"' in m and "\n" not in m
 
     def test_rfc5424_escapes_structured_data(self, sample_report: Report) -> None:
         e = sample_report.events[0].model_copy(update={"path": '/x/"quote"]bracket\\slash'})

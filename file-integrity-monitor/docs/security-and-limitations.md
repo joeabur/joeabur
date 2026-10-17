@@ -39,8 +39,10 @@ tells you how to move trust off the host.
   recycles the same inode number with equal size/mtime may not be seen.
 * **Content-level semantics.** A file whose bytes are unchanged but which is *interpreted*
   differently (e.g. via a changed mount, ACL, xattr, SELinux label, capability or immutable flag)
-  is not detected: **ACLs, extended attributes, SELinux contexts, file capabilities and
-  immutable flags are not recorded.**
+  is not detected if it lives outside what FIM records. **Extended attributes (POSIX ACLs, SELinux
+  labels, file capabilities, `user.*`) are recorded and compared (as value digests) where the
+  filesystem supports them, but immutable/append-only flags (`chattr`), ownership of mount options,
+  and MAC policy itself are not.**
 * **Hardlink and mount awareness**, device-node semantics, sparse-file layout, and file contents on
   other mounts (`one_file_system = true` by default).
 * **Package-manager legitimacy.** FIM cannot tell a malicious change from a patch; use
@@ -89,29 +91,43 @@ tells you how to move trust off the host.
 * The watcher never updates the baseline and suppresses only *identical* repeat evidence.
 * If an attacker kills the watcher, you get silence; monitor the service itself.
 
+## What has been validated
+
+Beyond the unit/integration suite on Ubuntu 24.04 / Python 3.13 / ext4 as root, the following were
+actually executed during development (details and commands in the [README](../README.md#test-results)):
+
+| Area | Evidence |
+|---|---|
+| Python 3.11 and 3.12 | Full suite passes (236 tests) |
+| Non-root operation | Full suite as an unprivileged user (real `chmod 000` unreadable-file test runs); a non-root user with *only* `CAP_DAC_READ_SEARCH` (via `setpriv` ambient caps) can baseline and scan root-only files, and without the capability gets an INCOMPLETE scan |
+| Debian 12 and Rocky Linux 9 userlands | `scripts/install.sh` (hash-pinned), `scripts/demo.sh`, `scripts/uninstall.sh` and the full test suite, as root and non-root, on overlayfs (Python 3.11.15 standalone build, because the distro package mirrors were unreachable from the sandbox) |
+| tmpfs and overlayfs | Full suite passes |
+| systemd units | `systemd-analyze verify` and `systemd-analyze security --offline`: exposure 3.1 ("OK"). Not started under a booted systemd |
+| Syslog | Real `rsyslogd`: RFC 5424 over UDP and TCP parsed correctly (program, msgid, structured data); unix-socket delivery uses BSD framing after this was found necessary |
+| inotify exhaustion | Real kernel limit lowered to 10 watches: `fim watch` exits 6 with an actionable message |
+| Scale | 300,001 files + 512 MiB file benchmark ([sizing](user-guide.md#sizing-and-performance)) |
+| Extended attributes | `user.*` xattrs on ext4/tmpfs/overlayfs; a real `security.capability` set on a file was detected as `critical` (as root) |
+
 ## Platform-specific validation still required
 
-The development environment was Ubuntu 24.04 (containerized, running as root). The following were
-**not** exercised and need validation on real targets before you rely on them:
+Still **not** exercised; validate on real targets before relying on them:
 
-- [ ] Run `scripts/install.sh` and `scripts/demo.sh` on **RHEL 9 / Rocky 9 / Alma 9** with
-      Python 3.11/3.12 (CI job `install-smoke-rhel` exists; confirm it passes).
-- [ ] Debian 12 and Ubuntu 22.04 (Python 3.11/3.10 is below the minimum on 22.04: use deadsnakes or
-      a newer interpreter).
-- [ ] The systemd units on a booted host: `systemd-analyze security fim-scan.service`, timer firing,
-      `ProtectSystem=strict` with your `report_dir`, capability set sufficient to read all monitored
-      paths, `SystemCallFilter` compatible with your Python build.
-- [ ] **SELinux enforcing** (RHEL family): label `/var/lib/fim` and `/opt/fim`, confirm no AVC denials.
-- [ ] **AppArmor** profiles on Ubuntu/Debian if you confine the service.
-- [ ] Non-root operation with only `CAP_DAC_READ_SEARCH`/`CAP_FOWNER` (the test-suite ran as root, so
-      real `chmod 000` behavior is covered only by injected `PermissionError` tests).
-- [ ] Filesystems: XFS, btrfs, ZFS, NFS, overlayfs (inode stability, mtime granularity, `O_NOATIME`).
-- [ ] Large-scale performance: millions of files, baseline memory (the baseline is held in memory
-      as JSON; `max_baseline_bytes` guards it), and scan time vs `timeout_seconds`.
-- [ ] inotify limits and behavior under heavy churn; `fim watch` under systemd.
-- [ ] Syslog delivery to your real collector (rsyslog/syslog-ng/SIEM parsers for `fim@32473` and CEF
-      field mappings), including TLS-terminating forwarders.
-- [ ] Hardware-backed key storage workflow (HSM/YubiKey) if required: FIM only reads PEM files.
+- [ ] Rocky/RHEL/Debian **with the distribution's own Python package** (`dnf install python3.11` /
+      `apt install python3-venv`): the sandbox blocked those mirrors; CI job `install-smoke-rhel` covers it
+      once it has run on GitHub.
+- [ ] Ubuntu 22.04 (system Python 3.10 is below the 3.11 minimum: use a newer interpreter).
+- [ ] The systemd units on a **booted** host: timer firing, `ProtectSystem=strict` with your report
+      directory, the capability set reading *all* of your monitored paths, `SystemCallFilter` with your
+      Python build, `MemoryMax=` against your estate size.
+- [ ] **SELinux enforcing** (label `/var/lib/fim` and `/opt/fim`, check for AVC denials) and
+      **AppArmor** profiles.
+- [ ] XFS, btrfs, ZFS, NFS (inode stability, mtime granularity, `O_NOATIME`, xattr semantics).
+- [ ] Estates beyond ~300k files: memory is ~4 KiB/entry (an optimization opportunity); validate
+      `max_files`, `timeout_seconds` and `MemoryMax=` on your hardware.
+- [ ] `fim watch` under systemd with heavy churn, and across NFS/FUSE.
+- [ ] Your SIEM's parsers for `fim@32473` and the CEF field mappings (rsyslog parsing was verified,
+      your collector was not), including TLS-terminating forwarders.
+- [ ] Hardware-backed key storage workflows (FIM only reads PEM files).
 - [ ] Backup/restore of the baseline directory preserving `0700/0600`.
 
 ## Reporting vulnerabilities

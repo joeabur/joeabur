@@ -25,7 +25,7 @@ UMask=0077
 Nice=10
 IOSchedulingClass=idle
 CPUWeight=20
-MemoryMax=1G
+MemoryMax=4G
 
 # Hardening. The scanner only reads; the only writable path is the report/baseline store.
 # CAP_DAC_READ_SEARCH lets root-owned-but-restricted files be read; CAP_FOWNER allows O_NOATIME.

@@ -144,6 +144,8 @@ FIM_KEY_PASSPHRASE='…' fim keygen --private ~/fim-signing.key --public fim-sig
 Configure `[export.syslog]` ([configuration.md](configuration.md#exportsyslog)), then
 `fim scan --syslog` (or `FIM_SYSLOG=1` with `run-scan.sh`).
 
+Framing: UDP/TCP destinations get RFC 5424; a unix-socket destination such as `/dev/log` gets BSD
+syslog framing with the same fields as `key="value"` pairs (local daemons do not parse 5424 there).
 RFC 5424 example (one line; structured-data element `fim@32473`):
 
 ```text
@@ -202,6 +204,25 @@ for any non-zero exit so that `OnFailure=` or monitoring can react. Cron alterna
 
 A baseline made from an incomplete scan is refused unless `--allow-incomplete`, is marked
 `complete: false`, and every later scan warns about the coverage gap.
+
+## Sizing and performance
+
+Measured with `scripts/benchmark.py` (300,001 small files in 300 directories + one 512 MiB file,
+ext4 on a 4-vCPU VM, CPython 3.13, cold-ish cache; your hardware will differ):
+
+| Operation | Wall time | Peak memory |
+|---|---|---|
+| `baseline create` | 26.6 s | ~1.16 GiB |
+| `scan`, nothing changed | 17.6 s | ~1.16 GiB |
+| `scan`, one change | 17.0 s | ~1.16 GiB |
+| Baseline file on disk | 84 MiB | |
+
+Rules of thumb: **~4 KiB of memory per recorded entry** (the whole baseline and the new scan are held
+in memory as validated objects), ~85 µs/file for small files plus disk-bound hashing for large ones
+(streaming; memory does not depend on file size). The default `max_files = 2000000` therefore needs
+roughly 8 GiB; set `max_files` and the systemd `MemoryMax=` (shipped as 4G) to match your estate, or
+split roots into several configurations. Re-run `python scripts/benchmark.py --files N` on your
+own hardware before sizing production.
 
 ## Exit codes
 

@@ -122,3 +122,33 @@ def test_cli_watch_emits_json_lines(ws: Workspace, run) -> None:  # type: ignore
     docs = [json.loads(line) for line in stdout.splitlines() if line.strip()]
     assert docs, stderr
     assert any(e["event_type"] == "modified" for d in docs for e in d["events"])
+
+
+def test_inotify_exhaustion_gives_actionable_error(ws: Workspace, trusted, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    import errno
+
+    from fim.errors import WatcherError
+
+    pytest.importorskip("watchdog")
+    cfg, baseline = trusted
+    w = Watcher(cfg, baseline, lambda r: None)
+
+    class Boom:
+        def schedule(self, *a, **k):  # type: ignore[no-untyped-def]
+            raise OSError(errno.ENOSPC, "inotify watch limit reached")
+
+    monkeypatch.setattr(
+        "fim.watcher._load_watchdog",
+        lambda: (Boom, __import__("watchdog.events", fromlist=["x"]).FileSystemEventHandler),
+    )
+    with pytest.raises(WatcherError, match="max_user_watches"):
+        w.start()
+
+
+def test_cli_watch_reports_missing_watchdog_cleanly(ws: Workspace, run, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    import sys
+
+    run("baseline", "create")
+    monkeypatch.setitem(sys.modules, "watchdog.observers", None)
+    r = run("watch", "--max-seconds", "1")
+    assert r.exit_code == 6 and "fim scan" in r.output
