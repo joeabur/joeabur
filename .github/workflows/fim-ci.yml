@@ -4,7 +4,7 @@ name: fim-ci
 
 on:
   push:
-    branches: [main]
+    branches: [main, "claude/**"]
     paths: ["file-integrity-monitor/**", ".github/workflows/fim-ci.yml"]
   pull_request:
     paths: ["file-integrity-monitor/**", ".github/workflows/fim-ci.yml"]
