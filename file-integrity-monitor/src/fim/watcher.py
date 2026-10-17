@@ -34,6 +34,8 @@ class PathProcessor:
     Unit-testable without watchdog or inotify.
     """
 
+    MAX_SEEN = 100_000
+
     def __init__(self, cfg: Config, baseline: Baseline) -> None:
         self.cfg = cfg
         self.baseline = baseline
@@ -72,6 +74,8 @@ class PathProcessor:
                 (e.after.sha256 or e.after.mode) if e.after else "gone",
             )
             if key not in self._seen:
+                if len(self._seen) >= self.MAX_SEEN:
+                    self._seen.clear()  # bounded memory; worst case one repeat alert
                 self._seen.add(key)
                 fresh.append(e)
         if not fresh and merged.complete:
@@ -98,9 +102,11 @@ class Watcher:
         baseline: Baseline,
         on_report: Callable[[Report], None],
         on_full_scan: Callable[[], None] | None = None,
+        reload_baseline: Callable[[], Baseline | None] | None = None,
     ) -> None:
         self.cfg = cfg
         self.processor = PathProcessor(cfg, baseline)
+        self.reload_baseline = reload_baseline
         self.on_report = on_report
         self.on_full_scan = on_full_scan
         self._dirty: set[str] = set()
@@ -147,6 +153,17 @@ class Watcher:
             self.observer.stop()
             self.observer.join(timeout=5)
 
+    def refresh_baseline(self) -> bool:
+        """Adopt a newer trusted baseline (after an authorized update elsewhere). Returns True if
+        the processor was replaced. ``reload_baseline`` returns None when nothing changed."""
+        if self.reload_baseline is None:
+            return False
+        fresh = self.reload_baseline()
+        if fresh is None or fresh.content_sha256 == self.processor.baseline.content_sha256:
+            return False
+        self.processor = PathProcessor(self.cfg, fresh)  # also resets duplicate suppression
+        return True
+
     def drain(self) -> Report | None:
         with self._lock:
             dirty, self._dirty = self._dirty, set()
@@ -160,6 +177,7 @@ class Watcher:
         try:
             while not self._stop.is_set():
                 time.sleep(self.cfg.watch.debounce_seconds)
+                self.refresh_baseline()
                 report = self.drain()
                 if report is not None:
                     self.on_report(report)

@@ -37,7 +37,6 @@ from fim.hashing import sha256_bytes
 from fim.models import BASELINE_SCHEMA_VERSION, Baseline, FileRecord, ScanIssue, record_to_json
 
 _NAME_RE = re.compile(r"^baseline-(\d{6,})\.json$")
-SIGNER = Any  # callable: bytes -> tuple[str, str]  (signature text, key id)
 
 
 def _canonical(obj: object) -> bytes:

@@ -168,7 +168,9 @@ class Scanner:
             if self.cfg.exclude and matches_any(cur, self.cfg.exclude):
                 continue
             try:
-                lst = os.lstat(cur)
+                # A configured root is named explicitly by the operator, so a root that is itself
+                # a symlink (e.g. /bin -> usr/bin) is followed; everything below it is not.
+                lst = os.stat(cur) if depth == 0 else os.lstat(cur)
             except FileNotFoundError:
                 self._issue(IssueKind.VANISHED, cur, "disappeared before it could be inspected")
                 continue
@@ -189,7 +191,7 @@ class Scanner:
                 self._handle_symlink(cur, lst, depth, chain, stack)
             elif stat.S_ISREG(mode):
                 self._tick(cur)
-                self._handle_file(cur, lst, follow=False)
+                self._handle_file(cur, lst, follow=depth == 0 and os.path.islink(cur))
             else:
                 self._tick(cur)
                 self._result.entries[cur] = _record_from_stat(
@@ -301,7 +303,7 @@ class Scanner:
     def _handle_file(
         self, path: str, lst: os.stat_result, *, follow: bool, link_target: str | None = None
     ) -> None:
-        ftype = FileType.SYMLINK if follow else FileType.FILE
+        ftype = FileType.SYMLINK if follow and link_target is not None else FileType.FILE
         limit = self.cfg.max_file_bytes or None
         try:
             with self._open_ro(path, follow) as fd:

@@ -36,6 +36,7 @@ Then follow the [walkthrough](docs/walkthrough.md).
 | [Troubleshooting](docs/troubleshooting.md) | Permissions, dependencies, watcher limits, interrupted scans, signatures, corrupt baselines |
 | [Security and limitations](docs/security-and-limitations.md) | What is and is not guaranteed; recommended hardening; platform validation still required |
 | [Examples](docs/examples.md) | Ready-made configs, report handling, sample artifacts |
+| [CHANGELOG](CHANGELOG.md) | What changed and what testing found |
 | [Threat model](docs/threat-model.md) | Assets, boundaries, threats and mitigations |
 | [Report JSON Schema](docs/schemas/report.schema.json) | Machine-readable output schema |
 | [SECURITY.md](SECURITY.md) · [CONTRIBUTING.md](CONTRIBUTING.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) · [LICENSE](LICENSE) | Project policies |
@@ -72,7 +73,7 @@ Actual results from the development runs (Ubuntu 24.04 sandbox, CPython 3.13 unl
 
 | Check | Result |
 |---|---|
-| `pytest` (unit + integration + docs, Hypothesis property tests, real inotify) | **240 passed, 1 skipped** as root (the skip is the `chmod 000` test, root bypasses permissions) |
+| `pytest` (unit + integration + docs, Hypothesis property tests, real inotify) | **257 passed, 1 skipped** as root (the skip is the `chmod 000` test, root bypasses permissions) |
 | Same suite as an **unprivileged user** | the real `chmod 000` test runs; only the root-only `security.capability` test is skipped |
 | Python 3.11 / 3.12 / 3.13 | passing locally; GitHub Actions matrix ran all three |
 | Oracle Linux 9.8 (distro Python 3.11), Debian 12, Rocky 9, Ubuntu 22.04/24.04 containers | install + demo + uninstall OK; full suite passing on Oracle Linux (root and non-root) and Debian/Rocky (standalone Python) |

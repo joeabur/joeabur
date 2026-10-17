@@ -129,6 +129,21 @@ Still **not** exercised; validate on real targets before relying on them:
       your collector was not), including TLS-terminating forwarders.
 - [ ] Hardware-backed key storage workflows (FIM only reads PEM files).
 
+## Recommendations and roadmap
+
+Things I recommend that are **not** implemented (each is a deliberate scope decision, not an oversight):
+
+| Recommendation | Why | Status |
+|---|---|---|
+| Off-host baseline vault with object-lock, and signing on a separate trust domain | The single biggest assurance gain; local hashing cannot stand alone | Documented procedure; no built-in uploader (would add network credentials to the monitored host) |
+| SELinux policy module / AppArmor profile for `fim` | Confine the service itself | Not written; needs testing on a real enforcing host |
+| Native TLS syslog | Plain TCP/UDP exposes alerts on the wire | Use a local rsyslog/stunnel TLS forwarder ([examples/rsyslog-forward.conf](../examples/rsyslog-forward.conf)) |
+| Lower-memory baseline (streaming/SQLite index) | ~2 KiB/entry limits very large estates | Measured and documented; split roots or raise `MemoryMax=` |
+| `fanotify`/audit-based attribution (who changed it) | FIM says *what* changed, not *by whom* | Pair with auditd; out of scope |
+| Immutable-flag (`chattr`) and MAC-policy tracking | Not recorded today | Listed as a limitation |
+| Signed releases / provenance attestations / SBOM | Supply-chain assurance for the tool itself | Dependencies are hash-pinned, `pip-audit`ed and actions SHA-pinned; no release pipeline yet |
+| A real CodeQL workflow for this project | Static analysis in CI | The repository's existing `.github/workflows/codeql.yml` is not valid workflow YAML (it contains a Python script) and fails on every push; replacing it is the repository owner's call |
+
 ## Reporting vulnerabilities
 
 See [../SECURITY.md](../SECURITY.md). The design analysis is in [threat-model.md](threat-model.md).

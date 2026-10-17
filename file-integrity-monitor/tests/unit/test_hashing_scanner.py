@@ -373,3 +373,87 @@ def test_file_records_stay_lightweight(ws: Workspace) -> None:
     rec = scan(ws).entries[str(ws.data / "a.txt")]
     assert not hasattr(rec, "__dict__")
     assert hasattr(type(rec), "__slots__")
+
+
+class TestRootsAndMounts:
+    def test_single_file_root(self, ws: Workspace) -> None:
+        cfg = ws.config()
+        cfg.scan.roots[:] = [str(ws.data / "a.txt")]
+        res = Scanner(cfg.scan).scan()
+        assert list(res.entries) == [str(ws.data / "a.txt")] and res.complete
+
+    def test_symlinked_root_is_followed_because_the_operator_named_it(self, ws: Workspace) -> None:
+        link = ws.root / "rootlink"
+        link.symlink_to(ws.data)
+        cfg = ws.config()
+        cfg.scan.roots[:] = [str(link)]
+        res = Scanner(cfg.scan).scan()
+        assert str(link / "a.txt") in res.entries
+
+    def test_unstatable_root_and_entries_are_reported(
+        self, ws: Workspace, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        real_stat, real_lstat = os.stat, os.lstat
+
+        def deny_stat(p, *a, **k):  # type: ignore[no-untyped-def]
+            if str(p) == str(ws.data):
+                raise PermissionError(13, "Permission denied")
+            return real_stat(p, *a, **k)
+
+        monkeypatch.setattr(scanner.os, "stat", deny_stat)
+        res = scan(ws)
+        assert IssueKind.UNREADABLE in kinds(res) and not res.complete
+        monkeypatch.setattr(scanner.os, "stat", real_stat)
+
+        def deny_lstat(p, *a, **k):  # type: ignore[no-untyped-def]
+            if str(p).endswith("b.txt"):
+                raise PermissionError(13, "Permission denied")
+            return real_lstat(p, *a, **k)
+
+        monkeypatch.setattr(scanner.os, "lstat", deny_lstat)
+        res = scan(ws)
+        assert any(i.kind is IssueKind.UNREADABLE and i.path.endswith("b.txt") for i in res.issues)
+
+    def test_readlink_failures_are_reported(self, ws: Workspace, monkeypatch: pytest.MonkeyPatch) -> None:
+        (ws.data / "ln").symlink_to("a.txt")
+
+        def fail(p):  # type: ignore[no-untyped-def]
+            raise PermissionError(13, "Permission denied")
+
+        monkeypatch.setattr(scanner.os, "readlink", fail)
+        assert IssueKind.UNREADABLE in kinds(scan(ws))
+
+        def gone(p):  # type: ignore[no-untyped-def]
+            raise FileNotFoundError
+
+        monkeypatch.setattr(scanner.os, "readlink", gone)
+        assert IssueKind.VANISHED in kinds(scan(ws))
+
+    @pytest.mark.skipif(os.geteuid() != 0, reason="mounting needs root")
+    def test_one_file_system_does_not_cross_real_mounts(self, ws: Workspace) -> None:
+        import subprocess
+
+        mnt = ws.data / "mnt"
+        mnt.mkdir()
+        if subprocess.run(["mount", "-t", "tmpfs", "tmpfs", str(mnt)], capture_output=True).returncode != 0:
+            pytest.skip("cannot mount tmpfs here")
+        try:
+            (mnt / "inside-mount.txt").write_text("x")
+            default = scan(ws)  # one_file_system = true
+            assert str(mnt) in default.entries  # the mount point itself is recorded...
+            assert str(mnt / "inside-mount.txt") not in default.entries  # ...but not crossed
+            crossing = scan(ws, one_file_system=False)
+            assert str(mnt / "inside-mount.txt") in crossing.entries
+        finally:
+            subprocess.run(["umount", str(mnt)], capture_output=True)
+
+
+def test_root_that_is_a_symlink_to_a_file_is_hashed(ws: Workspace) -> None:
+    link = ws.root / "filelink"
+    link.symlink_to(ws.data / "a.txt")
+    cfg = ws.config()
+    cfg.scan.roots[:] = [str(link)]
+    res = Scanner(cfg.scan).scan()
+    assert res.complete
+    rec = res.entries[str(link)]
+    assert rec.type is FileType.FILE and rec.sha256 == hashlib.sha256(b"alpha\n").hexdigest()

@@ -152,3 +152,46 @@ def test_cli_watch_reports_missing_watchdog_cleanly(ws: Workspace, run, monkeypa
     monkeypatch.setitem(sys.modules, "watchdog.observers", None)
     r = run("watch", "--max-seconds", "1")
     assert r.exit_code == 6 and "fim scan" in r.output
+
+
+class TestBaselineRefresh:
+    def test_processor_adopts_new_baseline_and_stops_alerting_on_accepted_change(
+        self, ws: Workspace, trusted
+    ) -> None:  # type: ignore[no-untyped-def]
+        cfg, baseline = trusted
+        store = service.store_for(cfg)
+        w = Watcher(
+            cfg, baseline, lambda r: None, reload_baseline=lambda: service.load_trusted(cfg, store).baseline
+        )
+        a = str(ws.data / "a.txt")
+        (ws.data / "a.txt").write_text("accepted change")
+        w._mark(a)
+        assert w.drain() is not None  # alerts against the old baseline
+        service.baseline_from_scan(  # an operator performs an authorized update elsewhere
+            store, cfg, Scanner(cfg.scan).scan(), action="update", reason="approved", signer=None
+        )
+        assert w.refresh_baseline() is True
+        w._mark(a)
+        assert w.drain() is None  # accepted change no longer alerts
+        assert w.refresh_baseline() is False  # nothing newer
+
+    def test_untrusted_new_baseline_is_not_adopted(self, ws: Workspace, trusted) -> None:  # type: ignore[no-untyped-def]
+        from fim.errors import TrustError
+
+        cfg, baseline = trusted
+
+        def bad() -> None:
+            raise TrustError("tampered")
+
+        w = Watcher(cfg, baseline, lambda r: None, reload_baseline=bad)
+        with pytest.raises(TrustError):
+            w.refresh_baseline()  # the CLI wrapper catches this and keeps the old baseline
+
+    def test_seen_set_is_bounded(self, ws: Workspace, trusted, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+        cfg, baseline = trusted
+        monkeypatch.setattr(PathProcessor, "MAX_SEEN", 3)
+        p = PathProcessor(cfg, baseline)
+        for i in range(10):
+            (ws.data / f"n{i}").write_text(str(i))
+            p.process({str(ws.data / f"n{i}")})
+        assert len(p._seen) <= 3

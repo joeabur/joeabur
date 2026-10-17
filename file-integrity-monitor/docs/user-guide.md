@@ -161,7 +161,10 @@ Forwarding off-host is what makes alerts survive a local compromise; see
 
 ## Real-time monitoring
 
-`fim watch` uses `watchdog` (inotify). It prints one compact JSON report per line and re-inspects
+`fim watch` uses `watchdog` (inotify). It re-reads `CURRENT` on every cycle and adopts a newer baseline
+after an authorized `fim baseline update` made by another process (it logs `adopted baseline vN`); a new
+baseline that fails its trust checks is **not** adopted and the watcher keeps using the last trusted
+one, logging the error. It prints one compact JSON report per line and re-inspects
 only changed paths against the baseline, and runs a periodic **full scan**
 (`watch.full_scan_interval_seconds`), which is the authoritative check. Limits: inotify queues can
 overflow, newly created subdirectories can be missed for an instant, and unmounted/remote

@@ -348,3 +348,71 @@ class TestBackupRestore:
         (d / "CURRENT").write_text(old_current)  # what restoring only an old pointer looks like
         r = run("scan")
         assert r.exit_code == cli.EXIT_UNTRUSTED and "rollback" in r.output
+
+
+def test_export_refusal_leaves_no_partial_set(ws: Workspace, run) -> None:  # type: ignore[no-untyped-def]
+    run("baseline", "create")
+    (ws.data / "n").write_text("n")
+    (ws.root / "r.issues.csv").write_text("pre-existing")
+    r = run("scan", "--json", str(ws.root / "r.json"), "--csv", str(ws.root / "r.csv"), "-q")
+    assert r.exit_code == cli.EXIT_EXPORT and "already exists" in r.output
+    assert not (ws.root / "r.json").exists() and not (ws.root / "r.csv").exists()
+    assert (ws.root / "r.issues.csv").read_text() == "pre-existing"
+
+
+class TestInspectionCommands:
+    def test_baseline_list_show_and_audit_json(self, ws: Workspace, run) -> None:  # type: ignore[no-untyped-def]
+        run("baseline", "create")
+        (ws.data / "a.txt").write_text("c")
+        run("baseline", "update", "--reason", "r", "--yes")
+        listing = run("baseline", "list").output
+        assert "v1" in listing and "v2" in listing and "CURRENT" in listing and "unsigned" in listing
+        show = run("baseline", "show", "--version", "1", "--entries").output
+        assert "version: 1" in show and str(ws.data / "a.txt") in show
+        recs = [
+            json.loads(line)
+            for line in run("audit", "show", "--json").output.splitlines()
+            if line.startswith("{")
+        ]
+        assert [r["action"] for r in recs] == ["create", "update"]
+
+    def test_verify_specific_version_and_missing_version(self, ws: Workspace, run) -> None:  # type: ignore[no-untyped-def]
+        run("baseline", "create")
+        assert run("baseline", "verify", "--version", "1").exit_code == 0
+        r = run("baseline", "verify", "--version", "9")
+        assert r.exit_code == cli.EXIT_OPERATIONAL and "not found" in r.output
+
+    def test_sign_command_and_wrong_key(self, ws: Workspace, run) -> None:  # type: ignore[no-untyped-def]
+        keys = ws.root / "k"
+        keys.mkdir()
+        run("keygen", "--private", str(keys / "a.pem"), "--public", str(keys / "a.pub"))
+        run("keygen", "--private", str(keys / "b.pem"), "--public", str(keys / "b.pub"))
+        run("baseline", "create")
+        ws.config_path.write_text(
+            ws.config_path.read_text().replace("[scan]", f'public_key = "{keys}/a.pub"\n[scan]')
+        )
+        assert run("sign", "--key", str(keys / "a.pem")).exit_code == 0
+        assert run("baseline", "verify").exit_code == 0
+        r = run("sign", "--key", str(keys / "b.pem"))
+        assert r.exit_code == cli.EXIT_UNTRUSTED and "does not match" in r.output
+
+    def test_syslog_success_path_delivers(self, ws: Workspace, run) -> None:  # type: ignore[no-untyped-def]
+        import socket
+
+        srv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        srv.bind(("127.0.0.1", 0))
+        srv.settimeout(5)
+        ws.config_path.write_text(
+            ws.config_path.read_text()
+            + f'[export.syslog]\naddress = "udp://127.0.0.1:{srv.getsockname()[1]}"\n'
+        )
+        run("baseline", "create")
+        (ws.data / "a.txt").write_text("changed")
+        assert run("scan", "--syslog", "-q").exit_code == cli.EXIT_CHANGES
+        assert b"fim@32473" in srv.recv(65535)
+        srv.close()
+
+    def test_scan_text_format_flags_and_unknown_subcommand(self, run) -> None:  # type: ignore[no-untyped-def]
+        assert run("bogus").exit_code == 2
+        assert run("baseline", "show").exit_code == cli.EXIT_OPERATIONAL  # no baseline yet
+        assert run("audit", "verify").exit_code == cli.EXIT_OPERATIONAL

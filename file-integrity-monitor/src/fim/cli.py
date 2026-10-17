@@ -24,7 +24,7 @@ from fim.errors import (
     TrustError,
     WatcherError,
 )
-from fim.models import Report
+from fim.models import Baseline, Report
 
 EXIT_OK = 0
 EXIT_CHANGES = 1
@@ -318,6 +318,13 @@ def _emit_exports(
     overwrite: bool,
 ) -> int:
     code = EXIT_OK
+    if not overwrite:  # refuse before writing anything so a refusal never leaves a partial set
+        targets = [
+            t for t in (json_out, csv_out, reporting.issues_path_for(csv_out) if csv_out else None) if t
+        ]
+        taken = [str(t) for t in targets if Path(t).exists() or Path(t).is_symlink()]
+        if taken:
+            raise FimError(f"{', '.join(taken)} already exists; use --overwrite to replace")
     if json_out:
         reporting.write_output(json_out, reporting.report_json(report), overwrite=overwrite)
     if csv_out:
@@ -487,7 +494,24 @@ def watch(
         if report.events or not report.summary.complete:
             on_report(report)
 
-    watcher = Watcher(cfg, trusted.baseline, on_report, full_scan)
+    current = {"version": trusted.baseline.version}
+
+    def reload_baseline() -> Baseline | None:
+        """Pick up an authorized `baseline update` made by another process. A baseline that fails
+        its trust checks is never adopted: keep watching against the last trusted one and say so."""
+        try:
+            ver = store.current_version()
+            if ver is None or ver == current["version"]:
+                return None
+            fresh = service.load_trusted(cfg, store).baseline
+        except FimError as exc:
+            typer.echo(f"error: not adopting new baseline: {exc}", err=True)
+            return None
+        current["version"] = fresh.version
+        typer.echo(f"adopted baseline v{fresh.version}", err=True)
+        return fresh
+
+    watcher = Watcher(cfg, trusted.baseline, on_report, full_scan, reload_baseline)
     typer.echo(
         f"watching {', '.join(cfg.scan.roots)} (Ctrl-C to stop; periodic full scan every "
         f"{cfg.watch.full_scan_interval_seconds}s)",

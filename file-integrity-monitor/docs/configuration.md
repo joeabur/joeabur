@@ -27,7 +27,7 @@ roots = ["/etc"]
 
 | Key | Default | Meaning |
 |---|---|---|
-| `roots` | required | Files or directories to monitor (absolute, de-duplicated). |
+| `roots` | required | Files or directories to monitor (absolute, de-duplicated). A root that is itself a symlink (e.g. `/bin` → `usr/bin`) is followed, because you named it explicitly; symlinks *below* a root follow the `symlinks` policy. |
 | `exclude` | `[]` | Absolute globs for volatile paths. `*`/`?` stay within one path segment; `**` crosses `/` (`**/` may match nothing). A directory matched by `PATTERN` or `PATTERN/` is pruned. |
 | `symlinks` | `record` | `record`: store the link and its target, never follow. `skip`: ignore links. `follow`: follow links that stay inside the roots and hash the target; symlink loops are detected (`symlink_loop`). |
 | `follow_outside_roots` | `false` | Only with `follow`: also follow links leading outside the roots. Off by default; otherwise reported as informational `symlink_outside_root`. |

@@ -263,3 +263,20 @@ def test_ci_workflow_is_valid_and_has_required_gates() -> None:
     for needle in ("shellcheck", "bats", "mypy", "ruff", "gitleaks", "pip-audit", "dependency-review-action"):
         assert needle in text, needle
     assert wf["permissions"] == {"contents": "read"}
+
+
+def test_workflow_actions_are_pinned_to_commit_shas() -> None:
+    text = (ROOT.parent / ".github" / "workflows" / "fim-ci.yml").read_text()
+    uses = re.findall(r"^\s*(?:-\s*)?uses:\s*(\S+)", text, flags=re.M)
+    assert uses, "no actions found"
+    for u in uses:
+        assert re.fullmatch(r"[\w.-]+/[\w./-]+@[0-9a-f]{40}", u), (
+            f"action not pinned to a full commit SHA: {u}"
+        )
+
+
+def test_dependabot_config_is_valid() -> None:
+    yaml = pytest.importorskip("yaml")
+    cfg = yaml.safe_load((ROOT.parent / ".github" / "dependabot.yml").read_text())
+    ecos = {u["package-ecosystem"] for u in cfg["updates"]}
+    assert {"uv", "github-actions"} <= ecos and "" not in ecos
